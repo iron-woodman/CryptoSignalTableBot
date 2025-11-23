@@ -3,6 +3,7 @@ import requests
 from queue import Queue
 from config import TOKEN, CHANNEL_NAME, TECH_CHANNEL_NAME, AV_CHANNEL_NAME
 from .logger_setup import logger
+from .tg_signal2 import parse_signal_data2
 
 # --- Глобальные переменные ---
 queue_telegram = Queue()  # Очередь для хранения сигналов из Telegram
@@ -95,7 +96,7 @@ def get_signal():
                 last_update_id = new_update_id
                 if 'channel_post' in current_update and 'text' in current_update['channel_post']:
                     signal_text = current_update['channel_post']['text']
-                    parsed_signal = parse_signal_data(signal_text)
+                    parsed_signal = parse_signal_data2(signal_text)
                     if parsed_signal:
                         queue_telegram.put(parsed_signal)
 
