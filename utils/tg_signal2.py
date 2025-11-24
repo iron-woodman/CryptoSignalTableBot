@@ -17,18 +17,18 @@ def parse_signal_data2(new_signal: str) -> dict | None:
 
         # --- Извлечение монеты и направления ---
         first_line = lines[0]
-        if "LONG:" in first_line:
+        if "LONG" in first_line:
             signal_dict['side'] = 'LONG'
-            signal_dict['coin'] = first_line.split("LONG:")[1].strip()
-        elif "SHORT:" in first_line:
+            signal_dict['coin'] = first_line.split("[LONG]")[0].strip().replace('🚀 #','')
+        elif "SHORT" in first_line:
             signal_dict['side'] = 'SHORT'
-            signal_dict['coin'] = first_line.split("SHORT:")[1].strip()
+            signal_dict['coin'] = first_line.split("[SHORT]")[0].strip().replace('🚀 #','')
         else:
             logger.error(f'Не удалось определить LONG/SHORT в сигнале:\n{new_signal}')
             return None
 
         # --- Извлечение стоп-лосса ---
-        stop_line = next((line for line in lines if 'Стоп:' in line), None)
+        stop_line = next((line for line in lines if 'Stop-loss:' in line), None)
         if stop_line:
             stop_loss_str = stop_line.split(':')[1].strip()
             signal_dict['sl'] = float(stop_loss_str)
@@ -40,7 +40,7 @@ def parse_signal_data2(new_signal: str) -> dict | None:
         tp_lines = []
         is_tp_section = False
         for line in lines:
-            if 'Цели:' in line:
+            if 'Take-Profit:' in line:
                 is_tp_section = True
                 continue
             if is_tp_section:
