@@ -1,0 +1,16 @@
+[Unit]
+Description=Telegram bot 'CryptoBotTableBot'
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/usr/local/bin/bot/CryptoSignalTableBot
+ExecStart=/usr/local/bin/bot/CryptoSignalTableBot/venv/bin/python3 /usr/local/bin/bot/CryptoSignalTableBot/main.py
+RestartSec=10
+Restart=always
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
+   

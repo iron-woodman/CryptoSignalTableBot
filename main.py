@@ -42,6 +42,8 @@ def main():
                     # Получение номера для следующего ордера
                     empty_row, order_number = next(generate_row_order)
 
+    except KeyboardInterrupt as e:
+        logger.exception(f'Завершенеи скрипта пользователем , {e}')
     except Exception as e:
         logger.exception(f'Ошибка в main() , {e}')
 

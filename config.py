@@ -21,3 +21,7 @@ GS_JS_FILE = os.getenv('GS_JS_FILE', 'service_account.json')
 GS_SHEET_FILE = os.getenv('GS_SHEET_FILE', '')
 # Номер листа в Google таблице, с которым будет работать бот (нумерация с 0).
 G_LIST = os.getenv('G_LIST', '0')
+
+# --- Настройки логирования ---
+# Включает/выключает логирование сообщений 'Pong получен от Bybit Stream'. По умолчанию выключено.
+LOG_PONG_MESSAGES = os.getenv('LOG_PONG_MESSAGES', 'False').lower() == 'true'

@@ -8,6 +8,11 @@ import threading
 from .get_bybit_data import websocket_bybit
 from queue import Queue
 
+# --- Управление потоками WebSocket ---
+# Словарь для хранения активных потоков и очередей для каждой монеты
+# Формат: {'BTCUSDT': {'thread': <Thread_object>, 'queue': <Queue_object>}}
+active_ws_threads = {}
+
 
 def row_order_iterator(empty_row, order_number):
     """
@@ -101,6 +106,33 @@ def get_breakeven(side, price):
     return round(breakeven, 8)
 
 
+def manage_websocket_connection(coin):
+    """
+    Проверяет и управляет WebSocket-соединением для указанной монеты.
+    Запускает новый поток, только если для этой монеты нет активного.
+
+    Args:
+        coin (str): Название монеты.
+
+    Returns:
+        Queue: Очередь для получения цен от WebSocket.
+    """
+    # Проверяем, есть ли уже поток для этой монеты и жив ли он
+    if coin in active_ws_threads and active_ws_threads[coin]['thread'].is_alive():
+        logger.debug(f"Используется существующий WebSocket-поток для {coin}.")
+        return active_ws_threads[coin]['queue']
+
+    # Если потока нет или он "мертв", создаем новый
+    logger.info(f"Создание нового WebSocket-потока для {coin}.")
+    queue_bybit = Queue()
+    ws_thread = threading.Thread(target=websocket_bybit, args=(coin, queue_bybit), daemon=True)
+    ws_thread.start()
+
+    # Сохраняем новый поток и очередь в словаре
+    active_ws_threads[coin] = {'thread': ws_thread, 'queue': queue_bybit}
+    return queue_bybit
+
+
 def track_position(is_old_order, signal, empty_row=None, order_number=None):
     """
     Основная функция отслеживания позиции. Запускается в отдельном потоке для каждой сделки.
@@ -136,7 +168,7 @@ def track_position(is_old_order, signal, empty_row=None, order_number=None):
     average_volume_list = []
     av_orders_perc = [0.1, 0.2, 0.2, 0.4, 0.8]
     was_3_averaging = False
-    queue_bybit = Queue()
+    queue_bybit = None
 
     # --- Обработка нового сигнала ---
     if not is_old_order:
@@ -148,7 +180,7 @@ def track_position(is_old_order, signal, empty_row=None, order_number=None):
             id_targets = targets.copy()
 
             # Запуск WebSocket для получения цены
-            threading.Thread(target=websocket_bybit, args=(coin, queue_bybit)).start()
+            queue_bybit = manage_websocket_connection(coin)
             while current_price is None or current_price == 0.0:
                 time.sleep(1)
                 if not queue_bybit.empty():
@@ -191,7 +223,7 @@ def track_position(is_old_order, signal, empty_row=None, order_number=None):
             is_5_perc_alert = (signal[16] == '➕')
 
             # Запуск WebSocket
-            threading.Thread(target=websocket_bybit, args=(coin, queue_bybit)).start()
+            queue_bybit = manage_websocket_connection(coin)
             while current_price is None or current_price == 0.0:
                 time.sleep(1)
                 if not queue_bybit.empty():
@@ -218,7 +250,7 @@ def track_position(is_old_order, signal, empty_row=None, order_number=None):
                     avg_prices_list.pop(0)
                     average_volume_list.pop(0)
                     volumes_list.pop(0)
-            
+
             average_volume_list, volumes_list = change_volume(total_volume)
             last_avg_price = id_avg_prices_list[average_orders_number - 1] if average_orders_number > 0 else entry_price
             breakeven = get_breakeven(side, last_avg_price)
@@ -254,7 +286,7 @@ def track_position(is_old_order, signal, empty_row=None, order_number=None):
                 for target_price in targets:
                     if (side == "LONG" and current_price >= target_price) or \
                        (side == "SHORT" and current_price <= target_price):
-                        
+
                         tp_id = id_targets.index(target_price) + 1
                         tg_msg = f"✅ Взяли {tp_id} цель 🔥\n[{side}]: {coin} (⏰ {full_date_time_opened} msk).\n" \
                                  f"Цена: {target_price}"
@@ -298,7 +330,7 @@ def track_position(is_old_order, signal, empty_row=None, order_number=None):
                              f"Цена безубытка: {breakeven}"
                     send_av_alert(tg_msg)
                     logger.info(f'{tg_msg}\nТекущая цена: {current_price}')
-                    
+
                     average_orders_list.pop(i)
                     avg_prices_list.pop(i)
                     average_volume_list.pop(i)
