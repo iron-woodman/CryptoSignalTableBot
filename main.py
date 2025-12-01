@@ -1,6 +1,18 @@
 import threading
 import time
-from utils import *
+import sys
+from utils.logger_setup import logger
+from utils.tg_signal import get_signal, queue_telegram
+from utils.track_positions import track_position, row_order_iterator
+from utils.check_status import run_api
+
+# Импортируем новый модуль и его функции
+from utils.google_sheet  import (
+    init_gspread_client,
+    get_old_orders,
+    get_empty_row,
+    get_order_number
+)
 
 
 def main():
@@ -8,44 +20,59 @@ def main():
     Основная функция запуска бота.
     Инициализирует и запускает все необходимые процессы в отдельных потоках.
     """
-    try:
+    # --- 1. Инициализация клиента Google Sheets ---
+    # Этот шаг теперь выполняется один раз при запуске.
+    worksheet = init_gspread_client()
+    if worksheet is None:
+        logger.critical("Не удалось инициализировать клиент Google Sheets. Завершение работы.")
+        print("Не удалось инициализировать клиент Google Sheets. Завершение работы.")
+        sys.exit(1) # Выход из скрипта, если подключение не удалось
 
-        threading.Thread(target=run_api).start()
+    try:
+        # --- 2. Запуск фоновых процессов ---
+        threading.Thread(target=run_api, daemon=True).start()
         time.sleep(6)
         # Запуск потока для получения сигналов из Telegram
-        threading.Thread(target=get_signal).start()
+        threading.Thread(target=get_signal, daemon=True).start()
         logger.info("Bot started")
         print("Bot started")
 
-        # Получение необработанных ордеров из Google таблицы
-        old_data_orders, worksheet = get_old_orders()
-        # Определение следующей свободной строки в таблице
+        # --- 3. Получение начальных данных из таблицы ---
+        # Все функции теперь принимают объект worksheet
+        old_data_orders = get_old_orders(worksheet)
         empty_row = get_empty_row(worksheet)
-        # Определение номера для нового ордера
         order_number = get_order_number(worksheet, empty_row)
-        # Создание генератора для получения номеров следующих ордеров и строк
+        
+        # Проверка, что данные получены корректно
+        if empty_row is None or order_number is None:
+            logger.critical("Не удалось определить初始 данные (строка/номер ордера) из таблицы. Завершение.")
+            sys.exit(1)
+
         generate_row_order = row_order_iterator(empty_row, order_number)
 
-        # Если есть необработанные ордера, запустить отслеживание для каждого из них
+        # --- 4. Запуск отслеживания для существующих ордеров ---
         if old_data_orders:
             for old_order in old_data_orders:
-                threading.Thread(target=track_position, args=(True, old_order)).start()
+                # Передаем worksheet в поток для отслеживания
+                threading.Thread(target=track_position, args=(worksheet, True, old_order), daemon=True).start()
 
-        # Бесконечный цикл для обработки новых сигналов из Telegram
+        # --- 5. Основной цикл обработки новых сигналов ---
         while True:
-            # Проверка наличия новых сигналов в очереди
             if not queue_telegram.empty():
                 signal = queue_telegram.get()
                 if signal is not None:
-                    # Запуск отслеживания нового ордера в отдельном потоке
-                    threading.Thread(target=track_position, args=(False, signal, empty_row, order_number)).start()
-                    # Получение номера для следующего ордера
+                    # Передаем worksheet в поток для отслеживания нового сигнала
+                    threading.Thread(target=track_position, args=(worksheet, False, signal, empty_row, order_number), daemon=True).start()
                     empty_row, order_number = next(generate_row_order)
+            
+            time.sleep(1) # Небольшая пауза, чтобы не загружать CPU
 
-    except KeyboardInterrupt as e:
-        logger.exception(f'Завершенеи скрипта пользователем , {e}')
+    except KeyboardInterrupt:
+        logger.info('Завершение скрипта пользователем.')
+        print('Бот останавливается...')
     except Exception as e:
-        logger.exception(f'Ошибка в main() , {e}')
+        logger.exception(f'Критическая ошибка в main(): {e}')
+
 
 
 if __name__ == '__main__':

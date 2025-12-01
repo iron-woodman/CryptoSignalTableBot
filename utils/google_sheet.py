@@ -1,95 +1,96 @@
+# -*- coding: utf-8 -*-
 import time
 import gspread
 from .logger_setup import logger
 from config import GS_JS_FILE, GS_SHEET_FILE, G_LIST
 from .tg_signal import send_tech_alert
 
-# --- Глобальные переменные ---
-js_file = GS_JS_FILE  # Имя файла с ключом Google API
-sheet_url = GS_SHEET_FILE  # URL Google таблицы
-google_status = False  # Статус подключения к Google API
-is_checked = False  # Флаг для отслеживания первой проверки подключения
-list_number = int(G_LIST)  # Номер листа в таблице
+# --- Константы ---
+JS_FILE = GS_JS_FILE  # Имя файла с ключом Google API
+SHEET_URL = GS_SHEET_FILE  # URL Google таблицы
+LIST_NUMBER = int(G_LIST)  # Номер листа в таблице
+MAX_RETRIES = 5 # Максимальное количество попыток при ошибках API
+RETRY_DELAY = 10 # Задержка между попытками в секундах
 
-
-def exception_def(google_status, is_checked):
+def init_gspread_client():
     """
-    Обрабатывает исключения при работе с Google API.
-    Отправляет уведомление об ошибке и делает паузу.
+    Инициализирует и возвращает клиент gspread и рабочий лист.
 
-    Args:
-        google_status (bool): Текущий статус подключения.
-        is_checked (bool): Флаг, была ли уже проверка.
+    Эта функция должна вызываться один раз при старте приложения.
+    Она пытается подключиться к Google Sheets с несколькими попытками.
 
     Returns:
-        tuple[bool, bool]: Обновленные google_status и is_checked.
+        gspread.Worksheet | None: Объект рабочего листа или None в случае неудачи.
     """
-    if google_status:
-        google_status = send_tech_g_alert(google_status)
-    if not is_checked:
-        is_checked, google_status = True, True
-        google_status = send_tech_g_alert(google_status)
-    time.sleep(5)
-    return google_status, is_checked
+    logger.info("Попытка подключения к Google Sheets API...")
+    for i in range(MAX_RETRIES):
+        try:
+            gc = gspread.service_account(filename=JS_FILE)
+            sh = gc.open_by_url(SHEET_URL)
+            worksheet = sh.get_worksheet(LIST_NUMBER)
+            logger.info("Успешное подключение к Google Sheets API.")
+            send_tech_alert('Подключились к Google API ✅')
+            return worksheet
+        except gspread.exceptions.APIError as e:
+            logger.error(f'Ошибка API при подключении к Google Sheets (попытка {i + 1}/{MAX_RETRIES}): {e}')
+            time.sleep(RETRY_DELAY)
+        except Exception as e:
+            logger.exception(f'Непредвиденная ошибка при подключении к Google Sheets (попытка {i + 1}/{MAX_RETRIES}): {e}')
+            time.sleep(RETRY_DELAY)
+
+    logger.error("Не удалось подключиться к Google Sheets API после нескольких попыток.")
+    send_tech_alert('Критическая ошибка: не удалось подключиться к Google API ❌')
+    return None
 
 
-def send_tech_g_alert(google_status):
+def _execute_with_retry(worksheet_operation, *args, **kwargs):
     """
-    Отправляет техническое уведомление о статусе подключения к Google API.
-
-    Args:
-        google_status (bool): Текущий статус подключения.
-
-    Returns:
-        bool: Новый статус подключения.
+    Выполняет операцию с рабочим листом с логикой повторных попыток.
+    Внутренняя функция-обертка.
     """
-    if not google_status:
-        send_tech_alert('Подключились к Google API ✅')
-        return True
-    else:
-        send_tech_alert('Ошибка запроса к Google API ❌')
-        return False
+    for i in range(MAX_RETRIES):
+        try:
+            result = worksheet_operation(*args, **kwargs)
+            return result
+        except gspread.exceptions.APIError as e:
+            logger.error(f'Ошибка API при выполнении операции {worksheet_operation.__name__} (попытка {i + 1}/{MAX_RETRIES}): {e}')
+            time.sleep(RETRY_DELAY)
+        except Exception as e:
+            logger.exception(f'Непредвиденная ошибка в {worksheet_operation.__name__} (попытка {i + 1}/{MAX_RETRIES}): {e}')
+            time.sleep(RETRY_DELAY)
+    logger.error(f"Не удалось выполнить операцию {worksheet_operation.__name__} после {MAX_RETRIES} попыток.")
+    send_tech_alert(f'Ошибка запроса к Google API при операции {worksheet_operation.__name__} ❌')
+    return None
 
 
 def is_order(value):
     """
     Преобразует булево значение в символ для отображения в таблице.
-
-    Args:
-        value (bool): Значение, которое нужно преобразовать.
-
-    Returns:
-        str: '➕' если True, '➖' если False.
     """
-    if value:
-        return '➕'
-    return '➖'
+    return '➕' if value else '➖'
 
 
-def get_empty_row(worksheet):
+def get_empty_row(worksheet: gspread.Worksheet):
     """
-    Находит номер первой свободной строки в таблице.
+    Находит номер первой свободной строки в таблице (оптимизировано).
 
     Args:
         worksheet (gspread.Worksheet): Рабочий лист Google таблицы.
 
     Returns:
-        int: Номер первой свободной строки.
+        int | None: Номер первой свободной строки или None в случае ошибки.
     """
-    global google_status, is_checked
-    for i in range(30):
-        try:
-            data = worksheet.get_all_values()
-            return len(data) + 1
-        except gspread.exceptions.APIError:
-            logger.exception(f'Ошибка подключения к Google API, переподключаюсь. Попытка номер: {i + 1}')
-            google_status, is_checked = exception_def(google_status, is_checked)
-        except Exception as e:
-            logger.exception(f'Ошибка в get_empty_row(), {e}')
-            google_status, is_checked = exception_def(google_status, is_checked)
+    logger.debug("Получение первой свободной строки...")
+    # Используем col_values(1) для получения только первого столбца - это намного быстрее, чем get_all_values()
+    col_a = _execute_with_retry(worksheet.col_values, 1)
+    if col_a is not None:
+        empty_row = len(col_a) + 1
+        logger.debug(f"Найдена свободная строка: {empty_row}")
+        return empty_row
+    return None
 
 
-def get_order_number(worksheet, empty_row):
+def get_order_number(worksheet: gspread.Worksheet, empty_row: int):
     """
     Определяет порядковый номер для новой сделки.
 
@@ -98,223 +99,152 @@ def get_order_number(worksheet, empty_row):
         empty_row (int): Номер текущей свободной строки.
 
     Returns:
-        int: Номер для новой сделки.
+        int | None: Номер для новой сделки или None в случае ошибки.
     """
-    global google_status, is_checked
-    for i in range(30):
-        try:
-            number = worksheet.acell(f'A{empty_row - 1}').value
-            if number is None or not number.isdigit():
-                return 1
-            else:
-                return int(number) + 1
-        except gspread.exceptions.APIError:
-            logger.exception(f'Ошибка подключения к Google API, переподключаюсь. Попытка номер: {i + 1}')
-            google_status, is_checked = exception_def(google_status, is_checked)
-        except Exception as e:
-            logger.exception(f'Ошибка в get_order_number(), {e}')
-            google_status, is_checked = exception_def(google_status, is_checked)
+    if empty_row <= 2: # Если таблица пуста или есть только заголовок
+        return 1
+        
+    logger.debug(f"Определение номера ордера для строки {empty_row}...")
+    number = _execute_with_retry(worksheet.acell, f'A{empty_row - 1}').value
+    if number is not None and number.isdigit():
+        order_num = int(number) + 1
+        logger.debug(f"Следующий номер ордера: {order_num}")
+        return order_num
+    elif number is None:
+         # Если предыдущая ячейка пуста, ищем последнюю заполненную
+        col_a = _execute_with_retry(worksheet.col_values, 1)
+        if col_a:
+            for i in range(len(col_a) - 1, 0, -1):
+                if col_a[i] and col_a[i].isdigit():
+                    return int(col_a[i]) + 1
+        return 1 # Если в столбце А нет чисел
+    else:
+        return 1
 
 
-def get_old_orders():
+def get_old_orders(worksheet: gspread.Worksheet):
     """
     Получает из таблицы все незавершенные сделки.
 
+    Args:
+        worksheet (gspread.Worksheet): Рабочий лист Google таблицы.
+
     Returns:
-        tuple[list | bool, gspread.Worksheet]: Список незавершенных сделок или False, и рабочий лист.
+        list | None: Список незавершенных сделок или None в случае ошибки.
     """
-    global google_status, is_checked
-    for i in range(30):
-        try:
-            live_trades = []
-            gc = gspread.service_account(filename=js_file)
-            sh = gc.open_by_url(sheet_url)
-            worksheet = sh.get_worksheet(list_number)
-            sheet_data = worksheet.get_all_values()
-            if not google_status:
-                send_tech_g_alert(google_status)
-            for line in sheet_data:
-                if line[12] == '➕':
-                    live_trades.append(line)
-            return (live_trades, worksheet) if live_trades else (False, worksheet)
-        except gspread.exceptions.APIError:
-            logger.exception(f'Ошибка подключения к Google API, переподключаюсь. Попытка номер: {i + 1}')
-            google_status, is_checked = exception_def(google_status, is_checked)
-        except Exception as e:
-            logger.exception(f'Ошибка в get_old_orders(), {e}')
-            google_status, is_checked = exception_def(google_status, is_checked)
+    logger.info("Загрузка незавершенных ордеров из таблицы...")
+    sheet_data = _execute_with_retry(worksheet.get_all_values)
+    if sheet_data is None:
+        return None
+
+    live_trades = []
+    for line in sheet_data:
+        # Проверяем, что в строке достаточно столбцов и что 13-й столбец (индекс 12) равен '➕'
+        if len(line) > 12 and line[12] == '➕':
+            live_trades.append(line)
+    
+    logger.info(f"Найдено {len(live_trades)} незавершенных ордеров.")
+    return live_trades
 
 
-def gs_first_update(coin, side, date_time, current_price, tp1, tp2, tp3, tp4, tp5, is_order_exist,
-                    empty_row, order_number):
+def gs_first_update(worksheet: gspread.Worksheet, coin, side, date_time, current_price, tp1, tp2, tp3, tp4, tp5, is_order_exist, empty_row, order_number):
     """
     Записывает в таблицу информацию о новой сделке.
     """
-    global google_status, is_checked
-    for i in range(30):
-        try:
-            gc = gspread.service_account(filename=js_file)
-            sh = gc.open_by_url(sheet_url)
-            gs_coin = coin.replace('/USDT', '')
-            worksheet = sh.get_worksheet(list_number)
-            worksheet.update(f'A{empty_row}:Q{empty_row}', [
-                [order_number, gs_coin, side, date_time, current_price, tp1, tp2, tp3, tp4, tp5, '0', '',
-                 is_order(is_order_exist), '', '0', '', '➖']])
-            logger.info('Обновил таблицу')
-            if not google_status:
-                send_tech_g_alert(google_status)
-            break
-        except gspread.exceptions.APIError:
-            logger.exception(f'Ошибка подключения к Google API, переподключаюсь. Попытка номер: {i + 1}')
-            google_status, is_checked = exception_def(google_status, is_checked)
-        except Exception as e:
-            logger.exception(f'Ошибка в gs_first_update, {e}')
-            google_status, is_checked = exception_def(google_status, is_checked)
+    gs_coin = coin.replace('/USDT', '')
+    row_data = [order_number, gs_coin, side, date_time, current_price, tp1, tp2, tp3, tp4, tp5, '0', '', is_order(is_order_exist), '', '0', '', '➖']
+    
+    logger.info(f"Запись новой сделки в строку {empty_row}: {row_data}")
+    result = _execute_with_retry(worksheet.update, f'A{empty_row}:Q{empty_row}', [row_data])
+    if result:
+        logger.info('Успешно записали новую сделку в таблицу.')
+    return result
 
 
-def gs_tp_update(tp_count, empty_row):
+def gs_tp_update(worksheet: gspread.Worksheet, tp_count, empty_row):
     """
     Обновляет в таблице количество взятых тейк-профитов.
     """
-    global google_status, is_checked
-    for i in range(30):
-        try:
-            gc = gspread.service_account(filename=js_file)
-            sh = gc.open_by_url(sheet_url)
-            worksheet = sh.get_worksheet(list_number)
-            tp_in_gs = int(worksheet.acell(f'O{empty_row}').value)
-            if tp_count > tp_in_gs:
-                worksheet.update(f'O{empty_row}', [[tp_count]])
-            logger.info('Обновил кол-во TP в таблице')
-            if not google_status:
-                send_tech_g_alert(google_status)
-            return empty_row
-        except gspread.exceptions.APIError:
-            logger.exception(f'Ошибка подключения к Google API, переподключаюсь. Попытка номер: {i + 1}')
-            google_status, is_checked = exception_def(google_status, is_checked)
-        except Exception as e:
-            logger.exception(f'Ошибка в gs_tp_update, {e}')
-            google_status, is_checked = exception_def(google_status, is_checked)
+    logger.info(f"Обновление TP={tp_count} для строки {empty_row}")
+    # Сначала прочитаем значение, чтобы не делать лишнюю запись
+    current_tp_in_gs = _execute_with_retry(worksheet.acell, f'O{empty_row}').value
+    if current_tp_in_gs is not None and current_tp_in_gs.isdigit() and tp_count > int(current_tp_in_gs):
+        result = _execute_with_retry(worksheet.update, f'O{empty_row}', [[tp_count]])
+        if result:
+            logger.info(f'Успешно обновили TP в таблице для строки {empty_row}.')
+        return result
+    elif current_tp_in_gs is None or not current_tp_in_gs.isdigit(): # если ячейка пустая или не число
+        return _execute_with_retry(worksheet.update, f'O{empty_row}', [[tp_count]])
+    else:
+        logger.warning(f"Попытка обновить TP в таблице для строки {empty_row}, но новое значение ({tp_count}) не больше старого ({current_tp_in_gs}).")
+        return None
 
-
-def gs_final_tp_update(tp_count, empty_row, is_order_exist):
+def gs_final_tp_update(worksheet: gspread.Worksheet, tp_count, empty_row, is_order_exist):
     """
     Обновляет количество TP и закрывает сделку в таблице.
     """
-    global google_status, is_checked
-    for i in range(30):
-        try:
-            gc = gspread.service_account(filename=js_file)
-            sh = gc.open_by_url(sheet_url)
-            worksheet = sh.get_worksheet(list_number)
-            tp_in_gs = int(worksheet.acell(f'O{empty_row}').value)
-            if tp_count > tp_in_gs:
-                worksheet.update(f'O{empty_row}', [[tp_count]])
-            worksheet.update(f'M{empty_row}', [[is_order(is_order_exist)]])
-            logger.info('Обновил кол-во TP в таблице и статус сделки')
-            if not google_status:
-                send_tech_g_alert(google_status)
-            break
-        except gspread.exceptions.APIError:
-            logger.exception(f'Ошибка подключения к Google API, переподключаюсь. Попытка номер: {i + 1}')
-            google_status, is_checked = exception_def(google_status, is_checked)
-        except Exception as e:
-            logger.exception(f'Ошибка в gs_final_tp_update, {e}')
-            google_status, is_checked = exception_def(google_status, is_checked)
+    logger.info(f"Финальное обновление TP={tp_count} и закрытие сделки для строки {empty_row}")
+    # Используем batch_update для выполнения нескольких операций за один API-вызов
+    requests = [
+        {'range': f'O{empty_row}', 'values': [[tp_count]]},
+        {'range': f'M{empty_row}', 'values': [[is_order(is_order_exist)]]}
+    ]
+    result = _execute_with_retry(worksheet.batch_update, requests)
+    if result:
+        logger.info(f'Успешно закрыли сделку по TP в таблице для строки {empty_row}.')
+    return result
 
 
-def gs_stop_update(stop_loss, empty_row, is_order_exist):
+def gs_stop_update(worksheet: gspread.Worksheet, stop_loss, empty_row, is_order_exist):
     """
     Обновляет статус сделки на 'закрыто по стопу' и записывает цену стоп-лосса.
     """
-    global google_status, is_checked
-    for i in range(30):
-        try:
-            gc = gspread.service_account(filename=js_file)
-            sh = gc.open_by_url(sheet_url)
-            worksheet = sh.get_worksheet(list_number)
-            worksheet.update(f'M{empty_row}', [[is_order(is_order_exist)]])
-            worksheet.update(f'P{empty_row}', [[stop_loss]])
-            logger.info('Обновил статус сделки и добавил SL')
-            if not google_status:
-                send_tech_g_alert(google_status)
-            break
-        except gspread.exceptions.APIError:
-            logger.exception(f'Ошибка подключения к Google API, переподключаюсь. Попытка номер: {i + 1}')
-            google_status, is_checked = exception_def(google_status, is_checked)
-        except Exception as e:
-            logger.exception(f'Ошибка в gs_stop_update, {e}')
-            google_status, is_checked = exception_def(google_status, is_checked)
+    logger.info(f"Обновление стоп-лосса и закрытие сделки для строки {empty_row}")
+    requests = [
+        {'range': f'M{empty_row}', 'values': [[is_order(is_order_exist)]]},
+        {'range': f'P{empty_row}', 'values': [[stop_loss]]}
+    ]
+    result = _execute_with_retry(worksheet.batch_update, requests)
+    if result:
+        logger.info(f'Успешно закрыли сделку по стоп-лоссу в таблице для строки {empty_row}.')
+    return result
 
 
-def gs_av_update(av_count, empty_row, av_order):
+def gs_av_update(worksheet: gspread.Worksheet, av_count, empty_row, av_order):
     """
     Обновляет в таблице количество усреднений и цену последнего усреднения.
     """
-    global google_status, is_checked
-    for i in range(30):
-        try:
-            gc = gspread.service_account(filename=js_file)
-            sh = gc.open_by_url(sheet_url)
-            worksheet = sh.get_worksheet(list_number)
-            av_in_gs = int(worksheet.acell(f'K{empty_row}').value)
-            if av_count > av_in_gs:
-                worksheet.update(f'K{empty_row}', [[av_count]])
-            worksheet.update(f'L{empty_row}', [[av_order]])
-            logger.info('Обновил номер и цену усредняющего ордера в таблице')
-            if not google_status:
-                send_tech_g_alert(google_status)
-            break
-        except gspread.exceptions.APIError:
-            logger.exception(f'Ошибка подключения к Google API, переподключаюсь. Попытка номер: {i + 1}')
-            google_status, is_checked = exception_def(google_status, is_checked)
-        except Exception as e:
-            logger.exception(f'Ошибка в gs_av_update, {e}')
-            google_status, is_checked = exception_def(google_status, is_checked)
+    logger.info(f"Обновление усреднения {av_count} для строки {empty_row}")
+    requests = [
+        {'range': f'K{empty_row}', 'values': [[av_count]]},
+        {'range': f'L{empty_row}', 'values': [[av_order]]}
+    ]
+    result = _execute_with_retry(worksheet.batch_update, requests)
+    if result:
+        logger.info(f'Успешно обновили данные по усреднению в таблице для строки {empty_row}.')
+    return result
 
-
-def gs_breakeven_update(empty_row, is_order_exist):
+def gs_breakeven_update(worksheet: gspread.Worksheet, empty_row, is_order_exist):
     """
     Обновляет статус сделки на 'закрыто по безубытку'.
     """
-    global google_status, is_checked
-    for i in range(30):
-        try:
-            gc = gspread.service_account(filename=js_file)
-            sh = gc.open_by_url(sheet_url)
-            worksheet = sh.get_worksheet(list_number)
-            worksheet.update(f'M{empty_row}', [[is_order(is_order_exist)]])
-            worksheet.update(f'N{empty_row}', [['✅']])
-            logger.info('Обновил статус сделки и БУ')
-            if not google_status:
-                send_tech_g_alert(google_status)
-            break
-        except gspread.exceptions.APIError:
-            logger.exception(f'Ошибка подключения к Google API, переподключаюсь. Попытка номер: {i + 1}')
-            google_status, is_checked = exception_def(google_status, is_checked)
-        except Exception as e:
-            logger.exception(f'Ошибка в gs_breakeven_update, {e}')
-            google_status, is_checked = exception_def(google_status, is_checked)
+    logger.info(f"Обновление статуса на 'безубыток' для строки {empty_row}")
+    requests = [
+        {'range': f'M{empty_row}', 'values': [[is_order(is_order_exist)]]},
+        {'range': f'N{empty_row}', 'values': [['✅']]}
+    ]
+    result = _execute_with_retry(worksheet.batch_update, requests)
+    if result:
+        logger.info(f'Успешно обновили статус на "безубыток" в таблице для строки {empty_row}.')
+    return result
 
 
-def gs_5_perc_alert_update(empty_row):
+def gs_5_perc_alert_update(worksheet: gspread.Worksheet, empty_row):
     """
     Отмечает в таблице, что было отправлено уведомление о 5% отклонении цены.
     """
-    global google_status, is_checked
-    for i in range(30):
-        try:
-            gc = gspread.service_account(filename=js_file)
-            sh = gc.open_by_url(sheet_url)
-            worksheet = sh.get_worksheet(list_number)
-            worksheet.update(f'Q{empty_row}', [['➕']])
-            logger.info('Обновил статус 5% алерта в таблице')
-            if not google_status:
-                send_tech_g_alert(google_status)
-            return empty_row
-        except gspread.exceptions.APIError:
-            logger.exception(f'Ошибка подключения к Google API, переподключаюсь. Попытка номер: {i + 1}')
-            google_status, is_checked = exception_def(google_status, is_checked)
-        except Exception as e:
-            logger.exception(f'Ошибка в gs_5_perc_alert_update, {e}')
-            google_status, is_checked = exception_def(google_status, is_checked)
+    logger.info(f"Установка флага '5% алерт' для строки {empty_row}")
+    result = _execute_with_retry(worksheet.update, f'Q{empty_row}', [['➕']])
+    if result:
+        logger.info("Успешно установили флаг '5% алерт'.")
+    return result

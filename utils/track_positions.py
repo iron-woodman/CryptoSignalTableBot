@@ -1,4 +1,3 @@
-import json
 from .google_sheet import *
 import datetime
 import time
@@ -133,12 +132,13 @@ def manage_websocket_connection(coin):
     return queue_bybit
 
 
-def track_position(is_old_order, signal, empty_row=None, order_number=None):
+def track_position(worksheet, is_old_order, signal, empty_row=None, order_number=None):
     """
     Основная функция отслеживания позиции. Запускается в отдельном потоке для каждой сделки.
     Обрабатывает как новые сигналы, так и незавершенные сделки из таблицы.
 
     Args:
+        worksheet (gspread.Worksheet): Объект рабочего листа Google.
         is_old_order (bool): True, если сделка загружена из таблицы, False - если это новый сигнал.
         signal (dict or list): Данные по сделке.
         empty_row (int, optional): Номер строки для новой сделки.
@@ -201,7 +201,7 @@ def track_position(is_old_order, signal, empty_row=None, order_number=None):
             is_order_exist = True
 
             # Запись в Google таблицу
-            gs_first_update(coin, side, full_date_time_opened, current_price, *targets,
+            gs_first_update(worksheet, coin, side, full_date_time_opened, current_price, *targets,
                             is_order_exist, empty_row, order_number)
 
         except Exception as e:
@@ -279,7 +279,7 @@ def track_position(is_old_order, signal, empty_row=None, order_number=None):
                     send_alert(tg_msg)
                     logger.info(tg_msg)
                     is_5_perc_alert = True
-                    gs_5_perc_alert_update(empty_row)
+                    gs_5_perc_alert_update(worksheet, empty_row)
 
             # Проверка тейк-профитов (только если не было 3-х усреднений)
             if not was_3_averaging:
@@ -296,10 +296,10 @@ def track_position(is_old_order, signal, empty_row=None, order_number=None):
                         # Если это последний TP - закрываем сделку
                         if len(targets) == 1:
                             is_order_exist = False
-                            gs_final_tp_update(tp_id, empty_row, is_order_exist)
+                            gs_final_tp_update(worksheet, tp_id, empty_row, is_order_exist)
                         else: # Иначе обновляем данные
                             targets.remove(target_price)
-                            gs_tp_update(tp_id, empty_row)
+                            gs_tp_update(worksheet, tp_id, empty_row)
                             total_volume -= (entry_volume * 0.2)
                             average_volume_list, volumes_list = change_volume(total_volume)
                         break
@@ -313,7 +313,7 @@ def track_position(is_old_order, signal, empty_row=None, order_number=None):
                     send_av_alert(tg_msg)
                     logger.info(f'{tg_msg}\nТекущая цена: {current_price}')
                     is_order_exist = False
-                    gs_breakeven_update(empty_row, is_order_exist)
+                    gs_breakeven_update(worksheet, empty_row, is_order_exist)
                     break
 
             # Проверка усредняющих ордеров
@@ -335,7 +335,7 @@ def track_position(is_old_order, signal, empty_row=None, order_number=None):
                     avg_prices_list.pop(i)
                     average_volume_list.pop(i)
                     volumes_list.pop(i)
-                    gs_av_update(id_av, empty_row, av_order)
+                    gs_av_update(worksheet, id_av, empty_row, av_order)
                     if id_av >= 3:
                         was_3_averaging = True
                     break

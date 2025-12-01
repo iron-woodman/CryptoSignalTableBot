@@ -57,7 +57,7 @@ def parse_signal_data2(new_signal: str) -> dict | None:
             
         for i, line in enumerate(tp_lines):
             # Извлекаем цену, убирая лишние символы
-            price_str = line.split(')')[1].split('(')[0].strip().rstrip('.')
+            price_str = line.split(')')[1].split('(')[0].strip().rstrip('.').replace(',', '.')
             signal_dict[f'tp{i + 1}'] = float(price_str)
 
         return signal_dict
