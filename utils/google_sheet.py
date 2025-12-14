@@ -105,7 +105,9 @@ def get_order_number(worksheet: gspread.Worksheet, empty_row: int):
         return 1
         
     logger.debug(f"Определение номера ордера для строки {empty_row}...")
-    number = _execute_with_retry(worksheet.acell, f'A{empty_row - 1}').value
+    cell = _execute_with_retry(worksheet.acell, f'A{empty_row - 1}')
+    number = cell.value if cell else None
+
     if number is not None and number.isdigit():
         order_num = int(number) + 1
         logger.debug(f"Следующий номер ордера: {order_num}")
@@ -167,7 +169,9 @@ def gs_tp_update(worksheet: gspread.Worksheet, tp_count, empty_row):
     """
     logger.info(f"Обновление TP={tp_count} для строки {empty_row}")
     # Сначала прочитаем значение, чтобы не делать лишнюю запись
-    current_tp_in_gs = _execute_with_retry(worksheet.acell, f'O{empty_row}').value
+    cell = _execute_with_retry(worksheet.acell, f'O{empty_row}')
+    current_tp_in_gs = cell.value if cell else None
+
     if current_tp_in_gs is not None and current_tp_in_gs.isdigit() and tp_count > int(current_tp_in_gs):
         result = _execute_with_retry(worksheet.update, f'O{empty_row}', [[tp_count]])
         if result:

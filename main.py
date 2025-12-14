@@ -41,11 +41,17 @@ def main():
         # Все функции теперь принимают объект worksheet
         old_data_orders = get_old_orders(worksheet)
         empty_row = get_empty_row(worksheet)
+        
+        # Проверка, что удалось получить свободную строку
+        if empty_row is None:
+            logger.critical("Не удалось определить первую свободную строку. Завершение.")
+            sys.exit(1)
+
         order_number = get_order_number(worksheet, empty_row)
         
-        # Проверка, что данные получены корректно
-        if empty_row is None or order_number is None:
-            logger.critical("Не удалось определить初始 данные (строка/номер ордера) из таблицы. Завершение.")
+        # Проверка, что номер ордера получен
+        if order_number is None:
+            logger.critical("Не удалось определить номер ордера. Завершение.")
             sys.exit(1)
 
         generate_row_order = row_order_iterator(empty_row, order_number)
