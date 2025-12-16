@@ -9,13 +9,13 @@ from utils.tg_signal import send_tech_alert
 connection_states = {}
 
 
-def create_on_message(queue_bybit, coin):
+def create_on_message(subscribers, coin):
     """
     Фабричная функция для создания обработчика on_message.
     Этот обработчик будет вызываться при получении сообщения через WebSocket.
 
     Args:
-        queue_bybit (Queue): Очередь для добавления цен.
+        subscribers (list): Список очередей для добавления цен.
         coin (str): Название монеты для отслеживания состояния.
 
     Returns:
@@ -24,12 +24,16 @@ def create_on_message(queue_bybit, coin):
     def on_message(ws, message):
         """
         Обрабатывает входящие сообщения от WebSocket.
-        Извлекает цену и помещает ее в очередь.
+        Извлекает цену и помещает ее в очереди подписчиков.
         """
         data = json.loads(message)
         if 'data' in data and 'lastPrice' in data['data']:
             last_price = data['data']['lastPrice']
-            queue_bybit.put(last_price)
+            # Рассылаем цену всем подписчикам
+            # Используем копию списка, чтобы избежать проблем при изменении списка во время итерации
+            for q in list(subscribers):
+                q.put(last_price)
+            
             # Успешное получение данных подтверждает, что соединение установлено.
             if not connection_states.get(coin, {}).get('connected'):
                 logger.info(f"Первое сообщение получено от Bybit Stream для {coin}. Соединение стабильно.")
@@ -95,14 +99,14 @@ def on_ping(ws, *data):
     logger.debug("Ping отправлен в Bybit Stream.")
 
 
-def websocket_bybit(coin, queue_bybit):
+def websocket_bybit(coin, subscribers):
     """
     Основная функция для установки и поддержания WebSocket соединения с Bybit.
     Использует экспоненциальную задержку для автоматического переподключения.
 
     Args:
         coin (str): Название монеты.
-        queue_bybit (Queue): Очередь для передачи цен.
+        subscribers (list): Список очередей для передачи цен.
     """
     reconnect_delay = 5  # Начальная задержка
     max_reconnect_delay = 120  # Максимальная задержка
@@ -112,7 +116,7 @@ def websocket_bybit(coin, queue_bybit):
             # Лямбда-функции для передачи дополнительных аргументов (coin)
             ws = websocket.WebSocketApp(
                 "wss://stream.bybit.com/v5/public/linear",
-                on_message=create_on_message(queue_bybit, coin),
+                on_message=create_on_message(subscribers, coin),
                 on_error=lambda ws, error: on_error(ws, error, coin),
                 on_close=lambda ws, code, msg: on_close(ws, code, msg, coin),
                 on_ping=on_ping,

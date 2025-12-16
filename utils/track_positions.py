@@ -9,7 +9,7 @@ from queue import Queue
 
 # --- Управление потоками WebSocket ---
 # Словарь для хранения активных потоков и очередей для каждой монеты
-# Формат: {'BTCUSDT': {'thread': <Thread_object>, 'queue': <Queue_object>}}
+# Формат: {'BTCUSDT': {'thread': <Thread_object>, 'subscribers': [<Queue_object>, ...]}}
 active_ws_threads = {}
 
 
@@ -109,6 +109,7 @@ def manage_websocket_connection(coin):
     """
     Проверяет и управляет WebSocket-соединением для указанной монеты.
     Запускает новый поток, только если для этой монеты нет активного.
+    Создает отдельную очередь для каждого вызывающего (подписчика).
 
     Args:
         coin (str): Название монеты.
@@ -116,20 +117,24 @@ def manage_websocket_connection(coin):
     Returns:
         Queue: Очередь для получения цен от WebSocket.
     """
+    # Создаем новую очередь для текущего подписчика
+    new_queue = Queue()
+
     # Проверяем, есть ли уже поток для этой монеты и жив ли он
     if coin in active_ws_threads and active_ws_threads[coin]['thread'].is_alive():
         logger.debug(f"Используется существующий WebSocket-поток для {coin}.")
-        return active_ws_threads[coin]['queue']
+        active_ws_threads[coin]['subscribers'].append(new_queue)
+        return new_queue
 
     # Если потока нет или он "мертв", создаем новый
     logger.info(f"Создание нового WebSocket-потока для {coin}.")
-    queue_bybit = Queue()
-    ws_thread = threading.Thread(target=websocket_bybit, args=(coin, queue_bybit), daemon=True)
+    subscribers = [new_queue]
+    ws_thread = threading.Thread(target=websocket_bybit, args=(coin, subscribers), daemon=True)
     ws_thread.start()
 
-    # Сохраняем новый поток и очередь в словаре
-    active_ws_threads[coin] = {'thread': ws_thread, 'queue': queue_bybit}
-    return queue_bybit
+    # Сохраняем новый поток и список подписчиков
+    active_ws_threads[coin] = {'thread': ws_thread, 'subscribers': subscribers}
+    return new_queue
 
 
 def track_position(worksheet, is_old_order, signal, empty_row=None, order_number=None):
@@ -342,3 +347,11 @@ def track_position(worksheet, is_old_order, signal, empty_row=None, order_number
 
         except Exception as e:
             logger.exception(f'Ошибка в track_position() в цикле while: {e}')
+
+    # Очистка очереди после завершения отслеживания
+    if queue_bybit and coin in active_ws_threads:
+        try:
+            active_ws_threads[coin]['subscribers'].remove(queue_bybit)
+            logger.debug(f"Очередь для {coin} удалена из подписчиков.")
+        except ValueError:
+            pass
