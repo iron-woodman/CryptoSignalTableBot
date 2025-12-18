@@ -106,15 +106,15 @@ def get_signal():
 
 def send_alert(msg: str):
     """
-    Отправляет сообщение в основной канал.
+    Отправляет сообщение в основной канал в формате HTML.
 
     Args:
-        msg (str): Текст сообщения.
+        msg (str): Текст сообщения (может содержать HTML-теги).
     """
     for _ in range(30):
         try:
             url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
-            params = {"chat_id": CHANNEL_NAME, "text": msg}
+            params = {"chat_id": CHANNEL_NAME, "text": msg, "parse_mode": "HTML"}
             r = requests.post(url, data=params)
             if r.status_code == 200:
                 logger.info('Отправил уведомление в телеграм')
