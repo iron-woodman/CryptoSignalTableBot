@@ -282,9 +282,9 @@ def track_position(worksheet, is_old_order, signal, empty_row=None, order_number
                 if (side == 'LONG' and price_change < -0.05) or (side == 'SHORT' and price_change > 0.05):
                     # tg_msg = f"[{side}]: {coin} (⏰ {full_date_time_opened} msk).\n" \
                     #          f"Цена отклонилась на -5%, желательно запросить усреднение."
-                    tg_msg = f"💰 <b>#{coin.replace('USDT','/USDT')} [{side}]</b>\n(⏰ {full_date_time_opened} msk).\n\n" \
+                    tg_msg = f"💰 <b>#{coin.replace('USDT','/USDT')} [{side}]</b>\n⏰ {full_date_time_opened} msk\n\n" \
                              f"❗️ Цена отклонилась на -5%, желательно запросить усреднение.\n" \
-                             f"❗ До усреднения не забудьте отменить первоначальный стоп-лосс.\n{ECOSYSTEM_LINK}"
+                             f"❗ До усреднения не забудьте отменить первоначальный стоп-лосс.\n\n{ECOSYSTEM_LINK}"
 
                     send_alert(tg_msg)
                     logger.info(tg_msg)
@@ -301,11 +301,10 @@ def track_position(worksheet, is_old_order, signal, empty_row=None, order_number
                         # tg_msg = f"✅ Взяли {tp_id} цель 🔥\n[{side}]: {coin} (⏰ {full_date_time_opened} msk).\n" \
                         #          f"Цена: {target_price}"
 
-                        tg_msg = (f"✅ Взяли {tp_id} цель 🔥\n💰 <b>#{coin.replace('USDT','/USDT')} [{side}]</b>\n"
-                                  f"(⏰ {full_date_time_opened} msk).\n\n"
+                        tg_msg = (f"✅ Взяли {tp_id} цель 🔥\n💰 <b>#{coin.replace('USDT','/USDT')} [{side}]</b>"
+                                  f"(⏰ {full_date_time_opened} msk).\n"
                                   f"Цена: {target_price}\n"
                                   f"{ECOSYSTEM_LINK}")
-
 
                         send_alert(tg_msg)
                         logger.info(f'{tg_msg}\nТекущая цена: {current_price}')
