@@ -189,7 +189,7 @@ def track_position(worksheet, is_old_order, signal, empty_row=None, order_number
             queue_bybit = manage_websocket_connection(coin)
             while current_price is None or current_price == 0.0:
                 time.sleep(1)
-                if not queue_bybit.empty():
+                while not queue_bybit.empty():
                     current_price = float(queue_bybit.get())
 
             entry_price = current_price
@@ -232,7 +232,7 @@ def track_position(worksheet, is_old_order, signal, empty_row=None, order_number
             queue_bybit = manage_websocket_connection(coin)
             while current_price is None or current_price == 0.0:
                 time.sleep(1)
-                if not queue_bybit.empty():
+                while not queue_bybit.empty():
                     current_price = float(queue_bybit.get())
 
             # Пересчет состояния сделки с учетом уже произошедших событий (TP, усреднения)
@@ -270,15 +270,24 @@ def track_position(worksheet, is_old_order, signal, empty_row=None, order_number
     while is_order_exist:
         time.sleep(0.3)
         try:
-            # Получение актуальной цены
-            if not queue_bybit.empty():
-                current_price = float(queue_bybit.get())
-            if current_price is None or current_price == 0:
+            # Сбор всех цен из очереди
+            prices_batch = []
+            while not queue_bybit.empty():
+                prices_batch.append(float(queue_bybit.get()))
+
+            if not prices_batch:
                 continue
+
+            current_price = prices_batch[-1] # Последняя актуальная цена
+            batch_max = max(prices_batch) # Максимум за этот период
+            batch_min = min(prices_batch) # Минимум за этот период
 
             # Проверка отклонения на 5% для алерта
             if not is_5_perc_alert:
-                price_change = (current_price - entry_price) / entry_price
+                # Для LONG критично падение, проверяем по минимуму
+                price_to_check = batch_min if side == 'LONG' else batch_max
+                price_change = (price_to_check - entry_price) / entry_price
+                
                 if (side == 'LONG' and price_change < -0.05) or (side == 'SHORT' and price_change > 0.05):
                     # tg_msg = f"[{side}]: {coin} (⏰ {full_date_time_opened} msk).\n" \
                     #          f"Цена отклонилась на -5%, желательно запросить усреднение."
@@ -294,9 +303,18 @@ def track_position(worksheet, is_old_order, signal, empty_row=None, order_number
             # Проверка тейк-профитов (только если не было 3-х усреднений)
             if not was_3_averaging:
                 for target_price in targets:
-                    if (side == "LONG" and current_price >= target_price) or \
-                       (side == "SHORT" and current_price <= target_price):
+                    # Для TP в LONG нам важен максимум, в SHORT - минимум
+                    is_tp_hit = False
+                    trigger_price = 0.0
 
+                    if side == "LONG" and batch_max >= target_price:
+                        is_tp_hit = True
+                        trigger_price = batch_max # Или target_price, но лучше зафиксировать факт
+                    elif side == "SHORT" and batch_min <= target_price:
+                        is_tp_hit = True
+                        trigger_price = batch_min
+
+                    if is_tp_hit:
                         tp_id = id_targets.index(target_price) + 1
                         # tg_msg = f"✅ Взяли {tp_id} цель 🔥\n[{side}]: {coin} (⏰ {full_date_time_opened} msk).\n" \
                         #          f"Цена: {target_price}"
@@ -307,7 +325,7 @@ def track_position(worksheet, is_old_order, signal, empty_row=None, order_number
                                   f"{ECOSYSTEM_LINK}")
 
                         send_alert(tg_msg)
-                        logger.info(f'{tg_msg}\nТекущая цена: {current_price}')
+                        logger.info(f'{tg_msg}\nТекущая цена: {current_price} (Max batch: {batch_max}, Min batch: {batch_min})')
 
                         # Если это последний TP - закрываем сделку
                         if len(targets) == 1:
@@ -322,8 +340,9 @@ def track_position(worksheet, is_old_order, signal, empty_row=None, order_number
 
             # Проверка безубытка (только после 3-го усреднения)
             if was_3_averaging:
-                if (side == "LONG" and current_price >= breakeven) or \
-                   (side == "SHORT" and current_price <= breakeven):
+                # Безубыток: LONG - high, SHORT - low
+                if (side == "LONG" and batch_max >= breakeven) or \
+                   (side == "SHORT" and batch_min <= breakeven):
                     tg_msg = f"✅ Достигли безубытка 🔥\n[{side}]: {coin} \n(⏰ {full_date_time_opened} msk).\n\n" \
                              f"Цена: {breakeven}"
                     send_av_alert(tg_msg)
@@ -334,8 +353,15 @@ def track_position(worksheet, is_old_order, signal, empty_row=None, order_number
 
             # Проверка усредняющих ордеров
             for i, av_order in enumerate(average_orders_list):
-                if (side == "LONG" and current_price <= av_order) or \
-                   (side == "SHORT" and current_price >= av_order):
+                # Усреднение: LONG - low (падаем), SHORT - high (растем)
+                is_av_hit = False
+                
+                if side == "LONG" and batch_min <= av_order:
+                    is_av_hit = True
+                elif side == "SHORT" and batch_max >= av_order:
+                    is_av_hit = True
+                
+                if is_av_hit:
                     id_av = id_average_orders.index(av_order) + 1
                     breakeven = get_breakeven(side, avg_prices_list[i])
                     total_volume += average_volume_list[i]
@@ -345,7 +371,7 @@ def track_position(worksheet, is_old_order, signal, empty_row=None, order_number
                              f"Средняя цена входа: {avg_prices_list[i]}\n" \
                              f"Цена безубытка: {breakeven}"
                     send_av_alert(tg_msg)
-                    logger.info(f'{tg_msg}\nТекущая цена: {current_price}')
+                    logger.info(f'{tg_msg}\nТекущая цена: {current_price} (Triggered by spike)')
 
                     average_orders_list.pop(i)
                     avg_prices_list.pop(i)
