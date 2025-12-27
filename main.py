@@ -60,7 +60,9 @@ def main():
         if old_data_orders:
             for old_order in old_data_orders:
                 # Передаем worksheet в поток для отслеживания
-                threading.Thread(target=track_position, args=(worksheet, True, old_order), daemon=True).start()
+                # Проверяем, есть ли информация о бирже в old_order, если нет, используем bybit по умолчанию
+                exchange = old_order.get('exchange', 'bybit') if isinstance(old_order, dict) else 'bybit'
+                threading.Thread(target=track_position, args=(worksheet, True, old_order, None, None, exchange), daemon=True).start()
 
         # --- 5. Основной цикл обработки новых сигналов ---
         while True:
@@ -68,7 +70,9 @@ def main():
                 signal = queue_telegram.get()
                 if signal is not None:
                     # Передаем worksheet в поток для отслеживания нового сигнала
-                    threading.Thread(target=track_position, args=(worksheet, False, signal, empty_row, order_number), daemon=True).start()
+                    # Проверяем, есть ли информация о бирже в сигнале, если нет, используем bybit по умолчанию
+                    exchange = signal.get('exchange', 'bybit') if isinstance(signal, dict) else 'bybit'
+                    threading.Thread(target=track_position, args=(worksheet, False, signal, empty_row, order_number, exchange), daemon=True).start()
                     empty_row, order_number = next(generate_row_order)
             
             time.sleep(1) # Небольшая пауза, чтобы не загружать CPU

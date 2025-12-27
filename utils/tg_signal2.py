@@ -1,7 +1,8 @@
 from .logger_setup import logger
+from typing import Union
 
 
-def parse_signal_data2(new_signal: str) -> dict | None:
+def parse_signal_data2(new_signal: str) -> Union[dict, None]:
     """
     Разбирает текстовый сигнал нового формата и преобразует его в словарь.
 
@@ -9,11 +10,22 @@ def parse_signal_data2(new_signal: str) -> dict | None:
         new_signal (str): Текст сигнала из Telegram.
 
     Returns:
-        dict | None: Словарь с данными сигнала (монета, направление, TP, SL) или None в случае ошибки.
+        Union[dict, None]: Словарь с данными сигнала (монета, направление, TP, SL, exchange) или None в случае ошибки.
     """
     try:
         signal_dict = {}
         lines = [line.strip() for line in new_signal.split('\n') if line.strip()]
+
+        # --- Определение биржи ---
+        # Проверяем наличие упоминания биржи в сигнале
+        signal_text_lower = new_signal.lower()
+        if 'bingx' in signal_text_lower:
+            signal_dict['exchange'] = 'bingx'
+        elif 'bybit' in signal_text_lower:
+            signal_dict['exchange'] = 'bybit'
+        else:
+            # Если биржа не указана, по умолчанию используем bybit
+            signal_dict['exchange'] = 'bybit'
 
         # --- Извлечение монеты и направления ---
         first_line = lines[0]

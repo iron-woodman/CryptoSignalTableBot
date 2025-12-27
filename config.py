@@ -25,3 +25,8 @@ G_LIST = os.getenv('G_LIST', '0')
 # --- Настройки логирования ---
 # Включает/выключает логирование сообщений 'Pong получен от Bybit Stream'. По умолчанию выключено.
 LOG_PONG_MESSAGES = os.getenv('LOG_PONG_MESSAGES', 'False').lower() == 'true'
+
+# --- Настройки для BingX API (если потребуется) ---
+# Эти параметры могут понадобиться в будущем для аутентификации или других функций
+BINGX_API_KEY = os.getenv('BINGX_API_KEY', '')
+BINGX_API_SECRET = os.getenv('BINGX_API_SECRET', '')

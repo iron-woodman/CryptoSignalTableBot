@@ -43,10 +43,21 @@ def parse_signal_data(new_signal):
         new_signal (str): Текст сигнала из Telegram.
 
     Returns:
-        dict: Словарь с данными сигнала (монета, направление, TP, SL).
+        dict: Словарь с данными сигнала (монета, направление, TP, SL, exchange).
     """
     try:
         signal_dict = dict()
+        
+        # Определяем биржу из сигнала
+        signal_text_lower = new_signal.lower()
+        if 'bingx' in signal_text_lower:
+            signal_dict['exchange'] = 'bingx'
+        elif 'bybit' in signal_text_lower:
+            signal_dict['exchange'] = 'bybit'
+        else:
+            # Если биржа не указана, по умолчанию используем bybit
+            signal_dict['exchange'] = 'bybit'
+        
         lines = new_signal.split("\n")
         side = lines[0].split(": ")[0]
         coin = lines[0].split(": ")[1]

@@ -5,6 +5,7 @@ from .tg_signal import send_alert, send_av_alert
 from .logger_setup import logger
 import threading
 from .get_bybit_data import websocket_bybit
+from .get_bingx_data import websocket_bingx
 from queue import Queue
 
 # --- Управление потоками WebSocket ---
@@ -105,7 +106,7 @@ def get_breakeven(side, price):
     return round(breakeven, 8)
 
 
-def manage_websocket_connection(coin):
+def manage_websocket_connection(coin, exchange='bybit'):
     """
     Проверяет и управляет WebSocket-соединением для указанной монеты.
     Запускает новый поток, только если для этой монеты нет активного.
@@ -113,6 +114,7 @@ def manage_websocket_connection(coin):
 
     Args:
         coin (str): Название монеты.
+        exchange (str): Название биржи ('bybit' или 'bingx').
 
     Returns:
         Queue: Очередь для получения цен от WebSocket.
@@ -120,24 +122,33 @@ def manage_websocket_connection(coin):
     # Создаем новую очередь для текущего подписчика
     new_queue = Queue()
 
+    # Генерируем уникальный ключ для отслеживания соединений по бирже и монете
+    key = f"{exchange}:{coin}"
+    
     # Проверяем, есть ли уже поток для этой монеты и жив ли он
-    if coin in active_ws_threads and active_ws_threads[coin]['thread'].is_alive():
-        logger.debug(f"Используется существующий WebSocket-поток для {coin}.")
-        active_ws_threads[coin]['subscribers'].append(new_queue)
+    if key in active_ws_threads and active_ws_threads[key]['thread'].is_alive():
+        logger.debug(f"Используется существующий WebSocket-поток для {coin} на {exchange}.")
+        active_ws_threads[key]['subscribers'].append(new_queue)
         return new_queue
 
     # Если потока нет или он "мертв", создаем новый
-    logger.info(f"Создание нового WebSocket-потока для {coin}.")
+    logger.info(f"Создание нового WebSocket-потока для {coin} на {exchange}.")
     subscribers = [new_queue]
-    ws_thread = threading.Thread(target=websocket_bybit, args=(coin, subscribers), daemon=True)
+    
+    # Выбираем соответствующую функцию WebSocket в зависимости от биржи
+    if exchange.lower() == 'bingx':
+        ws_thread = threading.Thread(target=websocket_bingx, args=(coin, subscribers), daemon=True)
+    else:  # по умолчанию bybit
+        ws_thread = threading.Thread(target=websocket_bybit, args=(coin, subscribers), daemon=True)
+    
     ws_thread.start()
 
     # Сохраняем новый поток и список подписчиков
-    active_ws_threads[coin] = {'thread': ws_thread, 'subscribers': subscribers}
+    active_ws_threads[key] = {'thread': ws_thread, 'subscribers': subscribers}
     return new_queue
 
 
-def track_position(worksheet, is_old_order, signal, empty_row=None, order_number=None):
+def track_position(worksheet, is_old_order, signal, empty_row=None, order_number=None, exchange='bybit'):
     """
     Основная функция отслеживания позиции. Запускается в отдельном потоке для каждой сделки.
     Обрабатывает как новые сигналы, так и незавершенные сделки из таблицы.
@@ -148,6 +159,7 @@ def track_position(worksheet, is_old_order, signal, empty_row=None, order_number
         signal (dict or list): Данные по сделке.
         empty_row (int, optional): Номер строки для новой сделки.
         order_number (int, optional): Номер для новой сделки.
+        exchange (str): Название биржи ('bybit' или 'bingx').
     """
     # --- Инициализация переменных для сделки ---
     full_date_time_opened = None
@@ -186,7 +198,7 @@ def track_position(worksheet, is_old_order, signal, empty_row=None, order_number
             id_targets = targets.copy()
 
             # Запуск WebSocket для получения цены
-            queue_bybit = manage_websocket_connection(coin)
+            queue_bybit = manage_websocket_connection(coin, exchange)
             while current_price is None or current_price == 0.0:
                 time.sleep(1)
                 while not queue_bybit.empty():
@@ -229,7 +241,7 @@ def track_position(worksheet, is_old_order, signal, empty_row=None, order_number
             is_5_perc_alert = (signal[16] == '➕')
 
             # Запуск WebSocket
-            queue_bybit = manage_websocket_connection(coin)
+            queue_bybit = manage_websocket_connection(coin, exchange)
             while current_price is None or current_price == 0.0:
                 time.sleep(1)
                 while not queue_bybit.empty():
@@ -386,9 +398,11 @@ def track_position(worksheet, is_old_order, signal, empty_row=None, order_number
             logger.exception(f'Ошибка в track_position() в цикле while: {e}')
 
     # Очистка очереди после завершения отслеживания
-    if queue_bybit and coin in active_ws_threads:
-        try:
-            active_ws_threads[coin]['subscribers'].remove(queue_bybit)
-            logger.debug(f"Очередь для {coin} удалена из подписчиков.")
-        except ValueError:
-            pass
+    if queue_bybit:
+        key = f"{exchange}:{coin}"
+        if key in active_ws_threads:
+            try:
+                active_ws_threads[key]['subscribers'].remove(queue_bybit)
+                logger.debug(f"Очередь для {coin} на {exchange} удалена из подписчиков.")
+            except ValueError:
+                pass
