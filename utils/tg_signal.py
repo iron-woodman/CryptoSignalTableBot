@@ -124,7 +124,7 @@ def send_alert(msg: str):
                 logger.info('Отправил уведомление в телеграм')
                 break
             else:
-                logger.error(f"Ошибка отсылки сообщения в телеграм: {r.status_code} - {r.text}")
+                logger.error(f"Ошибка отсылки сообщения в телеграм (chat_id={CHANNEL_NAME}): {r.status_code} - {r.text}")
                 time.sleep(5)
         except Exception as e:
             logger.error(f'Ошибка в send_alert: {e}')
@@ -147,7 +147,7 @@ def send_av_alert(msg: str):
                 logger.info('Отправил уведомление об усреднении в телеграм')
                 break
             else:
-                logger.error(f"Ошибка отсылки сообщения об усреднении в телеграм: {r.status_code} - {r.text}")
+                logger.error(f"Ошибка отсылки сообщения об усреднении в телеграм (chat_id={AV_CHANNEL_NAME}): {r.status_code} - {r.text}")
                 time.sleep(5)
         except Exception as e:
             logger.error(f'Ошибка в send_av_alert: {e}')
