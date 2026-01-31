@@ -1,6 +1,8 @@
 import json
 import time
 import websocket
+import gzip
+import io
 from utils.logger_setup import logger
 from utils.tg_signal import send_tech_alert
 
@@ -27,8 +29,28 @@ def create_on_message(subscribers, coin):
         Извлекает цену и помещает ее в очереди подписчиков.
         """
         try:
+            # Декомпрессия GZIP, если сообщение в байтах
+            if isinstance(message, bytes):
+                try:
+                    with gzip.GzipFile(fileobj=io.BytesIO(message)) as f:
+                        message = f.read().decode('utf-8')
+                except OSError:
+                    # Если это не GZIP, пробуем декодировать как обычный текст
+                    message = message.decode('utf-8')
+
+            # Игнорируем сообщения 'Ping' (сердцебиение от сервера)
+            if message == 'Ping':
+                # Можно отправить Pong в ответ, если библиотека не делает это сама
+                # ws.send('Pong')
+                return
+
             data = json.loads(message)
             
+            # Проверяем на Ping в JSON формате (если есть)
+            if isinstance(data, dict) and data.get('ping'):
+                ws.send(json.dumps({'pong': data['ping']}))
+                return
+
             # Проверяем формат сообщения от BingX
             # BingX может использовать разные форматы в зависимости от типа подписки
             last_price = None
@@ -110,50 +132,19 @@ def create_on_open(coin):
         """
         logger.info(f'Соединение с BingX Stream для {coin} открыто. Отправка подписки.')
         
-        # Формат подписки для BingX WebSocket API
-        # BingX использует формат подписки в зависимости от типа данных
-        # Пробуем разные возможные форматы
+        # Формат подписки для BingX WebSocket API (endpoint /market)
+        # Пример: {"id":"id1", "reqType": "sub", "dataType": "BTC-USDT@ticker"}
         
-        # Формат 1: Согласно документации BingX, может использоваться такой формат
+        # Преобразуем формат пары, например BTCUSDT -> BTC-USDT
+        formatted_coin = coin
+        if coin.endswith("USDT") and "-" not in coin:
+             formatted_coin = coin.replace("USDT", "-USDT")
+        
         subscription_msg = {
-            "id": 1,
+            "id": "id1",
             "reqType": "sub",
-            "channel": f"bingx.market.{coin.lower()}.ticker"
+            "dataType": f"{formatted_coin}@ticker"
         }
-        
-        # Альтернативный формат, который может использоваться BingX
-        if not coin.lower().endswith('usdt'):
-            # Если пара не в USDT, пробуем добавить общепринятую квотирующую валюту
-            if 'USDT' in coin:
-                base_coin = coin.replace('USDT', '').lower()
-                subscription_msg = {
-                    "id": 1,
-                    "reqType": "sub",
-                    "channel": f"bingx.market.{base_coin}usdt.ticker"
-                }
-            elif 'BTC' in coin:
-                base_coin = coin.replace('BTC', '').lower()
-                subscription_msg = {
-                    "id": 1,
-                    "reqType": "sub",
-                    "channel": f"bingx.market.{base_coin}btc.ticker"
-                }
-            elif 'ETH' in coin:
-                base_coin = coin.replace('ETH', '').lower()
-                subscription_msg = {
-                    "id": 1,
-                    "reqType": "sub",
-                    "channel": f"bingx.market.{base_coin}eth.ticker"
-                }
-        
-        # Еще один возможный формат на основе общих WebSocket API бирж
-        if coin.endswith('USDT'):
-            base_coin = coin.replace('USDT', '').lower()
-            subscription_msg = {
-                "method": "subscribe",
-                "params": [f"{base_coin}@ticker"],
-                "id": 1
-            }
         
         ws.send(json.dumps(subscription_msg))
         
@@ -188,11 +179,17 @@ def websocket_bingx(coin, subscribers):
     reconnect_delay = 5  # Начальная задержка
     max_reconnect_delay = 120  # Максимальная задержка
 
+    # Заголовки для имитации браузера (обход Cloudflare)
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
+    }
+
     while True:
         try:
             # Лямбда-функции для передачи дополнительных аргументов (coin)
             ws = websocket.WebSocketApp(
-                "wss://open-api-ws.bingx.com/spot",  # URL WebSocket API BingX для спотового рынка
+                "wss://open-api-ws.bingx.com/market",  # URL WebSocket API BingX для спотового рынка
+                header=headers,
                 on_message=create_on_message(subscribers, coin),
                 on_error=lambda ws, error: on_error(ws, error, coin),
                 on_close=lambda ws, code, msg: on_close(ws, code, msg, coin),

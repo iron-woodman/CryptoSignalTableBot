@@ -229,7 +229,7 @@ def track_position(worksheet, is_old_order, signal, empty_row=None, order_number
     if is_old_order:
         try:
             logger.info(f'Загрузка ордера из таблицы: {signal}')
-            empty_row = int(signal[0]) + 1
+            empty_row = signal[-1]
             coin = signal[1]
             side = signal[2]
             full_date_time_opened = signal[3]

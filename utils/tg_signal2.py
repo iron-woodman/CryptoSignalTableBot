@@ -24,8 +24,8 @@ def parse_signal_data2(new_signal: str) -> Union[dict, None]:
         elif 'bybit' in signal_text_lower:
             signal_dict['exchange'] = 'bybit'
         else:
-            # Если биржа не указана, по умолчанию используем bybit
-            signal_dict['exchange'] = 'bybit'
+            # Если биржа не указана, по умолчанию используем bingx
+            signal_dict['exchange'] = 'bingx'
 
         # --- Извлечение монеты и направления ---
         first_line = lines[0]

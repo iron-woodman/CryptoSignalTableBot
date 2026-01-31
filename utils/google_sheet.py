@@ -140,9 +140,10 @@ def get_old_orders(worksheet: gspread.Worksheet):
         return None
 
     live_trades = []
-    for line in sheet_data:
+    for i, line in enumerate(sheet_data, start=1):
         # Проверяем, что в строке достаточно столбцов и что 13-й столбец (индекс 12) равен '➕'
         if len(line) > 12 and line[12] == '➕':
+            line.append(i) # Добавляем номер строки в конец списка
             live_trades.append(line)
     
     logger.info(f"Найдено {len(live_trades)} незавершенных ордеров.")
