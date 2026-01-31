@@ -26,6 +26,10 @@ G_LIST = os.getenv('G_LIST', '0')
 # Включает/выключает логирование сообщений 'Pong получен от Bybit Stream'. По умолчанию выключено.
 LOG_PONG_MESSAGES = os.getenv('LOG_PONG_MESSAGES', 'False').lower() == 'true'
 
+# --- Настройки биржи ---
+# Биржа по умолчанию для отслеживания цен ('bybit' или 'bingx')
+EXCHANGE = os.getenv('EXCHANGE', 'bybit').lower()
+
 # --- Настройки для BingX API (если потребуется) ---
 # Эти параметры могут понадобиться в будущем для аутентификации или других функций
 BINGX_API_KEY = os.getenv('BINGX_API_KEY', '')

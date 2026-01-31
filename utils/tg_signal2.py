@@ -1,5 +1,6 @@
 from .logger_setup import logger
 from typing import Union
+from config import EXCHANGE
 
 
 def parse_signal_data2(new_signal: str) -> Union[dict, None]:
@@ -17,15 +18,8 @@ def parse_signal_data2(new_signal: str) -> Union[dict, None]:
         lines = [line.strip() for line in new_signal.split('\n') if line.strip()]
 
         # --- Определение биржи ---
-        # Проверяем наличие упоминания биржи в сигнале
-        signal_text_lower = new_signal.lower()
-        if 'bingx' in signal_text_lower:
-            signal_dict['exchange'] = 'bingx'
-        elif 'bybit' in signal_text_lower:
-            signal_dict['exchange'] = 'bybit'
-        else:
-            # Если биржа не указана, по умолчанию используем bingx
-            signal_dict['exchange'] = 'bingx'
+        # Используем глобальную настройку биржи
+        signal_dict['exchange'] = EXCHANGE
 
         # --- Извлечение монеты и направления ---
         first_line = lines[0]

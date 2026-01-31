@@ -1,7 +1,7 @@
 import time
 import requests
 from queue import Queue
-from config import TOKEN, CHANNEL_NAME, TECH_CHANNEL_NAME, AV_CHANNEL_NAME
+from config import TOKEN, CHANNEL_NAME, TECH_CHANNEL_NAME, AV_CHANNEL_NAME, EXCHANGE
 from .logger_setup import logger
 from .tg_signal2 import parse_signal_data2
 
@@ -48,15 +48,8 @@ def parse_signal_data(new_signal):
     try:
         signal_dict = dict()
         
-        # Определяем биржу из сигнала
-        signal_text_lower = new_signal.lower()
-        if 'bingx' in signal_text_lower:
-            signal_dict['exchange'] = 'bingx'
-        elif 'bybit' in signal_text_lower:
-            signal_dict['exchange'] = 'bybit'
-        else:
-            # Если биржа не указана, по умолчанию используем bybit
-            signal_dict['exchange'] = 'bybit'
+        # Используем глобальную настройку биржи
+        signal_dict['exchange'] = EXCHANGE
         
         lines = new_signal.split("\n")
         side = lines[0].split(": ")[0]
@@ -131,7 +124,7 @@ def send_alert(msg: str):
                 logger.info('Отправил уведомление в телеграм')
                 break
             else:
-                logger.error("Ошибка отсылки сообщения в телеграм")
+                logger.error(f"Ошибка отсылки сообщения в телеграм: {r.status_code} - {r.text}")
                 time.sleep(5)
         except Exception as e:
             logger.error(f'Ошибка в send_alert: {e}')
@@ -154,7 +147,7 @@ def send_av_alert(msg: str):
                 logger.info('Отправил уведомление об усреднении в телеграм')
                 break
             else:
-                logger.error("Ошибка отсылки сообщения об усреднении в телеграм")
+                logger.error(f"Ошибка отсылки сообщения об усреднении в телеграм: {r.status_code} - {r.text}")
                 time.sleep(5)
         except Exception as e:
             logger.error(f'Ошибка в send_av_alert: {e}')

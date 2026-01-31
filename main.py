@@ -5,6 +5,7 @@ from utils.logger_setup import logger
 from utils.tg_signal import get_signal, queue_telegram
 from utils.track_positions import track_position, row_order_iterator
 from utils.check_status import run_api
+from config import EXCHANGE
 
 # Импортируем новый модуль и его функции
 from utils.google_sheet  import (
@@ -60,9 +61,8 @@ def main():
         if old_data_orders:
             for old_order in old_data_orders:
                 # Передаем worksheet в поток для отслеживания
-                # Проверяем, есть ли информация о бирже в old_order, если нет, используем bingx по умолчанию
-                exchange = old_order.get('exchange', 'bybit') if isinstance(old_order, dict) else 'bingx'
-                threading.Thread(target=track_position, args=(worksheet, True, old_order, None, None, exchange), daemon=True).start()
+                # Используем биржу из настроек .env для всех ордеров
+                threading.Thread(target=track_position, args=(worksheet, True, old_order, None, None, EXCHANGE), daemon=True).start()
 
         # --- 5. Основной цикл обработки новых сигналов ---
         while True:
@@ -70,9 +70,8 @@ def main():
                 signal = queue_telegram.get()
                 if signal is not None:
                     # Передаем worksheet в поток для отслеживания нового сигнала
-                    # Проверяем, есть ли информация о бирже в сигнале, если нет, используем bybit по умолчанию
-                    exchange = signal.get('exchange', 'bingx') if isinstance(signal, dict) else 'bingx'
-                    threading.Thread(target=track_position, args=(worksheet, False, signal, empty_row, order_number, exchange), daemon=True).start()
+                    # Используем биржу из настроек .env (она также дублируется в signal['exchange'], но берем глобальную для надежности)
+                    threading.Thread(target=track_position, args=(worksheet, False, signal, empty_row, order_number, EXCHANGE), daemon=True).start()
                     empty_row, order_number = next(generate_row_order)
             
             time.sleep(1) # Небольшая пауза, чтобы не загружать CPU
