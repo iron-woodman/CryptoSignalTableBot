@@ -56,13 +56,13 @@ def create_on_message(subscribers, coin):
             last_price = None
             
             # Формат 1: {"stream":"symbol@ticker","data":{"e":"24hrTicker","s":"BTCUSDT","p":"-123.456","P":"-1.23","o":"10000.00","h":"10500.00","l":"9500.00","c":"9876.54","v":"1000.00","q":"1000000.00"}}
-            if 'data' in data and 'c' in data['data']:  # 'c' - текущая цена
+            if isinstance(data, dict) and 'data' in data and data['data'] and 'c' in data['data']:  # 'c' - текущая цена
                 last_price = float(data['data']['c'])
             # Альтернативный формат: {"symbol":"BTCUSDT","price":"9876.54"}
-            elif 'price' in data:
+            elif isinstance(data, dict) and 'price' in data:
                 last_price = float(data['price'])
             # Формат с массивом данных
-            elif 'data' in data and isinstance(data['data'], list):
+            elif isinstance(data, dict) and 'data' in data and isinstance(data['data'], list):
                 for item in data['data']:
                     if 'c' in item:
                         last_price = float(item['c'])
@@ -79,9 +79,11 @@ def create_on_message(subscribers, coin):
                 
                 # Успешное получение данных подтверждает, что соединение установлено.
                 if not connection_states.get(coin, {}).get('connected'):
-                    logger.info(f"Первое сообщение получено от BingX Stream для {coin}. Соединение стабильно.")
+                    logger.info(f"Первое сообщение получено от BingX Futures Stream для {coin}. Соединение стабильно.")
                     connection_states[coin]['connected'] = True
-                    send_tech_alert(f'Подключились к BingX Stream для {coin} ✅')
+                    send_tech_alert(f'Подключились к BingX Futures Stream для {coin} ✅')
+            elif isinstance(data, dict) and data.get('code'):
+                 logger.error(f"Ошибка от BingX: {data}")
             else:
                 # Если не удалось извлечь цену, логируем сообщение для отладки
                 logger.debug(f"Получено сообщение от BingX без цены для {coin}: {message}")
@@ -101,7 +103,7 @@ def on_error(ws, error, coin):
     """
     logger.error(f"WebSocket error for {coin}: {error}")
     if connection_states.get(coin, {}).get('connected', True): # Отправляем алерт, если были подключены
-        send_tech_alert(f'Отключились от BingX Stream для {coin} ❌')
+        send_tech_alert(f'Отключились от BingX Futures Stream для {coin} ❌')
     connection_states[coin] = {'connected': False}
 
 
@@ -111,7 +113,7 @@ def on_close(ws, close_status_code, close_msg, coin):
     """
     logger.info(f"WebSocket for {coin} connection closed. Code: {close_status_code}, Msg: {close_msg}")
     if connection_states.get(coin, {}).get('connected', True): # Отправляем алерт, если были подключены
-        send_tech_alert(f'Отключились от BingX Stream для {coin} ❌')
+        send_tech_alert(f'Отключились от BingX Futures Stream для {coin} ❌')
     connection_states[coin] = {'connected': False}
 
 
@@ -130,7 +132,7 @@ def create_on_open(coin):
         """
         Отправляет запрос на подписку тикеров для указанной монеты.
         """
-        logger.info(f'Соединение с BingX Stream для {coin} открыто. Отправка подписки.')
+        logger.info(f'Соединение с BingX Futures Stream для {coin} открыто. Отправка подписки.')
         
         # Формат подписки для BingX WebSocket API (endpoint /market)
         # Пример: {"id":"id1", "reqType": "sub", "dataType": "BTC-USDT@ticker"}
@@ -157,14 +159,14 @@ def on_pong(ws, *data):
     """
     Обработчик pong-сообщений (для поддержания соединения).
     """
-    logger.debug("Pong получен от BingX Stream.")
+    logger.debug("Pong получен от BingX Futures Stream.")
 
 
 def on_ping(ws, *data):
     """
     Обработчик ping-сообщений.
     """
-    logger.debug("Ping отправлен в BingX Stream.")
+    logger.debug("Ping отправлен в BingX Futures Stream.")
 
 
 def websocket_bingx(coin, subscribers):
@@ -190,8 +192,7 @@ def websocket_bingx(coin, subscribers):
         try:
             # Лямбда-функции для передачи дополнительных аргументов (coin)
             ws = websocket.WebSocketApp(
-                "wss://open-api-ws.bingx.com/market",  # URL WebSocket API BingX для спотового рынка
-                header=headers,
+                "wss://open-api-swap.bingx.com/swap-market",  # URL WebSocket API BingX для фьючерсного рынка (Swap)
                 on_message=create_on_message(subscribers, coin),
                 on_error=lambda ws, error: on_error(ws, error, coin),
                 on_close=lambda ws, code, msg: on_close(ws, code, msg, coin),
@@ -212,7 +213,7 @@ def websocket_bingx(coin, subscribers):
             f"Повторная попытка через {reconnect_delay} секунд."
         )
         send_tech_alert(
-            f'Проблемы с подключением к BingX Stream для {coin}. '
+            f'Проблемы с подключением к BingX Futures Stream для {coin}. '
             f'Повторная попытка через {reconnect_delay}с. ⏳'
         )
         time.sleep(reconnect_delay)
