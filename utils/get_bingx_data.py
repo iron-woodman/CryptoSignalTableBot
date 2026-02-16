@@ -3,219 +3,177 @@ import time
 import websocket
 import gzip
 import io
+import threading
 from utils.logger_setup import logger
 from utils.tg_signal import send_tech_alert
 
-# --- Управление состоянием ---
-# Используем словарь для отслеживания состояния каждого WebSocket-соединения по монете
-connection_states = {}
-
-
-def create_on_message(subscribers, coin):
+class BingXWSManager:
     """
-    Фабричная функция для создания обработчика on_message.
-    Этот обработчик будет вызываться при получении сообщения через WebSocket.
-
-    Args:
-        subscribers (list): Список очередей для добавления цен.
-        coin (str): Название монеты для отслеживания состояния.
-
-    Returns:
-        function: Функция-обработчик on_message.
+    Класс для управления единым WebSocket-соединением с BingX для множества монет.
     """
-    def on_message(ws, message):
-        """
-        Обрабатывает входящие сообщения от WebSocket.
-        Извлекает цену и помещает ее в очереди подписчиков.
-        """
+    def __init__(self):
+        self.ws = None
+        self.url = "wss://open-api-swap.bingx.com/swap-market"
+        self.subscribers = {}  # { 'BTCUSDT': [queue1, queue2, ...] }
+        self.connection_states = {} # { 'BTCUSDT': {'connected': False} }
+        self.is_running = False
+        self.reconnect_delay = 5
+        self.max_reconnect_delay = 120
+        self.lock = threading.Lock()
+
+    def _get_formatted_coin(self, coin):
+        if coin.endswith("USDT") and "-" not in coin:
+            return coin.replace("USDT", "-USDT")
+        return coin
+
+    def _on_message(self, ws, message):
         try:
-            # Декомпрессия GZIP, если сообщение в байтах
             if isinstance(message, bytes):
                 try:
                     with gzip.GzipFile(fileobj=io.BytesIO(message)) as f:
                         message = f.read().decode('utf-8')
                 except OSError:
-                    # Если это не GZIP, пробуем декодировать как обычный текст
                     message = message.decode('utf-8')
 
-            # Игнорируем сообщения 'Ping' (сердцебиение от сервера)
             if message == 'Ping':
-                # Можно отправить Pong в ответ, если библиотека не делает это сама
-                # ws.send('Pong')
+                ws.send('Pong')
                 return
 
             data = json.loads(message)
             
-            # Проверяем на Ping в JSON формате (если есть)
             if isinstance(data, dict) and data.get('ping'):
                 ws.send(json.dumps({'pong': data['ping']}))
                 return
 
-            # Проверяем формат сообщения от BingX
-            # BingX может использовать разные форматы в зависимости от типа подписки
+            # Извлечение символа и цены
+            coin = None
             last_price = None
             
-            # Формат 1: {"stream":"symbol@ticker","data":{"e":"24hrTicker","s":"BTCUSDT","p":"-123.456","P":"-1.23","o":"10000.00","h":"10500.00","l":"9500.00","c":"9876.54","v":"1000.00","q":"1000000.00"}}
-            if isinstance(data, dict) and 'data' in data and data['data'] and 'c' in data['data']:  # 'c' - текущая цена
-                last_price = float(data['data']['c'])
-            # Альтернативный формат: {"symbol":"BTCUSDT","price":"9876.54"}
-            elif isinstance(data, dict) and 'price' in data:
-                last_price = float(data['price'])
-            # Формат с массивом данных
-            elif isinstance(data, dict) and 'data' in data and isinstance(data['data'], list):
-                for item in data['data']:
-                    if 'c' in item:
-                        last_price = float(item['c'])
-                        break
-                    elif 'price' in item:
-                        last_price = float(item['price'])
-                        break
-            
-            if last_price is not None:
-                # Рассылаем цену всем подписчикам
-                # Используем копию списка, чтобы избежать проблем при изменении списка во время итерации
-                for q in list(subscribers):
-                    q.put(last_price)
-                
-                # Успешное получение данных подтверждает, что соединение установлено.
-                if not connection_states.get(coin, {}).get('connected'):
-                    logger.info(f"Первое сообщение получено от BingX Futures Stream для {coin}. Соединение стабильно.")
-                    connection_states[coin]['connected'] = True
-                    send_tech_alert(f'Подключились к BingX Futures Stream для {coin} ✅')
+            # BingX ticker data format
+            if isinstance(data, dict) and 'data' in data and data['data']:
+                inner_data = data['data']
+                if isinstance(inner_data, dict):
+                    # Пытаемся найти символ
+                    s = inner_data.get('s')
+                    if s:
+                        coin = s.replace("-", "")
+                    
+                    # Пытаемся найти цену
+                    if 'c' in inner_data:
+                        last_price = float(inner_data['c'])
+                elif isinstance(inner_data, list):
+                    # Массив данных (может прийти при первой подписке или snapshot)
+                    for item in inner_data:
+                        s = item.get('s')
+                        if s:
+                            coin = s.replace("-", "")
+                            if 'c' in item:
+                                last_price = float(item['c'])
+                                break
+
+            if coin and last_price is not None:
+                with self.lock:
+                    if coin in self.subscribers:
+                        for q in list(self.subscribers[coin]):
+                            q.put(last_price)
+                        
+                        if not self.connection_states.get(coin, {}).get('connected'):
+                            logger.info(f"Первое сообщение получено от BingX для {coin}. Соединение стабильно.")
+                            self.connection_states[coin] = {'connected': True}
+                            send_tech_alert(f'Подключились к BingX Futures Stream для {coin} ✅')
             elif isinstance(data, dict) and data.get('code'):
                  logger.error(f"Ошибка от BingX: {data}")
-            else:
-                # Если не удалось извлечь цену, логируем сообщение для отладки
-                logger.debug(f"Получено сообщение от BingX без цены для {coin}: {message}")
-        except json.JSONDecodeError:
-            logger.error(f"Ошибка декодирования JSON от BingX для {coin}: {message}")
-        except ValueError as e:
-            logger.error(f"Ошибка преобразования цены от BingX для {coin}: {e}, сообщение: {message}")
+
         except Exception as e:
-            logger.error(f"Ошибка обработки сообщения от BingX для {coin}: {e}, сообщение: {message}")
+            logger.error(f"Ошибка обработки сообщения от BingX: {e}")
 
-    return on_message
+    def _on_error(self, ws, error):
+        logger.error(f"BingX WebSocket error: {error}")
 
+    def _on_close(self, ws, close_status_code, close_msg):
+        logger.info(f"BingX WebSocket closed. Code: {close_status_code}, Msg: {close_msg}")
+        with self.lock:
+            for coin in self.connection_states:
+                if self.connection_states[coin].get('connected'):
+                    send_tech_alert(f'Отключились от BingX Futures Stream для {coin} ❌')
+                self.connection_states[coin] = {'connected': False}
 
-def on_error(ws, error, coin):
-    """
-    Обработчик ошибок WebSocket.
-    """
-    logger.error(f"WebSocket error for {coin}: {error}")
-    if connection_states.get(coin, {}).get('connected', True): # Отправляем алерт, если были подключены
-        send_tech_alert(f'Отключились от BingX Futures Stream для {coin} ❌')
-    connection_states[coin] = {'connected': False}
+    def _on_open(self, ws):
+        logger.info('Соединение с BingX Futures Stream открыто.')
+        self.reconnect_delay = 5
+        with self.lock:
+            for coin in self.subscribers:
+                self._subscribe_coin(coin)
 
+    def _subscribe_coin(self, coin):
+        if self.ws and self.ws.sock and self.ws.sock.connected:
+            formatted_coin = self._get_formatted_coin(coin)
+            subscription_msg = {
+                "id": f"sub_{coin}",
+                "reqType": "sub",
+                "dataType": f"{formatted_coin}@ticker"
+            }
+            self.ws.send(json.dumps(subscription_msg))
+            logger.info(f"Отправлена подписка на {coin}")
 
-def on_close(ws, close_status_code, close_msg, coin):
-    """
-    Обработчик закрытия соединения WebSocket.
-    """
-    logger.info(f"WebSocket for {coin} connection closed. Code: {close_status_code}, Msg: {close_msg}")
-    if connection_states.get(coin, {}).get('connected', True): # Отправляем алерт, если были подключены
-        send_tech_alert(f'Отключились от BingX Futures Stream для {coin} ❌')
-    connection_states[coin] = {'connected': False}
+    def add_subscriber(self, coin, queue):
+        with self.lock:
+            if coin not in self.subscribers:
+                self.subscribers[coin] = []
+                self.connection_states[coin] = {'connected': False}
+                self._subscribe_coin(coin)
+            self.subscribers[coin].append(queue)
+            
+    def remove_subscriber(self, coin, queue):
+        with self.lock:
+            if coin in self.subscribers:
+                if queue in self.subscribers[coin]:
+                    self.subscribers[coin].remove(queue)
+                # Мы не отписываемся от монеты на уровне WS, чтобы не усложнять, 
+                # просто перестаем слать данные в эту очередь.
 
-
-def create_on_open(coin):
-    """
-    Фабричная функция для создания обработчика on_open.
-    Этот обработчик будет вызываться при открытии соединения WebSocket.
-
-    Args:
-        coin (str): Название монеты для подписки.
-
-    Returns:
-        function: Функция-обработчик on_open.
-    """
-    def on_open(ws):
-        """
-        Отправляет запрос на подписку тикеров для указанной монеты.
-        """
-        logger.info(f'Соединение с BingX Futures Stream для {coin} открыто. Отправка подписки.')
-        
-        # Формат подписки для BingX WebSocket API (endpoint /market)
-        # Пример: {"id":"id1", "reqType": "sub", "dataType": "BTC-USDT@ticker"}
-        
-        # Преобразуем формат пары, например BTCUSDT -> BTC-USDT
-        formatted_coin = coin
-        if coin.endswith("USDT") and "-" not in coin:
-             formatted_coin = coin.replace("USDT", "-USDT")
-        
-        subscription_msg = {
-            "id": "id1",
-            "reqType": "sub",
-            "dataType": f"{formatted_coin}@ticker"
+    def run(self):
+        self.is_running = True
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+            "Origin": "https://bingx.com",
         }
-        
-        ws.send(json.dumps(subscription_msg))
-        
-        # Не отправляем алерт здесь, ждем первого сообщения для подтверждения
-        connection_states[coin] = {'connected': False} # Считаем подключенным после первого сообщения
-    return on_open
+        while self.is_running:
+            try:
+                self.ws = websocket.WebSocketApp(
+                    self.url,
+                    on_message=self._on_message,
+                    on_error=self._on_error,
+                    on_close=self._on_close,
+                    on_open=self._on_open,
+                    header=headers
+                )
+                self.ws.run_forever(ping_interval=20, ping_timeout=10)
+            except Exception as e:
+                logger.exception(f"Критическая ошибка в BingXWSManager: {e}")
+            
+            if self.is_running:
+                logger.warning(f"Переподключение BingX через {self.reconnect_delay}с...")
+                time.sleep(self.reconnect_delay)
+                self.reconnect_delay = min(self.reconnect_delay * 2, self.max_reconnect_delay)
 
-
-def on_pong(ws, *data):
-    """
-    Обработчик pong-сообщений (для поддержания соединения).
-    """
-    logger.debug("Pong получен от BingX Futures Stream.")
-
-
-def on_ping(ws, *data):
-    """
-    Обработчик ping-сообщений.
-    """
-    logger.debug("Ping отправлен в BingX Futures Stream.")
-
+# Глобальный экземпляр менеджера
+bingx_manager = BingXWSManager()
+bingx_thread = None
 
 def websocket_bingx(coin, subscribers):
     """
-    Основная функция для установки и поддержания WebSocket соединения с BingX.
-    Использует экспоненциальную задержку для автоматического переподключения.
-
-    Args:
-        coin (str): Название монеты.
-        subscribers (list): Список очередей для передачи цен.
+    Совместимая обертка для старого кода.
     """
-    reconnect_delay = 5  # Начальная задержка
-    max_reconnect_delay = 120  # Максимальная задержка
-
-    # Заголовки для имитации браузера (обход Cloudflare)
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
-        "Origin": "https://bingx.com",
-        "Accept-Language": "en-US,en;q=0.9",
-    }
-
+    global bingx_thread
+    if bingx_thread is None or not bingx_thread.is_alive():
+        bingx_thread = threading.Thread(target=bingx_manager.run, daemon=True)
+        bingx_thread.start()
+    
+    # subscribers здесь - это список из одной очереди, переданный из track_positions
+    for q in subscribers:
+        bingx_manager.add_subscriber(coin, q)
+    
+    # Чтобы не завершать поток (старый код ожидал, что эта функция блокирующая)
     while True:
-        try:
-            # Лямбда-функции для передачи дополнительных аргументов (coin)
-            ws = websocket.WebSocketApp(
-                "wss://open-api-swap.bingx.com/swap-market",  # URL WebSocket API BingX для фьючерсного рынка (Swap)
-                on_message=create_on_message(subscribers, coin),
-                on_error=lambda ws, error: on_error(ws, error, coin),
-                on_close=lambda ws, code, msg: on_close(ws, code, msg, coin),
-                on_ping=on_ping,
-                on_pong=on_pong,
-                on_open=create_on_open(coin)
-            )
-            # Сбрасываем задержку после успешного запуска
-            reconnect_delay = 5
-            logger.info(f"Запуск WebSocket для {coin}. Задержка сброшена на {reconnect_delay}с.")
-            ws.run_forever(ping_interval=20, ping_timeout=10)
-
-        except Exception as e:
-            logger.exception(f'Критическая ошибка в websocket_bingx для {coin}: {e}')
-
-        logger.warning(
-            f"Соединение WebSocket для {coin} закрыто/не удалось. "
-            f"Повторная попытка через {reconnect_delay} секунд."
-        )
-        send_tech_alert(
-            f'Проблемы с подключением к BingX Futures Stream для {coin}. '
-            f'Повторная попытка через {reconnect_delay}с. ⏳'
-        )
-        time.sleep(reconnect_delay)
-        # Увеличиваем задержку для следующей попытки
-        reconnect_delay = min(reconnect_delay * 2, max_reconnect_delay)
+        time.sleep(10)

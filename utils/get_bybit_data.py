@@ -1,144 +1,127 @@
 import json
 import time
 import websocket
+import threading
 from utils.logger_setup import logger
 from utils.tg_signal import send_tech_alert
 
-# --- Управление состоянием ---
-# Используем словарь для отслеживания состояния каждого WebSocket-соединения по монете
-connection_states = {}
-
-
-def create_on_message(subscribers, coin):
+class BybitWSManager:
     """
-    Фабричная функция для создания обработчика on_message.
-    Этот обработчик будет вызываться при получении сообщения через WebSocket.
-
-    Args:
-        subscribers (list): Список очередей для добавления цен.
-        coin (str): Название монеты для отслеживания состояния.
-
-    Returns:
-        function: Функция-обработчик on_message.
+    Класс для управления единым WebSocket-соединением с Bybit для множества монет.
     """
-    def on_message(ws, message):
-        """
-        Обрабатывает входящие сообщения от WebSocket.
-        Извлекает цену и помещает ее в очереди подписчиков.
-        """
-        data = json.loads(message)
-        if 'data' in data and 'lastPrice' in data['data']:
-            last_price = data['data']['lastPrice']
-            # Рассылаем цену всем подписчикам
-            # Используем копию списка, чтобы избежать проблем при изменении списка во время итерации
-            for q in list(subscribers):
-                q.put(last_price)
+    def __init__(self):
+        self.ws = None
+        self.url = "wss://stream.bybit.com/v5/public/linear"
+        self.subscribers = {}  # { 'BTCUSDT': [queue1, queue2, ...] }
+        self.connection_states = {} # { 'BTCUSDT': {'connected': False} }
+        self.is_running = False
+        self.reconnect_delay = 5
+        self.max_reconnect_delay = 120
+        self.lock = threading.Lock()
+
+    def _on_message(self, ws, message):
+        try:
+            data = json.loads(message)
             
-            # Успешное получение данных подтверждает, что соединение установлено.
-            if not connection_states.get(coin, {}).get('connected'):
-                logger.info(f"Первое сообщение получено от Bybit Stream для {coin}. Соединение стабильно.")
-                connection_states[coin]['connected'] = True
-                send_tech_alert(f'Подключились к Bybit Stream для {coin} ✅')
+            # Обработка данных тикера
+            if 'data' in data and 'symbol' in data['data'] and 'lastPrice' in data['data']:
+                coin = data['data']['symbol']
+                last_price = float(data['data']['lastPrice'])
+                
+                with self.lock:
+                    if coin in self.subscribers:
+                        for q in list(self.subscribers[coin]):
+                            q.put(last_price)
+                        
+                        if not self.connection_states.get(coin, {}).get('connected'):
+                            logger.info(f"Первое сообщение получено от Bybit для {coin}. Соединение стабильно.")
+                            self.connection_states[coin] = {'connected': True}
+                            send_tech_alert(f'Подключились к Bybit Stream для {coin} ✅')
+            
+            # Bybit heartbeats (client-side ping is handled by run_forever, 
+            # server-side ping is usually WS-level but can be JSON in some cases)
+            if 'op' in data and data['op'] == 'ping':
+                ws.send(json.dumps({"op": "pong"}))
 
-    return on_message
+        except Exception as e:
+            logger.error(f"Ошибка обработки сообщения от Bybit: {e}")
 
+    def _on_error(self, ws, error):
+        logger.error(f"Bybit WebSocket error: {error}")
 
-def on_error(ws, error, coin):
-    """
-    Обработчик ошибок WebSocket.
-    """
-    logger.error(f"WebSocket error for {coin}: {error}")
-    if connection_states.get(coin, {}).get('connected', True): # Отправляем алерт, если были подключены
-        send_tech_alert(f'Отключились от Bybit Stream для {coin} ❌')
-    connection_states[coin] = {'connected': False}
+    def _on_close(self, ws, close_status_code, close_msg):
+        logger.info(f"Bybit WebSocket closed. Code: {close_status_code}, Msg: {close_msg}")
+        with self.lock:
+            for coin in self.connection_states:
+                if self.connection_states[coin].get('connected'):
+                    send_tech_alert(f'Отключились от Bybit Stream для {coin} ❌')
+                self.connection_states[coin] = {'connected': False}
 
+    def _on_open(self, ws):
+        logger.info('Соединение с Bybit Stream открыто.')
+        self.reconnect_delay = 5
+        with self.lock:
+            for coin in self.subscribers:
+                self._subscribe_coin(coin)
 
-def on_close(ws, close_status_code, close_msg, coin):
-    """
-    Обработчик закрытия соединения WebSocket.
-    """
-    logger.info(f"WebSocket for {coin} connection closed. Code: {close_status_code}, Msg: {close_msg}")
-    if connection_states.get(coin, {}).get('connected', True): # Отправляем алерт, если были подключены
-        send_tech_alert(f'Отключились от Bybit Stream для {coin} ❌')
-    connection_states[coin] = {'connected': False}
+    def _subscribe_coin(self, coin):
+        if self.ws and self.ws.sock and self.ws.sock.connected:
+            subscription_msg = {
+                "op": "subscribe",
+                "args": [f"tickers.{coin}"]
+            }
+            self.ws.send(json.dumps(subscription_msg))
+            logger.info(f"Отправлена подписка Bybit на {coin}")
 
+    def add_subscriber(self, coin, queue):
+        with self.lock:
+            if coin not in self.subscribers:
+                self.subscribers[coin] = []
+                self.connection_states[coin] = {'connected': False}
+                self._subscribe_coin(coin)
+            self.subscribers[coin].append(queue)
 
-def create_on_open(coin):
-    """
-    Фабричная функция для создания обработчика on_open.
-    Этот обработчик будет вызываться при открытии соединения WebSocket.
+    def remove_subscriber(self, coin, queue):
+        with self.lock:
+            if coin in self.subscribers:
+                if queue in self.subscribers[coin]:
+                    self.subscribers[coin].remove(queue)
 
-    Args:
-        coin (str): Название монеты для подписки.
+    def run(self):
+        self.is_running = True
+        while self.is_running:
+            try:
+                self.ws = websocket.WebSocketApp(
+                    self.url,
+                    on_message=self._on_message,
+                    on_error=self._on_error,
+                    on_close=self._on_close,
+                    on_open=self._on_open
+                )
+                self.ws.run_forever(ping_interval=20, ping_timeout=10)
+            except Exception as e:
+                logger.exception(f"Критическая ошибка в BybitWSManager: {e}")
+            
+            if self.is_running:
+                logger.warning(f"Переподключение Bybit через {self.reconnect_delay}с...")
+                time.sleep(self.reconnect_delay)
+                self.reconnect_delay = min(self.reconnect_delay * 2, self.max_reconnect_delay)
 
-    Returns:
-        function: Функция-обработчик on_open.
-    """
-    def on_open(ws):
-        """
-        Отправляет запрос на подписку тикеров для указанной монеты.
-        """
-        logger.info(f'Соединение с Bybit Stream для {coin} открыто. Отправка подписки.')
-        ws.send(json.dumps({"op": "subscribe", "args": [f"tickers.{coin}"]}))
-        # Не отправляем алерт здесь, ждем первого сообщения для подтверждения
-        connection_states[coin] = {'connected': False} # Считаем подключенным после первого сообщения
-    return on_open
-
-
-def on_pong(ws, *data):
-    """
-    Обработчик pong-сообщений (для поддержания соединения).
-    """
-    logger.debug("Pong получен от Bybit Stream.")
-
-
-def on_ping(ws, *data):
-    """
-    Обработчик ping-сообщений.
-    """
-    logger.debug("Ping отправлен в Bybit Stream.")
-
+# Глобальный экземпляр менеджера
+bybit_manager = BybitWSManager()
+bybit_thread = None
 
 def websocket_bybit(coin, subscribers):
     """
-    Основная функция для установки и поддержания WebSocket соединения с Bybit.
-    Использует экспоненциальную задержку для автоматического переподключения.
-
-    Args:
-        coin (str): Название монеты.
-        subscribers (list): Список очередей для передачи цен.
+    Совместимая обертка для старого кода.
     """
-    reconnect_delay = 5  # Начальная задержка
-    max_reconnect_delay = 120  # Максимальная задержка
-
+    global bybit_thread
+    if bybit_thread is None or not bybit_thread.is_alive():
+        bybit_thread = threading.Thread(target=bybit_manager.run, daemon=True)
+        bybit_thread.start()
+    
+    for q in subscribers:
+        bybit_manager.add_subscriber(coin, q)
+    
     while True:
-        try:
-            # Лямбда-функции для передачи дополнительных аргументов (coin)
-            ws = websocket.WebSocketApp(
-                "wss://stream.bybit.com/v5/public/linear",
-                on_message=create_on_message(subscribers, coin),
-                on_error=lambda ws, error: on_error(ws, error, coin),
-                on_close=lambda ws, code, msg: on_close(ws, code, msg, coin),
-                on_ping=on_ping,
-                on_pong=on_pong,
-                on_open=create_on_open(coin)
-            )
-            # Сбрасываем задержку после успешного запуска
-            reconnect_delay = 5
-            logger.info(f"Запуск WebSocket для {coin}. Задержка сброшена на {reconnect_delay}с.")
-            ws.run_forever(ping_interval=20, ping_timeout=10)
-
-        except Exception as e:
-            logger.exception(f'Критическая ошибка в websocket_bybit для {coin}: {e}')
-
-        logger.warning(
-            f"Соединение WebSocket для {coin} закрыто/не удалось. "
-            f"Повторная попытка через {reconnect_delay} секунд."
-        )
-        send_tech_alert(
-            f'Проблемы с подключением к Bybit Stream для {coin}. '
-            f'Повторная попытка через {reconnect_delay}с. ⏳'
-        )
-        time.sleep(reconnect_delay)
-        # Увеличиваем задержку для следующей попытки
-        reconnect_delay = min(reconnect_delay * 2, max_reconnect_delay)
+        time.sleep(10)
