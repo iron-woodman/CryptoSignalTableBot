@@ -1,1237 +1,225 @@
-26-02-04 23:27:58 | INFO | ====================
-26-02-04 23:27:58 | INFO | Попытка подключения к Google Sheets API...
-26-02-04 23:28:00 | INFO | Успешное подключение к Google Sheets API.
-26-02-04 23:28:00 | INFO | Подключились к Google API ✅
-26-02-04 23:28:06 | INFO | Bot started
-26-02-04 23:28:06 | INFO | Загрузка незавершенных ордеров из таблицы...
-26-02-04 23:28:07 | INFO | Найдено 11 незавершенных ордеров.
-26-02-04 23:28:08 | INFO | Загрузка ордера из таблицы: ['4', 'CAKEUSDT', 'LONG', '25.11, 13:44', '2,367', '2,372294', '2,40487', '2,449511', '2,556482', '2,687148', '3', '1,56638592', '➕', '', '0', '', '➕', 5]
-26-02-04 23:28:08 | INFO | Создание нового WebSocket-потока для CAKEUSDT на bingx.
-26-02-04 23:28:08 | INFO | Запуск WebSocket для CAKEUSDT. Задержка сброшена на 5с.
-26-02-04 23:28:08 | INFO | Загрузка ордера из таблицы: ['5', 'ZRXUSDT', 'LONG', '25.11, 13:47', '0,1591', '0,161441', '0,163721', '0,166914', '0,174321', '0,182856', '3', '0,10528602', '➕', '', '0', '', '➕', 6]
-26-02-04 23:28:08 | INFO | Создание нового WebSocket-потока для ZRXUSDT на bingx.
-26-02-04 23:28:08 | INFO | Запуск WebSocket для ZRXUSDT. Задержка сброшена на 5с.
-26-02-04 23:28:08 | INFO | Загрузка ордера из таблицы: ['6', 'ZRXUSDT', 'LONG', '25.11, 14:00', '0,1595', '0,161441', '0,163721', '0,166914', '0,174321', '0,182856', '3', '0,10555072', '➕', '', '0', '', '➕', 7]
-26-02-04 23:28:08 | INFO | Загрузка ордера из таблицы: ['8', 'ZRXUSDT', 'LONG', '25.11, 13:58', '0,1596', '0,161441', '0,163721', '0,166914', '0,174321', '0,182856', '3', '0,1056169', '➕', '', '0', '', '➕', 9]
-26-02-04 23:28:08 | INFO | Загрузка ордера из таблицы: ['10', 'ADAUSDT', 'LONG', '25.11, 13:54', '0,4162', '0,807819', '0,819471', '0,834497', '0,870116', '0,912663', '2', '0,3129824', '➕', '', '0', '', '➕', 11]
-26-02-04 23:28:08 | INFO | Создание нового WebSocket-потока для ADAUSDT на bingx.
-26-02-04 23:28:08 | INFO | Загрузка ордера из таблицы: ['11', 'SUIUSDT', 'LONG', '25.11, 14:13', '1,5413', '1,554892', '1,575457', '1,604706', '1,673548', '1,758934', '2', '1,1590576', '➕', '', '0', '', '➕', 12]
-26-02-04 23:28:08 | INFO | Загрузка ордера из таблицы: ['9', 'CAKEUSDT', 'LONG', '25.11, 13:53', '2,367', '2,372294', '2,40487', '2,449511', '2,556482', '2,687148', '3', '1,56638592', '➕', '', '0', '', '➕', 10]
-26-02-04 23:28:08 | INFO | Загрузка ордера из таблицы: ['17', 'HBARUSDT', 'SHORT', '31.01, 16:37', '0,09391', '0,094486', '0,092936', '0,091326', '0,086858', '0,081501', '0', '', '➕', '', '4', '', '➖', 18]
-26-02-04 23:28:08 | INFO | Создание нового WebSocket-потока для HBARUSDT на bingx.
-26-02-04 23:28:08 | INFO | Загрузка ордера из таблицы: ['23', 'SANDUSDT', 'SHORT', '01.02, 14:09', '0,1016', '0,107616', '0,106247', '0,103923', '0,099109', '0,09327', '0', '', '➕', '', '4', '', '➖', 24]
-26-02-04 23:28:08 | INFO | Создание нового WebSocket-потока для SANDUSDT на bingx.
-26-02-04 23:28:08 | INFO | Загрузка ордера из таблицы: ['19', 'HBARUSDT', 'SHORT', '01.02, 00:31', '0,0908', '0,094486', '0,092936', '0,091326', '0,086858', '0,081501', '0', '', '➕', '', '4', '', '➕', 20]
-26-02-04 23:28:08 | INFO | Запуск WebSocket для ADAUSDT. Задержка сброшена на 5с.
-26-02-04 23:28:08 | INFO | Запуск WebSocket для HBARUSDT. Задержка сброшена на 5с.
-26-02-04 23:28:08 | INFO | Создание нового WebSocket-потока для SUIUSDT на bingx.
-26-02-04 23:28:08 | INFO | Загрузка ордера из таблицы: ['18', 'HBARUSDT', 'SHORT', '01.02, 00:22', '0,09017', '0,094486', '0,092936', '0,091326', '0,086858', '0,081501', '0', '', '➕', '', '4', '', '➕', 19]
-26-02-04 23:28:08 | INFO | Запуск WebSocket для SANDUSDT. Задержка сброшена на 5с.
-26-02-04 23:28:08 | INFO | Запуск WebSocket для SUIUSDT. Задержка сброшена на 5с.
-26-02-04 23:28:08 | INFO | Подключились к Telegram API ✅
-26-02-04 23:28:09 | INFO | Соединение с BingX Futures Stream для SANDUSDT открыто. Отправка подписки.
-26-02-04 23:28:09 | INFO | Соединение с BingX Futures Stream для ZRXUSDT открыто. Отправка подписки.
-26-02-04 23:28:09 | INFO | Соединение с BingX Futures Stream для CAKEUSDT открыто. Отправка подписки.
-26-02-04 23:28:09 | INFO | Соединение с BingX Futures Stream для ADAUSDT открыто. Отправка подписки.
-26-02-04 23:28:09 | INFO | Соединение с BingX Futures Stream для SUIUSDT открыто. Отправка подписки.
-26-02-04 23:28:09 | INFO | Соединение с BingX Futures Stream для HBARUSDT открыто. Отправка подписки.
-26-02-04 23:28:09 | INFO | Первое сообщение получено от BingX Futures Stream для CAKEUSDT. Соединение стабильно.
-26-02-04 23:28:09 | INFO | Подключились к BingX Futures Stream для CAKEUSDT ✅
-26-02-04 23:28:09 | INFO | Первое сообщение получено от BingX Futures Stream для SUIUSDT. Соединение стабильно.
-26-02-04 23:28:09 | INFO | Подключились к BingX Futures Stream для SUIUSDT ✅
-26-02-04 23:28:09 | INFO | Первое сообщение получено от BingX Futures Stream для SANDUSDT. Соединение стабильно.
-26-02-04 23:28:09 | INFO | Подключились к BingX Futures Stream для SANDUSDT ✅
-26-02-04 23:28:10 | INFO | Первое сообщение получено от BingX Futures Stream для ADAUSDT. Соединение стабильно.
-26-02-04 23:28:10 | INFO | Подключились к BingX Futures Stream для ADAUSDT ✅
-26-02-04 23:28:10 | INFO | Первое сообщение получено от BingX Futures Stream для ZRXUSDT. Соединение стабильно.
-26-02-04 23:28:10 | INFO | Подключились к BingX Futures Stream для ZRXUSDT ✅
-26-02-04 23:28:10 | INFO | Первое сообщение получено от BingX Futures Stream для HBARUSDT. Соединение стабильно.
-26-02-04 23:28:10 | INFO | Подключились к BingX Futures Stream для HBARUSDT ✅
-26-02-04 23:28:39 | ERROR | WebSocket error for SANDUSDT: Connection to remote host was lost.
-26-02-04 23:28:39 | INFO | Отключились от BingX Futures Stream для SANDUSDT ❌
-26-02-04 23:28:39 | INFO | WebSocket for SANDUSDT connection closed. Code: None, Msg: None
-26-02-04 23:28:39 | WARNING | Соединение WebSocket для SANDUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:28:39 | INFO | Проблемы с подключением к BingX Futures Stream для SANDUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:28:39 | ERROR | WebSocket error for CAKEUSDT: Connection to remote host was lost.
-26-02-04 23:28:39 | INFO | Отключились от BingX Futures Stream для CAKEUSDT ❌
-26-02-04 23:28:39 | INFO | WebSocket for CAKEUSDT connection closed. Code: None, Msg: None
-26-02-04 23:28:39 | WARNING | Соединение WebSocket для CAKEUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:28:39 | INFO | Проблемы с подключением к BingX Futures Stream для CAKEUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:28:39 | ERROR | WebSocket error for ADAUSDT: Connection to remote host was lost.
-26-02-04 23:28:39 | INFO | Отключились от BingX Futures Stream для ADAUSDT ❌
-26-02-04 23:28:39 | INFO | WebSocket for ADAUSDT connection closed. Code: None, Msg: None
-26-02-04 23:28:39 | WARNING | Соединение WebSocket для ADAUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:28:39 | INFO | Проблемы с подключением к BingX Futures Stream для ADAUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:28:39 | ERROR | WebSocket error for SUIUSDT: Connection to remote host was lost.
-26-02-04 23:28:39 | INFO | Отключились от BingX Futures Stream для SUIUSDT ❌
-26-02-04 23:28:39 | INFO | WebSocket for SUIUSDT connection closed. Code: None, Msg: None
-26-02-04 23:28:39 | WARNING | Соединение WebSocket для SUIUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:28:39 | INFO | Проблемы с подключением к BingX Futures Stream для SUIUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:28:39 | ERROR | WebSocket error for HBARUSDT: Connection to remote host was lost.
-26-02-04 23:28:39 | INFO | Отключились от BingX Futures Stream для HBARUSDT ❌
-26-02-04 23:28:39 | INFO | WebSocket for HBARUSDT connection closed. Code: None, Msg: None
-26-02-04 23:28:39 | WARNING | Соединение WebSocket для HBARUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:28:39 | INFO | Проблемы с подключением к BingX Futures Stream для HBARUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:28:39 | ERROR | WebSocket error for ZRXUSDT: Connection to remote host was lost.
-26-02-04 23:28:39 | INFO | Отключились от BingX Futures Stream для ZRXUSDT ❌
-26-02-04 23:28:39 | INFO | WebSocket for ZRXUSDT connection closed. Code: None, Msg: None
-26-02-04 23:28:39 | WARNING | Соединение WebSocket для ZRXUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:28:39 | INFO | Проблемы с подключением к BingX Futures Stream для ZRXUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:28:44 | INFO | Запуск WebSocket для SANDUSDT. Задержка сброшена на 5с.
-26-02-04 23:28:44 | INFO | Запуск WebSocket для CAKEUSDT. Задержка сброшена на 5с.
-26-02-04 23:28:44 | INFO | Запуск WebSocket для ADAUSDT. Задержка сброшена на 5с.
-26-02-04 23:28:44 | INFO | Запуск WebSocket для SUIUSDT. Задержка сброшена на 5с.
-26-02-04 23:28:44 | INFO | Запуск WebSocket для HBARUSDT. Задержка сброшена на 5с.
-26-02-04 23:28:44 | INFO | Запуск WebSocket для ZRXUSDT. Задержка сброшена на 5с.
-26-02-04 23:28:44 | INFO | Соединение с BingX Futures Stream для ZRXUSDT открыто. Отправка подписки.
-26-02-04 23:28:44 | INFO | Соединение с BingX Futures Stream для SUIUSDT открыто. Отправка подписки.
-26-02-04 23:28:44 | INFO | Соединение с BingX Futures Stream для HBARUSDT открыто. Отправка подписки.
-26-02-04 23:28:44 | INFO | Соединение с BingX Futures Stream для SANDUSDT открыто. Отправка подписки.
-26-02-04 23:28:44 | INFO | Соединение с BingX Futures Stream для CAKEUSDT открыто. Отправка подписки.
-26-02-04 23:28:44 | INFO | Соединение с BingX Futures Stream для ADAUSDT открыто. Отправка подписки.
-26-02-04 23:28:45 | INFO | Первое сообщение получено от BingX Futures Stream для SANDUSDT. Соединение стабильно.
-26-02-04 23:28:45 | INFO | Подключились к BingX Futures Stream для SANDUSDT ✅
-26-02-04 23:28:45 | INFO | Первое сообщение получено от BingX Futures Stream для CAKEUSDT. Соединение стабильно.
-26-02-04 23:28:45 | INFO | Подключились к BingX Futures Stream для CAKEUSDT ✅
-26-02-04 23:28:45 | INFO | Первое сообщение получено от BingX Futures Stream для ZRXUSDT. Соединение стабильно.
-26-02-04 23:28:45 | INFO | Подключились к BingX Futures Stream для ZRXUSDT ✅
-26-02-04 23:28:45 | INFO | Первое сообщение получено от BingX Futures Stream для SUIUSDT. Соединение стабильно.
-26-02-04 23:28:45 | INFO | Подключились к BingX Futures Stream для SUIUSDT ✅
-26-02-04 23:28:46 | INFO | Первое сообщение получено от BingX Futures Stream для ADAUSDT. Соединение стабильно.
-26-02-04 23:28:46 | INFO | Подключились к BingX Futures Stream для ADAUSDT ✅
-26-02-04 23:28:46 | INFO | Первое сообщение получено от BingX Futures Stream для HBARUSDT. Соединение стабильно.
-26-02-04 23:28:46 | INFO | Подключились к BingX Futures Stream для HBARUSDT ✅
-26-02-04 23:29:14 | ERROR | WebSocket error for SUIUSDT: Connection to remote host was lost.
-26-02-04 23:29:14 | INFO | Отключились от BingX Futures Stream для SUIUSDT ❌
-26-02-04 23:29:14 | INFO | WebSocket for SUIUSDT connection closed. Code: None, Msg: None
-26-02-04 23:29:14 | WARNING | Соединение WebSocket для SUIUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:29:14 | INFO | Проблемы с подключением к BingX Futures Stream для SUIUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:29:14 | ERROR | WebSocket error for ZRXUSDT: Connection to remote host was lost.
-26-02-04 23:29:14 | INFO | Отключились от BingX Futures Stream для ZRXUSDT ❌
-26-02-04 23:29:14 | INFO | WebSocket for ZRXUSDT connection closed. Code: None, Msg: None
-26-02-04 23:29:14 | WARNING | Соединение WebSocket для ZRXUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:29:14 | INFO | Проблемы с подключением к BingX Futures Stream для ZRXUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:29:14 | ERROR | WebSocket error for SANDUSDT: Connection to remote host was lost.
-26-02-04 23:29:14 | INFO | Отключились от BingX Futures Stream для SANDUSDT ❌
-26-02-04 23:29:14 | INFO | WebSocket for SANDUSDT connection closed. Code: None, Msg: None
-26-02-04 23:29:14 | WARNING | Соединение WebSocket для SANDUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:29:14 | INFO | Проблемы с подключением к BingX Futures Stream для SANDUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:29:14 | ERROR | WebSocket error for HBARUSDT: Connection to remote host was lost.
-26-02-04 23:29:14 | INFO | Отключились от BingX Futures Stream для HBARUSDT ❌
-26-02-04 23:29:14 | INFO | WebSocket for HBARUSDT connection closed. Code: None, Msg: None
-26-02-04 23:29:14 | WARNING | Соединение WebSocket для HBARUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:29:14 | INFO | Проблемы с подключением к BingX Futures Stream для HBARUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:29:14 | ERROR | WebSocket error for CAKEUSDT: Connection to remote host was lost.
-26-02-04 23:29:14 | INFO | Отключились от BingX Futures Stream для CAKEUSDT ❌
-26-02-04 23:29:14 | INFO | WebSocket for CAKEUSDT connection closed. Code: None, Msg: None
-26-02-04 23:29:14 | WARNING | Соединение WebSocket для CAKEUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:29:14 | INFO | Проблемы с подключением к BingX Futures Stream для CAKEUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:29:14 | ERROR | WebSocket error for ADAUSDT: Connection to remote host was lost.
-26-02-04 23:29:14 | INFO | Отключились от BingX Futures Stream для ADAUSDT ❌
-26-02-04 23:29:14 | INFO | WebSocket for ADAUSDT connection closed. Code: None, Msg: None
-26-02-04 23:29:14 | WARNING | Соединение WebSocket для ADAUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:29:14 | INFO | Проблемы с подключением к BingX Futures Stream для ADAUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:29:19 | INFO | Запуск WebSocket для SUIUSDT. Задержка сброшена на 5с.
-26-02-04 23:29:19 | INFO | Запуск WebSocket для ZRXUSDT. Задержка сброшена на 5с.
-26-02-04 23:29:19 | INFO | Запуск WebSocket для SANDUSDT. Задержка сброшена на 5с.
-26-02-04 23:29:19 | INFO | Запуск WebSocket для HBARUSDT. Задержка сброшена на 5с.
-26-02-04 23:29:19 | INFO | Запуск WebSocket для CAKEUSDT. Задержка сброшена на 5с.
-26-02-04 23:29:19 | INFO | Запуск WebSocket для ADAUSDT. Задержка сброшена на 5с.
-26-02-04 23:29:20 | INFO | Соединение с BingX Futures Stream для SUIUSDT открыто. Отправка подписки.
-26-02-04 23:29:20 | INFO | Соединение с BingX Futures Stream для ZRXUSDT открыто. Отправка подписки.
-26-02-04 23:29:20 | INFO | Соединение с BingX Futures Stream для HBARUSDT открыто. Отправка подписки.
-26-02-04 23:29:20 | INFO | Соединение с BingX Futures Stream для CAKEUSDT открыто. Отправка подписки.
-26-02-04 23:29:20 | INFO | Соединение с BingX Futures Stream для SANDUSDT открыто. Отправка подписки.
-26-02-04 23:29:20 | INFO | Соединение с BingX Futures Stream для ADAUSDT открыто. Отправка подписки.
-26-02-04 23:29:20 | INFO | Первое сообщение получено от BingX Futures Stream для SANDUSDT. Соединение стабильно.
-26-02-04 23:29:20 | INFO | Подключились к BingX Futures Stream для SANDUSDT ✅
-26-02-04 23:29:21 | INFO | Первое сообщение получено от BingX Futures Stream для ADAUSDT. Соединение стабильно.
-26-02-04 23:29:21 | INFO | Подключились к BingX Futures Stream для ADAUSDT ✅
-26-02-04 23:29:21 | INFO | Первое сообщение получено от BingX Futures Stream для CAKEUSDT. Соединение стабильно.
-26-02-04 23:29:21 | INFO | Подключились к BingX Futures Stream для CAKEUSDT ✅
-26-02-04 23:29:21 | INFO | Первое сообщение получено от BingX Futures Stream для ZRXUSDT. Соединение стабильно.
-26-02-04 23:29:21 | INFO | Подключились к BingX Futures Stream для ZRXUSDT ✅
-26-02-04 23:29:21 | INFO | Первое сообщение получено от BingX Futures Stream для HBARUSDT. Соединение стабильно.
-26-02-04 23:29:21 | INFO | Подключились к BingX Futures Stream для HBARUSDT ✅
-26-02-04 23:29:21 | INFO | Первое сообщение получено от BingX Futures Stream для SUIUSDT. Соединение стабильно.
-26-02-04 23:29:21 | INFO | Подключились к BingX Futures Stream для SUIUSDT ✅
-26-02-04 23:29:50 | ERROR | WebSocket error for SUIUSDT: Connection to remote host was lost.
-26-02-04 23:29:50 | INFO | Отключились от BingX Futures Stream для SUIUSDT ❌
-26-02-04 23:29:50 | INFO | WebSocket for SUIUSDT connection closed. Code: None, Msg: None
-26-02-04 23:29:50 | WARNING | Соединение WebSocket для SUIUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:29:50 | INFO | Проблемы с подключением к BingX Futures Stream для SUIUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:29:50 | ERROR | WebSocket error for ZRXUSDT: Connection to remote host was lost.
-26-02-04 23:29:50 | INFO | Отключились от BingX Futures Stream для ZRXUSDT ❌
-26-02-04 23:29:50 | INFO | WebSocket for ZRXUSDT connection closed. Code: None, Msg: None
-26-02-04 23:29:50 | WARNING | Соединение WebSocket для ZRXUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:29:50 | INFO | Проблемы с подключением к BingX Futures Stream для ZRXUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:29:50 | ERROR | WebSocket error for HBARUSDT: Connection to remote host was lost.
-26-02-04 23:29:50 | INFO | Отключились от BingX Futures Stream для HBARUSDT ❌
-26-02-04 23:29:50 | INFO | WebSocket for HBARUSDT connection closed. Code: None, Msg: None
-26-02-04 23:29:50 | WARNING | Соединение WebSocket для HBARUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:29:50 | INFO | Проблемы с подключением к BingX Futures Stream для HBARUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:29:50 | ERROR | WebSocket error for SANDUSDT: Connection to remote host was lost.
-26-02-04 23:29:50 | INFO | Отключились от BingX Futures Stream для SANDUSDT ❌
-26-02-04 23:29:50 | INFO | WebSocket for SANDUSDT connection closed. Code: None, Msg: None
-26-02-04 23:29:50 | WARNING | Соединение WebSocket для SANDUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:29:50 | INFO | Проблемы с подключением к BingX Futures Stream для SANDUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:29:50 | ERROR | WebSocket error for CAKEUSDT: Connection to remote host was lost.
-26-02-04 23:29:50 | INFO | Отключились от BingX Futures Stream для CAKEUSDT ❌
-26-02-04 23:29:50 | INFO | WebSocket for CAKEUSDT connection closed. Code: None, Msg: None
-26-02-04 23:29:50 | WARNING | Соединение WebSocket для CAKEUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:29:50 | INFO | Проблемы с подключением к BingX Futures Stream для CAKEUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:29:50 | ERROR | WebSocket error for ADAUSDT: Connection to remote host was lost.
-26-02-04 23:29:50 | INFO | Отключились от BingX Futures Stream для ADAUSDT ❌
-26-02-04 23:29:50 | INFO | WebSocket for ADAUSDT connection closed. Code: None, Msg: None
-26-02-04 23:29:50 | WARNING | Соединение WebSocket для ADAUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:29:50 | INFO | Проблемы с подключением к BingX Futures Stream для ADAUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:29:55 | INFO | Запуск WebSocket для SUIUSDT. Задержка сброшена на 5с.
-26-02-04 23:29:55 | INFO | Запуск WebSocket для ZRXUSDT. Задержка сброшена на 5с.
-26-02-04 23:29:55 | INFO | Запуск WebSocket для HBARUSDT. Задержка сброшена на 5с.
-26-02-04 23:29:55 | INFO | Запуск WebSocket для SANDUSDT. Задержка сброшена на 5с.
-26-02-04 23:29:55 | INFO | Запуск WebSocket для CAKEUSDT. Задержка сброшена на 5с.
-26-02-04 23:29:55 | INFO | Запуск WebSocket для ADAUSDT. Задержка сброшена на 5с.
-26-02-04 23:29:56 | INFO | Соединение с BingX Futures Stream для ZRXUSDT открыто. Отправка подписки.
-26-02-04 23:29:56 | INFO | Соединение с BingX Futures Stream для SUIUSDT открыто. Отправка подписки.
-26-02-04 23:29:56 | INFO | Соединение с BingX Futures Stream для HBARUSDT открыто. Отправка подписки.
-26-02-04 23:29:56 | INFO | Соединение с BingX Futures Stream для SANDUSDT открыто. Отправка подписки.
-26-02-04 23:29:56 | INFO | Соединение с BingX Futures Stream для CAKEUSDT открыто. Отправка подписки.
-26-02-04 23:29:56 | INFO | Соединение с BingX Futures Stream для ADAUSDT открыто. Отправка подписки.
-26-02-04 23:29:56 | INFO | Первое сообщение получено от BingX Futures Stream для SUIUSDT. Соединение стабильно.
-26-02-04 23:29:56 | INFO | Подключились к BingX Futures Stream для SUIUSDT ✅
-26-02-04 23:29:56 | INFO | Первое сообщение получено от BingX Futures Stream для CAKEUSDT. Соединение стабильно.
-26-02-04 23:29:56 | INFO | Подключились к BingX Futures Stream для CAKEUSDT ✅
-26-02-04 23:29:57 | INFO | Первое сообщение получено от BingX Futures Stream для ZRXUSDT. Соединение стабильно.
-26-02-04 23:29:57 | INFO | Подключились к BingX Futures Stream для ZRXUSDT ✅
-26-02-04 23:29:57 | INFO | Первое сообщение получено от BingX Futures Stream для SANDUSDT. Соединение стабильно.
-26-02-04 23:29:57 | INFO | Подключились к BingX Futures Stream для SANDUSDT ✅
-26-02-04 23:29:57 | INFO | Первое сообщение получено от BingX Futures Stream для HBARUSDT. Соединение стабильно.
-26-02-04 23:29:57 | INFO | Подключились к BingX Futures Stream для HBARUSDT ✅
-26-02-04 23:29:57 | INFO | Первое сообщение получено от BingX Futures Stream для ADAUSDT. Соединение стабильно.
-26-02-04 23:29:57 | INFO | Подключились к BingX Futures Stream для ADAUSDT ✅
-26-02-04 23:30:26 | ERROR | WebSocket error for ZRXUSDT: Connection to remote host was lost.
-26-02-04 23:30:26 | INFO | Отключились от BingX Futures Stream для ZRXUSDT ❌
-26-02-04 23:30:26 | INFO | WebSocket for ZRXUSDT connection closed. Code: None, Msg: None
-26-02-04 23:30:26 | WARNING | Соединение WebSocket для ZRXUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:30:26 | INFO | Проблемы с подключением к BingX Futures Stream для ZRXUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:30:26 | ERROR | WebSocket error for HBARUSDT: Connection to remote host was lost.
-26-02-04 23:30:26 | INFO | Отключились от BingX Futures Stream для HBARUSDT ❌
-26-02-04 23:30:26 | INFO | WebSocket for HBARUSDT connection closed. Code: None, Msg: None
-26-02-04 23:30:26 | WARNING | Соединение WebSocket для HBARUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:30:26 | INFO | Проблемы с подключением к BingX Futures Stream для HBARUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:30:26 | ERROR | WebSocket error for SANDUSDT: Connection to remote host was lost.
-26-02-04 23:30:26 | INFO | Отключились от BingX Futures Stream для SANDUSDT ❌
-26-02-04 23:30:26 | INFO | WebSocket for SANDUSDT connection closed. Code: None, Msg: None
-26-02-04 23:30:26 | WARNING | Соединение WebSocket для SANDUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:30:26 | INFO | Проблемы с подключением к BingX Futures Stream для SANDUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:30:26 | ERROR | WebSocket error for SUIUSDT: Connection to remote host was lost.
-26-02-04 23:30:26 | INFO | Отключились от BingX Futures Stream для SUIUSDT ❌
-26-02-04 23:30:26 | INFO | WebSocket for SUIUSDT connection closed. Code: None, Msg: None
-26-02-04 23:30:26 | WARNING | Соединение WebSocket для SUIUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:30:26 | INFO | Проблемы с подключением к BingX Futures Stream для SUIUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:30:26 | ERROR | WebSocket error for CAKEUSDT: Connection to remote host was lost.
-26-02-04 23:30:26 | INFO | Отключились от BingX Futures Stream для CAKEUSDT ❌
-26-02-04 23:30:26 | INFO | WebSocket for CAKEUSDT connection closed. Code: None, Msg: None
-26-02-04 23:30:26 | WARNING | Соединение WebSocket для CAKEUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:30:26 | INFO | Проблемы с подключением к BingX Futures Stream для CAKEUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:30:26 | ERROR | WebSocket error for ADAUSDT: Connection to remote host was lost.
-26-02-04 23:30:26 | INFO | Отключились от BingX Futures Stream для ADAUSDT ❌
-26-02-04 23:30:26 | INFO | WebSocket for ADAUSDT connection closed. Code: None, Msg: None
-26-02-04 23:30:26 | WARNING | Соединение WebSocket для ADAUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:30:26 | INFO | Проблемы с подключением к BingX Futures Stream для ADAUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:30:31 | INFO | Запуск WebSocket для ZRXUSDT. Задержка сброшена на 5с.
-26-02-04 23:30:31 | INFO | Запуск WebSocket для HBARUSDT. Задержка сброшена на 5с.
-26-02-04 23:30:31 | INFO | Запуск WebSocket для SANDUSDT. Задержка сброшена на 5с.
-26-02-04 23:30:31 | INFO | Запуск WebSocket для ADAUSDT. Задержка сброшена на 5с.
-26-02-04 23:30:31 | INFO | Запуск WebSocket для CAKEUSDT. Задержка сброшена на 5с.
-26-02-04 23:30:31 | INFO | Запуск WebSocket для SUIUSDT. Задержка сброшена на 5с.
-26-02-04 23:30:31 | INFO | Соединение с BingX Futures Stream для ZRXUSDT открыто. Отправка подписки.
-26-02-04 23:30:31 | INFO | Соединение с BingX Futures Stream для HBARUSDT открыто. Отправка подписки.
-26-02-04 23:30:31 | INFO | Соединение с BingX Futures Stream для SANDUSDT открыто. Отправка подписки.
-26-02-04 23:30:32 | INFO | Соединение с BingX Futures Stream для ADAUSDT открыто. Отправка подписки.
-26-02-04 23:30:32 | INFO | Соединение с BingX Futures Stream для CAKEUSDT открыто. Отправка подписки.
-26-02-04 23:30:32 | INFO | Соединение с BingX Futures Stream для SUIUSDT открыто. Отправка подписки.
-26-02-04 23:30:32 | INFO | Первое сообщение получено от BingX Futures Stream для HBARUSDT. Соединение стабильно.
-26-02-04 23:30:32 | INFO | Подключились к BingX Futures Stream для HBARUSDT ✅
-26-02-04 23:30:32 | INFO | Первое сообщение получено от BingX Futures Stream для SUIUSDT. Соединение стабильно.
-26-02-04 23:30:32 | INFO | Подключились к BingX Futures Stream для SUIUSDT ✅
-26-02-04 23:30:32 | INFO | Первое сообщение получено от BingX Futures Stream для CAKEUSDT. Соединение стабильно.
-26-02-04 23:30:32 | INFO | Подключились к BingX Futures Stream для CAKEUSDT ✅
-26-02-04 23:30:33 | INFO | Первое сообщение получено от BingX Futures Stream для ADAUSDT. Соединение стабильно.
-26-02-04 23:30:33 | INFO | Подключились к BingX Futures Stream для ADAUSDT ✅
-26-02-04 23:30:33 | INFO | Первое сообщение получено от BingX Futures Stream для ZRXUSDT. Соединение стабильно.
-26-02-04 23:30:33 | INFO | Подключились к BingX Futures Stream для ZRXUSDT ✅
-26-02-04 23:30:33 | INFO | Первое сообщение получено от BingX Futures Stream для SANDUSDT. Соединение стабильно.
-26-02-04 23:30:33 | INFO | Подключились к BingX Futures Stream для SANDUSDT ✅
-26-02-04 23:31:01 | ERROR | WebSocket error for ZRXUSDT: Connection to remote host was lost.
-26-02-04 23:31:01 | INFO | Отключились от BingX Futures Stream для ZRXUSDT ❌
-26-02-04 23:31:01 | INFO | WebSocket for ZRXUSDT connection closed. Code: None, Msg: None
-26-02-04 23:31:01 | WARNING | Соединение WebSocket для ZRXUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:31:01 | INFO | Проблемы с подключением к BingX Futures Stream для ZRXUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:31:01 | ERROR | WebSocket error for HBARUSDT: Connection to remote host was lost.
-26-02-04 23:31:01 | INFO | Отключились от BingX Futures Stream для HBARUSDT ❌
-26-02-04 23:31:01 | INFO | WebSocket for HBARUSDT connection closed. Code: None, Msg: None
-26-02-04 23:31:01 | WARNING | Соединение WebSocket для HBARUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:31:01 | INFO | Проблемы с подключением к BingX Futures Stream для HBARUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:31:01 | ERROR | WebSocket error for SANDUSDT: Connection to remote host was lost.
-26-02-04 23:31:01 | INFO | Отключились от BingX Futures Stream для SANDUSDT ❌
-26-02-04 23:31:01 | INFO | WebSocket for SANDUSDT connection closed. Code: None, Msg: None
-26-02-04 23:31:01 | WARNING | Соединение WebSocket для SANDUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:31:01 | INFO | Проблемы с подключением к BingX Futures Stream для SANDUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:31:01 | ERROR | WebSocket error for ADAUSDT: Connection to remote host was lost.
-26-02-04 23:31:01 | INFO | Отключились от BingX Futures Stream для ADAUSDT ❌
-26-02-04 23:31:01 | INFO | WebSocket for ADAUSDT connection closed. Code: None, Msg: None
-26-02-04 23:31:01 | WARNING | Соединение WebSocket для ADAUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:31:01 | INFO | Проблемы с подключением к BingX Futures Stream для ADAUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:31:02 | ERROR | WebSocket error for CAKEUSDT: Connection to remote host was lost.
-26-02-04 23:31:02 | INFO | Отключились от BingX Futures Stream для CAKEUSDT ❌
-26-02-04 23:31:02 | INFO | WebSocket for CAKEUSDT connection closed. Code: None, Msg: None
-26-02-04 23:31:02 | WARNING | Соединение WebSocket для CAKEUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:31:02 | INFO | Проблемы с подключением к BingX Futures Stream для CAKEUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:31:02 | ERROR | WebSocket error for SUIUSDT: Connection to remote host was lost.
-26-02-04 23:31:02 | INFO | Отключились от BingX Futures Stream для SUIUSDT ❌
-26-02-04 23:31:02 | INFO | WebSocket for SUIUSDT connection closed. Code: None, Msg: None
-26-02-04 23:31:02 | WARNING | Соединение WebSocket для SUIUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:31:02 | INFO | Проблемы с подключением к BingX Futures Stream для SUIUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:31:06 | INFO | Запуск WebSocket для ZRXUSDT. Задержка сброшена на 5с.
-26-02-04 23:31:06 | INFO | Запуск WebSocket для HBARUSDT. Задержка сброшена на 5с.
-26-02-04 23:31:06 | INFO | Запуск WebSocket для SANDUSDT. Задержка сброшена на 5с.
-26-02-04 23:31:06 | INFO | Запуск WebSocket для ADAUSDT. Задержка сброшена на 5с.
-26-02-04 23:31:07 | INFO | Запуск WebSocket для CAKEUSDT. Задержка сброшена на 5с.
-26-02-04 23:31:07 | INFO | Запуск WebSocket для SUIUSDT. Задержка сброшена на 5с.
-26-02-04 23:31:07 | INFO | Соединение с BingX Futures Stream для ZRXUSDT открыто. Отправка подписки.
-26-02-04 23:31:07 | INFO | Соединение с BingX Futures Stream для HBARUSDT открыто. Отправка подписки.
-26-02-04 23:31:07 | INFO | Соединение с BingX Futures Stream для SANDUSDT открыто. Отправка подписки.
-26-02-04 23:31:07 | INFO | Соединение с BingX Futures Stream для ADAUSDT открыто. Отправка подписки.
-26-02-04 23:31:07 | INFO | Соединение с BingX Futures Stream для CAKEUSDT открыто. Отправка подписки.
-26-02-04 23:31:07 | INFO | Соединение с BingX Futures Stream для SUIUSDT открыто. Отправка подписки.
-26-02-04 23:31:08 | INFO | Первое сообщение получено от BingX Futures Stream для HBARUSDT. Соединение стабильно.
-26-02-04 23:31:08 | INFO | Подключились к BingX Futures Stream для HBARUSDT ✅
-26-02-04 23:31:08 | INFO | Первое сообщение получено от BingX Futures Stream для SANDUSDT. Соединение стабильно.
-26-02-04 23:31:08 | INFO | Подключились к BingX Futures Stream для SANDUSDT ✅
-26-02-04 23:31:08 | INFO | Первое сообщение получено от BingX Futures Stream для ADAUSDT. Соединение стабильно.
-26-02-04 23:31:08 | INFO | Подключились к BingX Futures Stream для ADAUSDT ✅
-26-02-04 23:31:08 | INFO | Первое сообщение получено от BingX Futures Stream для SUIUSDT. Соединение стабильно.
-26-02-04 23:31:08 | INFO | Подключились к BingX Futures Stream для SUIUSDT ✅
-26-02-04 23:31:08 | INFO | Первое сообщение получено от BingX Futures Stream для ZRXUSDT. Соединение стабильно.
-26-02-04 23:31:08 | INFO | Подключились к BingX Futures Stream для ZRXUSDT ✅
-26-02-04 23:31:08 | INFO | Первое сообщение получено от BingX Futures Stream для CAKEUSDT. Соединение стабильно.
-26-02-04 23:31:08 | INFO | Подключились к BingX Futures Stream для CAKEUSDT ✅
-26-02-04 23:31:37 | ERROR | WebSocket error for ZRXUSDT: Connection to remote host was lost.
-26-02-04 23:31:37 | INFO | Отключились от BingX Futures Stream для ZRXUSDT ❌
-26-02-04 23:31:37 | INFO | WebSocket for ZRXUSDT connection closed. Code: None, Msg: None
-26-02-04 23:31:37 | WARNING | Соединение WebSocket для ZRXUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:31:37 | INFO | Проблемы с подключением к BingX Futures Stream для ZRXUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:31:37 | ERROR | WebSocket error for HBARUSDT: Connection to remote host was lost.
-26-02-04 23:31:37 | INFO | Отключились от BingX Futures Stream для HBARUSDT ❌
-26-02-04 23:31:37 | INFO | WebSocket for HBARUSDT connection closed. Code: None, Msg: None
-26-02-04 23:31:37 | WARNING | Соединение WebSocket для HBARUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:31:37 | INFO | Проблемы с подключением к BingX Futures Stream для HBARUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:31:37 | ERROR | WebSocket error for SANDUSDT: Connection to remote host was lost.
-26-02-04 23:31:37 | INFO | Отключились от BingX Futures Stream для SANDUSDT ❌
-26-02-04 23:31:37 | INFO | WebSocket for SANDUSDT connection closed. Code: None, Msg: None
-26-02-04 23:31:37 | WARNING | Соединение WebSocket для SANDUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:31:37 | INFO | Проблемы с подключением к BingX Futures Stream для SANDUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:31:37 | ERROR | WebSocket error for ADAUSDT: Connection to remote host was lost.
-26-02-04 23:31:37 | INFO | Отключились от BingX Futures Stream для ADAUSDT ❌
-26-02-04 23:31:37 | INFO | WebSocket for ADAUSDT connection closed. Code: None, Msg: None
-26-02-04 23:31:37 | WARNING | Соединение WebSocket для ADAUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:31:37 | INFO | Проблемы с подключением к BingX Futures Stream для ADAUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:31:37 | ERROR | WebSocket error for SUIUSDT: Connection to remote host was lost.
-26-02-04 23:31:37 | INFO | Отключились от BingX Futures Stream для SUIUSDT ❌
-26-02-04 23:31:37 | INFO | WebSocket for SUIUSDT connection closed. Code: None, Msg: None
-26-02-04 23:31:37 | WARNING | Соединение WebSocket для SUIUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:31:37 | INFO | Проблемы с подключением к BingX Futures Stream для SUIUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:31:37 | ERROR | WebSocket error for CAKEUSDT: Connection to remote host was lost.
-26-02-04 23:31:37 | INFO | Отключились от BingX Futures Stream для CAKEUSDT ❌
-26-02-04 23:31:37 | INFO | WebSocket for CAKEUSDT connection closed. Code: None, Msg: None
-26-02-04 23:31:37 | WARNING | Соединение WebSocket для CAKEUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:31:37 | INFO | Проблемы с подключением к BingX Futures Stream для CAKEUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:31:42 | INFO | Запуск WebSocket для ZRXUSDT. Задержка сброшена на 5с.
-26-02-04 23:31:42 | INFO | Запуск WebSocket для HBARUSDT. Задержка сброшена на 5с.
-26-02-04 23:31:42 | INFO | Запуск WebSocket для SANDUSDT. Задержка сброшена на 5с.
-26-02-04 23:31:42 | INFO | Запуск WebSocket для ADAUSDT. Задержка сброшена на 5с.
-26-02-04 23:31:42 | INFO | Запуск WebSocket для SUIUSDT. Задержка сброшена на 5с.
-26-02-04 23:31:42 | INFO | Запуск WebSocket для CAKEUSDT. Задержка сброшена на 5с.
-26-02-04 23:31:43 | INFO | Соединение с BingX Futures Stream для ZRXUSDT открыто. Отправка подписки.
-26-02-04 23:31:43 | INFO | Соединение с BingX Futures Stream для HBARUSDT открыто. Отправка подписки.
-26-02-04 23:31:43 | INFO | Соединение с BingX Futures Stream для SANDUSDT открыто. Отправка подписки.
-26-02-04 23:31:43 | INFO | Соединение с BingX Futures Stream для SUIUSDT открыто. Отправка подписки.
-26-02-04 23:31:43 | INFO | Соединение с BingX Futures Stream для ADAUSDT открыто. Отправка подписки.
-26-02-04 23:31:43 | INFO | Соединение с BingX Futures Stream для CAKEUSDT открыто. Отправка подписки.
-26-02-04 23:31:43 | INFO | Первое сообщение получено от BingX Futures Stream для SANDUSDT. Соединение стабильно.
-26-02-04 23:31:43 | INFO | Подключились к BingX Futures Stream для SANDUSDT ✅
-26-02-04 23:31:43 | INFO | Первое сообщение получено от BingX Futures Stream для ADAUSDT. Соединение стабильно.
-26-02-04 23:31:43 | INFO | Подключились к BingX Futures Stream для ADAUSDT ✅
-26-02-04 23:31:43 | INFO | Первое сообщение получено от BingX Futures Stream для CAKEUSDT. Соединение стабильно.
-26-02-04 23:31:43 | INFO | Подключились к BingX Futures Stream для CAKEUSDT ✅
-26-02-04 23:31:43 | INFO | Первое сообщение получено от BingX Futures Stream для SUIUSDT. Соединение стабильно.
-26-02-04 23:31:43 | INFO | Подключились к BingX Futures Stream для SUIUSDT ✅
-26-02-04 23:31:43 | INFO | Первое сообщение получено от BingX Futures Stream для ZRXUSDT. Соединение стабильно.
-26-02-04 23:31:43 | INFO | Подключились к BingX Futures Stream для ZRXUSDT ✅
-26-02-04 23:31:44 | INFO | Первое сообщение получено от BingX Futures Stream для HBARUSDT. Соединение стабильно.
-26-02-04 23:31:44 | INFO | Подключились к BingX Futures Stream для HBARUSDT ✅
-26-02-04 23:32:13 | ERROR | WebSocket error for HBARUSDT: Connection to remote host was lost.
-26-02-04 23:32:13 | INFO | Отключились от BingX Futures Stream для HBARUSDT ❌
-26-02-04 23:32:13 | INFO | WebSocket for HBARUSDT connection closed. Code: None, Msg: None
-26-02-04 23:32:13 | WARNING | Соединение WebSocket для HBARUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:32:13 | INFO | Проблемы с подключением к BingX Futures Stream для HBARUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:32:13 | ERROR | WebSocket error for SANDUSDT: Connection to remote host was lost.
-26-02-04 23:32:13 | INFO | Отключились от BingX Futures Stream для SANDUSDT ❌
-26-02-04 23:32:13 | INFO | WebSocket for SANDUSDT connection closed. Code: None, Msg: None
-26-02-04 23:32:13 | WARNING | Соединение WebSocket для SANDUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:32:13 | INFO | Проблемы с подключением к BingX Futures Stream для SANDUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:32:13 | ERROR | WebSocket error for ADAUSDT: Connection to remote host was lost.
-26-02-04 23:32:13 | INFO | Отключились от BingX Futures Stream для ADAUSDT ❌
-26-02-04 23:32:13 | INFO | WebSocket for ADAUSDT connection closed. Code: None, Msg: None
-26-02-04 23:32:13 | WARNING | Соединение WebSocket для ADAUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:32:13 | INFO | Проблемы с подключением к BingX Futures Stream для ADAUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:32:13 | ERROR | WebSocket error for CAKEUSDT: Connection to remote host was lost.
-26-02-04 23:32:13 | INFO | Отключились от BingX Futures Stream для CAKEUSDT ❌
-26-02-04 23:32:13 | INFO | WebSocket for CAKEUSDT connection closed. Code: None, Msg: None
-26-02-04 23:32:13 | WARNING | Соединение WebSocket для CAKEUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:32:13 | INFO | Проблемы с подключением к BingX Futures Stream для CAKEUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:32:13 | ERROR | WebSocket error for ZRXUSDT: Connection to remote host was lost.
-26-02-04 23:32:13 | INFO | Отключились от BingX Futures Stream для ZRXUSDT ❌
-26-02-04 23:32:13 | INFO | WebSocket for ZRXUSDT connection closed. Code: None, Msg: None
-26-02-04 23:32:13 | WARNING | Соединение WebSocket для ZRXUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:32:13 | INFO | Проблемы с подключением к BingX Futures Stream для ZRXUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:32:13 | ERROR | WebSocket error for SUIUSDT: Connection to remote host was lost.
-26-02-04 23:32:13 | INFO | Отключились от BingX Futures Stream для SUIUSDT ❌
-26-02-04 23:32:13 | INFO | WebSocket for SUIUSDT connection closed. Code: None, Msg: None
-26-02-04 23:32:13 | WARNING | Соединение WebSocket для SUIUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:32:13 | INFO | Проблемы с подключением к BingX Futures Stream для SUIUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:32:18 | INFO | Запуск WebSocket для HBARUSDT. Задержка сброшена на 5с.
-26-02-04 23:32:18 | INFO | Запуск WebSocket для SANDUSDT. Задержка сброшена на 5с.
-26-02-04 23:32:18 | INFO | Запуск WebSocket для ADAUSDT. Задержка сброшена на 5с.
-26-02-04 23:32:18 | INFO | Запуск WebSocket для CAKEUSDT. Задержка сброшена на 5с.
-26-02-04 23:32:18 | INFO | Запуск WebSocket для ZRXUSDT. Задержка сброшена на 5с.
-26-02-04 23:32:18 | INFO | Запуск WebSocket для SUIUSDT. Задержка сброшена на 5с.
-26-02-04 23:32:18 | INFO | Соединение с BingX Futures Stream для HBARUSDT открыто. Отправка подписки.
-26-02-04 23:32:18 | INFO | Соединение с BingX Futures Stream для ADAUSDT открыто. Отправка подписки.
-26-02-04 23:32:18 | INFO | Соединение с BingX Futures Stream для SANDUSDT открыто. Отправка подписки.
-26-02-04 23:32:18 | INFO | Соединение с BingX Futures Stream для CAKEUSDT открыто. Отправка подписки.
-26-02-04 23:32:19 | INFO | Соединение с BingX Futures Stream для SUIUSDT открыто. Отправка подписки.
-26-02-04 23:32:19 | INFO | Соединение с BingX Futures Stream для ZRXUSDT открыто. Отправка подписки.
-26-02-04 23:32:19 | INFO | Первое сообщение получено от BingX Futures Stream для ADAUSDT. Соединение стабильно.
-26-02-04 23:32:19 | INFO | Подключились к BingX Futures Stream для ADAUSDT ✅
-26-02-04 23:32:19 | INFO | Первое сообщение получено от BingX Futures Stream для ZRXUSDT. Соединение стабильно.
-26-02-04 23:32:19 | INFO | Подключились к BingX Futures Stream для ZRXUSDT ✅
-26-02-04 23:32:19 | INFO | Первое сообщение получено от BingX Futures Stream для SUIUSDT. Соединение стабильно.
-26-02-04 23:32:19 | INFO | Подключились к BingX Futures Stream для SUIUSDT ✅
-26-02-04 23:32:19 | INFO | Первое сообщение получено от BingX Futures Stream для CAKEUSDT. Соединение стабильно.
-26-02-04 23:32:19 | INFO | Подключились к BingX Futures Stream для CAKEUSDT ✅
-26-02-04 23:32:19 | INFO | Первое сообщение получено от BingX Futures Stream для SANDUSDT. Соединение стабильно.
-26-02-04 23:32:19 | INFO | Подключились к BingX Futures Stream для SANDUSDT ✅
-26-02-04 23:32:20 | INFO | Первое сообщение получено от BingX Futures Stream для HBARUSDT. Соединение стабильно.
-26-02-04 23:32:20 | INFO | Подключились к BingX Futures Stream для HBARUSDT ✅
-26-02-04 23:32:48 | ERROR | WebSocket error for HBARUSDT: Connection to remote host was lost.
-26-02-04 23:32:48 | INFO | Отключились от BingX Futures Stream для HBARUSDT ❌
-26-02-04 23:32:48 | INFO | WebSocket for HBARUSDT connection closed. Code: None, Msg: None
-26-02-04 23:32:48 | WARNING | Соединение WebSocket для HBARUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:32:48 | INFO | Проблемы с подключением к BingX Futures Stream для HBARUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:32:48 | ERROR | WebSocket error for ADAUSDT: Connection to remote host was lost.
-26-02-04 23:32:48 | INFO | Отключились от BingX Futures Stream для ADAUSDT ❌
-26-02-04 23:32:48 | INFO | WebSocket for ADAUSDT connection closed. Code: None, Msg: None
-26-02-04 23:32:48 | WARNING | Соединение WebSocket для ADAUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:32:48 | INFO | Проблемы с подключением к BingX Futures Stream для ADAUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:32:48 | ERROR | WebSocket error for SANDUSDT: Connection to remote host was lost.
-26-02-04 23:32:48 | INFO | Отключились от BingX Futures Stream для SANDUSDT ❌
-26-02-04 23:32:48 | INFO | WebSocket for SANDUSDT connection closed. Code: None, Msg: None
-26-02-04 23:32:48 | WARNING | Соединение WebSocket для SANDUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:32:48 | INFO | Проблемы с подключением к BingX Futures Stream для SANDUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:32:48 | ERROR | WebSocket error for CAKEUSDT: Connection to remote host was lost.
-26-02-04 23:32:48 | INFO | Отключились от BingX Futures Stream для CAKEUSDT ❌
-26-02-04 23:32:48 | INFO | WebSocket for CAKEUSDT connection closed. Code: None, Msg: None
-26-02-04 23:32:48 | WARNING | Соединение WebSocket для CAKEUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:32:48 | INFO | Проблемы с подключением к BingX Futures Stream для CAKEUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:32:49 | ERROR | WebSocket error for SUIUSDT: Connection to remote host was lost.
-26-02-04 23:32:49 | INFO | Отключились от BingX Futures Stream для SUIUSDT ❌
-26-02-04 23:32:49 | INFO | WebSocket for SUIUSDT connection closed. Code: None, Msg: None
-26-02-04 23:32:49 | WARNING | Соединение WebSocket для SUIUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:32:49 | INFO | Проблемы с подключением к BingX Futures Stream для SUIUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:32:49 | ERROR | WebSocket error for ZRXUSDT: Connection to remote host was lost.
-26-02-04 23:32:49 | INFO | Отключились от BingX Futures Stream для ZRXUSDT ❌
-26-02-04 23:32:49 | INFO | WebSocket for ZRXUSDT connection closed. Code: None, Msg: None
-26-02-04 23:32:49 | WARNING | Соединение WebSocket для ZRXUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:32:49 | INFO | Проблемы с подключением к BingX Futures Stream для ZRXUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:32:53 | INFO | Запуск WebSocket для HBARUSDT. Задержка сброшена на 5с.
-26-02-04 23:32:53 | INFO | Запуск WebSocket для ADAUSDT. Задержка сброшена на 5с.
-26-02-04 23:32:53 | INFO | Запуск WebSocket для SANDUSDT. Задержка сброшена на 5с.
-26-02-04 23:32:53 | INFO | Запуск WebSocket для CAKEUSDT. Задержка сброшена на 5с.
-26-02-04 23:32:54 | INFO | Запуск WebSocket для SUIUSDT. Задержка сброшена на 5с.
-26-02-04 23:32:54 | INFO | Запуск WebSocket для ZRXUSDT. Задержка сброшена на 5с.
-26-02-04 23:32:54 | INFO | Соединение с BingX Futures Stream для HBARUSDT открыто. Отправка подписки.
-26-02-04 23:32:54 | INFO | Соединение с BingX Futures Stream для ADAUSDT открыто. Отправка подписки.
-26-02-04 23:32:54 | INFO | Соединение с BingX Futures Stream для SANDUSDT открыто. Отправка подписки.
-26-02-04 23:32:54 | INFO | Соединение с BingX Futures Stream для CAKEUSDT открыто. Отправка подписки.
-26-02-04 23:32:54 | INFO | Соединение с BingX Futures Stream для SUIUSDT открыто. Отправка подписки.
-26-02-04 23:32:54 | INFO | Соединение с BingX Futures Stream для ZRXUSDT открыто. Отправка подписки.
-26-02-04 23:32:54 | INFO | Первое сообщение получено от BingX Futures Stream для HBARUSDT. Соединение стабильно.
-26-02-04 23:32:54 | INFO | Подключились к BingX Futures Stream для HBARUSDT ✅
-26-02-04 23:32:54 | INFO | Первое сообщение получено от BingX Futures Stream для ADAUSDT. Соединение стабильно.
-26-02-04 23:32:54 | INFO | Подключились к BingX Futures Stream для ADAUSDT ✅
-26-02-04 23:32:55 | INFO | Первое сообщение получено от BingX Futures Stream для SANDUSDT. Соединение стабильно.
-26-02-04 23:32:55 | INFO | Подключились к BingX Futures Stream для SANDUSDT ✅
-26-02-04 23:32:55 | INFO | Первое сообщение получено от BingX Futures Stream для SUIUSDT. Соединение стабильно.
-26-02-04 23:32:55 | INFO | Подключились к BingX Futures Stream для SUIUSDT ✅
-26-02-04 23:32:55 | INFO | Первое сообщение получено от BingX Futures Stream для ZRXUSDT. Соединение стабильно.
-26-02-04 23:32:55 | INFO | Подключились к BingX Futures Stream для ZRXUSDT ✅
-26-02-04 23:32:55 | INFO | Первое сообщение получено от BingX Futures Stream для CAKEUSDT. Соединение стабильно.
-26-02-04 23:32:55 | INFO | Подключились к BingX Futures Stream для CAKEUSDT ✅
-26-02-04 23:33:24 | ERROR | WebSocket error for HBARUSDT: Connection to remote host was lost.
-26-02-04 23:33:24 | INFO | Отключились от BingX Futures Stream для HBARUSDT ❌
-26-02-04 23:33:24 | INFO | WebSocket for HBARUSDT connection closed. Code: None, Msg: None
-26-02-04 23:33:24 | WARNING | Соединение WebSocket для HBARUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:33:24 | INFO | Проблемы с подключением к BingX Futures Stream для HBARUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:33:24 | ERROR | WebSocket error for ADAUSDT: Connection to remote host was lost.
-26-02-04 23:33:24 | INFO | Отключились от BingX Futures Stream для ADAUSDT ❌
-26-02-04 23:33:24 | INFO | WebSocket for ADAUSDT connection closed. Code: None, Msg: None
-26-02-04 23:33:24 | WARNING | Соединение WebSocket для ADAUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:33:24 | INFO | Проблемы с подключением к BingX Futures Stream для ADAUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:33:24 | ERROR | WebSocket error for SANDUSDT: Connection to remote host was lost.
-26-02-04 23:33:24 | INFO | Отключились от BingX Futures Stream для SANDUSDT ❌
-26-02-04 23:33:24 | INFO | WebSocket for SANDUSDT connection closed. Code: None, Msg: None
-26-02-04 23:33:24 | WARNING | Соединение WebSocket для SANDUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:33:24 | INFO | Проблемы с подключением к BingX Futures Stream для SANDUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:33:24 | ERROR | WebSocket error for CAKEUSDT: Connection to remote host was lost.
-26-02-04 23:33:24 | INFO | Отключились от BingX Futures Stream для CAKEUSDT ❌
-26-02-04 23:33:24 | INFO | WebSocket for CAKEUSDT connection closed. Code: None, Msg: None
-26-02-04 23:33:24 | WARNING | Соединение WebSocket для CAKEUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:33:24 | INFO | Проблемы с подключением к BingX Futures Stream для CAKEUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:33:24 | ERROR | WebSocket error for SUIUSDT: Connection to remote host was lost.
-26-02-04 23:33:24 | INFO | Отключились от BingX Futures Stream для SUIUSDT ❌
-26-02-04 23:33:24 | INFO | WebSocket for SUIUSDT connection closed. Code: None, Msg: None
-26-02-04 23:33:24 | WARNING | Соединение WebSocket для SUIUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:33:24 | INFO | Проблемы с подключением к BingX Futures Stream для SUIUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:33:24 | ERROR | WebSocket error for ZRXUSDT: Connection to remote host was lost.
-26-02-04 23:33:24 | INFO | Отключились от BingX Futures Stream для ZRXUSDT ❌
-26-02-04 23:33:24 | INFO | WebSocket for ZRXUSDT connection closed. Code: None, Msg: None
-26-02-04 23:33:24 | WARNING | Соединение WebSocket для ZRXUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:33:24 | INFO | Проблемы с подключением к BingX Futures Stream для ZRXUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:33:29 | INFO | Запуск WebSocket для HBARUSDT. Задержка сброшена на 5с.
-26-02-04 23:33:29 | INFO | Запуск WebSocket для ADAUSDT. Задержка сброшена на 5с.
-26-02-04 23:33:29 | INFO | Запуск WebSocket для SANDUSDT. Задержка сброшена на 5с.
-26-02-04 23:33:29 | INFO | Запуск WebSocket для CAKEUSDT. Задержка сброшена на 5с.
-26-02-04 23:33:29 | INFO | Запуск WebSocket для SUIUSDT. Задержка сброшена на 5с.
-26-02-04 23:33:29 | INFO | Запуск WebSocket для ZRXUSDT. Задержка сброшена на 5с.
-26-02-04 23:33:30 | INFO | Соединение с BingX Futures Stream для ADAUSDT открыто. Отправка подписки.
-26-02-04 23:33:30 | INFO | Соединение с BingX Futures Stream для HBARUSDT открыто. Отправка подписки.
-26-02-04 23:33:30 | INFO | Соединение с BingX Futures Stream для SANDUSDT открыто. Отправка подписки.
-26-02-04 23:33:30 | INFO | Соединение с BingX Futures Stream для CAKEUSDT открыто. Отправка подписки.
-26-02-04 23:33:30 | INFO | Соединение с BingX Futures Stream для SUIUSDT открыто. Отправка подписки.
-26-02-04 23:33:30 | INFO | Соединение с BingX Futures Stream для ZRXUSDT открыто. Отправка подписки.
-26-02-04 23:33:30 | INFO | Первое сообщение получено от BingX Futures Stream для SANDUSDT. Соединение стабильно.
-26-02-04 23:33:30 | INFO | Подключились к BingX Futures Stream для SANDUSDT ✅
-26-02-04 23:33:30 | INFO | Первое сообщение получено от BingX Futures Stream для ADAUSDT. Соединение стабильно.
-26-02-04 23:33:30 | INFO | Подключились к BingX Futures Stream для ADAUSDT ✅
-26-02-04 23:33:31 | INFO | Первое сообщение получено от BingX Futures Stream для SUIUSDT. Соединение стабильно.
-26-02-04 23:33:31 | INFO | Подключились к BingX Futures Stream для SUIUSDT ✅
-26-02-04 23:33:31 | INFO | Первое сообщение получено от BingX Futures Stream для HBARUSDT. Соединение стабильно.
-26-02-04 23:33:31 | INFO | Подключились к BingX Futures Stream для HBARUSDT ✅
-26-02-04 23:33:31 | INFO | Первое сообщение получено от BingX Futures Stream для ZRXUSDT. Соединение стабильно.
-26-02-04 23:33:31 | INFO | Подключились к BingX Futures Stream для ZRXUSDT ✅
-26-02-04 23:33:31 | INFO | Первое сообщение получено от BingX Futures Stream для CAKEUSDT. Соединение стабильно.
-26-02-04 23:33:31 | INFO | Подключились к BingX Futures Stream для CAKEUSDT ✅
-26-02-04 23:34:00 | ERROR | WebSocket error for ADAUSDT: Connection to remote host was lost.
-26-02-04 23:34:00 | INFO | Отключились от BingX Futures Stream для ADAUSDT ❌
-26-02-04 23:34:00 | INFO | WebSocket for ADAUSDT connection closed. Code: None, Msg: None
-26-02-04 23:34:00 | WARNING | Соединение WebSocket для ADAUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:34:00 | INFO | Проблемы с подключением к BingX Futures Stream для ADAUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:34:00 | ERROR | WebSocket error for HBARUSDT: Connection to remote host was lost.
-26-02-04 23:34:00 | INFO | Отключились от BingX Futures Stream для HBARUSDT ❌
-26-02-04 23:34:00 | INFO | WebSocket for HBARUSDT connection closed. Code: None, Msg: None
-26-02-04 23:34:00 | WARNING | Соединение WebSocket для HBARUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:34:00 | INFO | Проблемы с подключением к BingX Futures Stream для HBARUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:34:00 | ERROR | WebSocket error for SANDUSDT: Connection to remote host was lost.
-26-02-04 23:34:00 | INFO | Отключились от BingX Futures Stream для SANDUSDT ❌
-26-02-04 23:34:00 | INFO | WebSocket for SANDUSDT connection closed. Code: None, Msg: None
-26-02-04 23:34:00 | WARNING | Соединение WebSocket для SANDUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:34:00 | INFO | Проблемы с подключением к BingX Futures Stream для SANDUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:34:00 | ERROR | WebSocket error for CAKEUSDT: Connection to remote host was lost.
-26-02-04 23:34:00 | INFO | Отключились от BingX Futures Stream для CAKEUSDT ❌
-26-02-04 23:34:00 | INFO | WebSocket for CAKEUSDT connection closed. Code: None, Msg: None
-26-02-04 23:34:00 | WARNING | Соединение WebSocket для CAKEUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:34:00 | INFO | Проблемы с подключением к BingX Futures Stream для CAKEUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:34:00 | ERROR | WebSocket error for SUIUSDT: Connection to remote host was lost.
-26-02-04 23:34:00 | INFO | Отключились от BingX Futures Stream для SUIUSDT ❌
-26-02-04 23:34:00 | INFO | WebSocket for SUIUSDT connection closed. Code: None, Msg: None
-26-02-04 23:34:00 | WARNING | Соединение WebSocket для SUIUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:34:00 | INFO | Проблемы с подключением к BingX Futures Stream для SUIUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:34:00 | ERROR | WebSocket error for ZRXUSDT: Connection to remote host was lost.
-26-02-04 23:34:00 | INFO | Отключились от BingX Futures Stream для ZRXUSDT ❌
-26-02-04 23:34:00 | INFO | WebSocket for ZRXUSDT connection closed. Code: None, Msg: None
-26-02-04 23:34:00 | WARNING | Соединение WebSocket для ZRXUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:34:00 | INFO | Проблемы с подключением к BingX Futures Stream для ZRXUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:34:05 | INFO | Запуск WebSocket для ADAUSDT. Задержка сброшена на 5с.
-26-02-04 23:34:05 | INFO | Запуск WebSocket для HBARUSDT. Задержка сброшена на 5с.
-26-02-04 23:34:05 | INFO | Запуск WebSocket для SANDUSDT. Задержка сброшена на 5с.
-26-02-04 23:34:05 | INFO | Запуск WebSocket для CAKEUSDT. Задержка сброшена на 5с.
-26-02-04 23:34:05 | INFO | Запуск WebSocket для SUIUSDT. Задержка сброшена на 5с.
-26-02-04 23:34:05 | INFO | Запуск WebSocket для ZRXUSDT. Задержка сброшена на 5с.
-26-02-04 23:34:05 | INFO | Соединение с BingX Futures Stream для HBARUSDT открыто. Отправка подписки.
-26-02-04 23:34:05 | INFO | Соединение с BingX Futures Stream для ADAUSDT открыто. Отправка подписки.
-26-02-04 23:34:05 | INFO | Соединение с BingX Futures Stream для SANDUSDT открыто. Отправка подписки.
-26-02-04 23:34:05 | INFO | Соединение с BingX Futures Stream для SUIUSDT открыто. Отправка подписки.
-26-02-04 23:34:05 | INFO | Соединение с BingX Futures Stream для ZRXUSDT открыто. Отправка подписки.
-26-02-04 23:34:06 | INFO | Соединение с BingX Futures Stream для CAKEUSDT открыто. Отправка подписки.
-26-02-04 23:34:06 | INFO | Первое сообщение получено от BingX Futures Stream для SANDUSDT. Соединение стабильно.
-26-02-04 23:34:06 | INFO | Подключились к BingX Futures Stream для SANDUSDT ✅
-26-02-04 23:34:06 | INFO | Первое сообщение получено от BingX Futures Stream для ADAUSDT. Соединение стабильно.
-26-02-04 23:34:06 | INFO | Подключились к BingX Futures Stream для ADAUSDT ✅
-26-02-04 23:34:06 | INFO | Первое сообщение получено от BingX Futures Stream для ZRXUSDT. Соединение стабильно.
-26-02-04 23:34:06 | INFO | Подключились к BingX Futures Stream для ZRXUSDT ✅
-26-02-04 23:34:06 | INFO | Первое сообщение получено от BingX Futures Stream для SUIUSDT. Соединение стабильно.
-26-02-04 23:34:06 | INFO | Подключились к BingX Futures Stream для SUIUSDT ✅
-26-02-04 23:34:06 | INFO | Первое сообщение получено от BingX Futures Stream для CAKEUSDT. Соединение стабильно.
-26-02-04 23:34:06 | INFO | Подключились к BingX Futures Stream для CAKEUSDT ✅
-26-02-04 23:34:07 | INFO | Первое сообщение получено от BingX Futures Stream для HBARUSDT. Соединение стабильно.
-26-02-04 23:34:07 | INFO | Подключились к BingX Futures Stream для HBARUSDT ✅
-26-02-04 23:34:35 | ERROR | WebSocket error for HBARUSDT: Connection to remote host was lost.
-26-02-04 23:34:35 | INFO | Отключились от BingX Futures Stream для HBARUSDT ❌
-26-02-04 23:34:35 | INFO | WebSocket for HBARUSDT connection closed. Code: None, Msg: None
-26-02-04 23:34:35 | WARNING | Соединение WebSocket для HBARUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:34:35 | INFO | Проблемы с подключением к BingX Futures Stream для HBARUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:34:35 | ERROR | WebSocket error for ADAUSDT: Connection to remote host was lost.
-26-02-04 23:34:35 | INFO | Отключились от BingX Futures Stream для ADAUSDT ❌
-26-02-04 23:34:35 | INFO | WebSocket for ADAUSDT connection closed. Code: None, Msg: None
-26-02-04 23:34:35 | WARNING | Соединение WebSocket для ADAUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:34:35 | INFO | Проблемы с подключением к BingX Futures Stream для ADAUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:34:35 | ERROR | WebSocket error for SANDUSDT: Connection to remote host was lost.
-26-02-04 23:34:35 | INFO | Отключились от BingX Futures Stream для SANDUSDT ❌
-26-02-04 23:34:35 | INFO | WebSocket for SANDUSDT connection closed. Code: None, Msg: None
-26-02-04 23:34:35 | WARNING | Соединение WebSocket для SANDUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:34:35 | INFO | Проблемы с подключением к BingX Futures Stream для SANDUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:34:35 | ERROR | WebSocket error for SUIUSDT: Connection to remote host was lost.
-26-02-04 23:34:35 | INFO | Отключились от BingX Futures Stream для SUIUSDT ❌
-26-02-04 23:34:35 | INFO | WebSocket for SUIUSDT connection closed. Code: None, Msg: None
-26-02-04 23:34:35 | WARNING | Соединение WebSocket для SUIUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:34:35 | INFO | Проблемы с подключением к BingX Futures Stream для SUIUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:34:35 | ERROR | WebSocket error for ZRXUSDT: Connection to remote host was lost.
-26-02-04 23:34:35 | INFO | Отключились от BingX Futures Stream для ZRXUSDT ❌
-26-02-04 23:34:35 | INFO | WebSocket for ZRXUSDT connection closed. Code: None, Msg: None
-26-02-04 23:34:35 | WARNING | Соединение WebSocket для ZRXUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:34:35 | INFO | Проблемы с подключением к BingX Futures Stream для ZRXUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:34:36 | ERROR | WebSocket error for CAKEUSDT: Connection to remote host was lost.
-26-02-04 23:34:36 | INFO | Отключились от BingX Futures Stream для CAKEUSDT ❌
-26-02-04 23:34:36 | INFO | WebSocket for CAKEUSDT connection closed. Code: None, Msg: None
-26-02-04 23:34:36 | WARNING | Соединение WebSocket для CAKEUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:34:36 | INFO | Проблемы с подключением к BingX Futures Stream для CAKEUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:34:40 | INFO | Запуск WebSocket для HBARUSDT. Задержка сброшена на 5с.
-26-02-04 23:34:40 | INFO | Запуск WebSocket для ADAUSDT. Задержка сброшена на 5с.
-26-02-04 23:34:40 | INFO | Запуск WebSocket для SANDUSDT. Задержка сброшена на 5с.
-26-02-04 23:34:40 | INFO | Запуск WebSocket для SUIUSDT. Задержка сброшена на 5с.
-26-02-04 23:34:40 | INFO | Запуск WebSocket для ZRXUSDT. Задержка сброшена на 5с.
-26-02-04 23:34:41 | INFO | Запуск WebSocket для CAKEUSDT. Задержка сброшена на 5с.
-26-02-04 23:34:41 | INFO | Соединение с BingX Futures Stream для HBARUSDT открыто. Отправка подписки.
-26-02-04 23:34:41 | INFO | Соединение с BingX Futures Stream для SANDUSDT открыто. Отправка подписки.
-26-02-04 23:34:41 | INFO | Соединение с BingX Futures Stream для ADAUSDT открыто. Отправка подписки.
-26-02-04 23:34:41 | INFO | Соединение с BingX Futures Stream для ZRXUSDT открыто. Отправка подписки.
-26-02-04 23:34:41 | INFO | Соединение с BingX Futures Stream для SUIUSDT открыто. Отправка подписки.
-26-02-04 23:34:41 | INFO | Соединение с BingX Futures Stream для CAKEUSDT открыто. Отправка подписки.
-26-02-04 23:34:41 | INFO | Первое сообщение получено от BingX Futures Stream для SUIUSDT. Соединение стабильно.
-26-02-04 23:34:41 | INFO | Подключились к BingX Futures Stream для SUIUSDT ✅
-26-02-04 23:34:41 | INFO | Первое сообщение получено от BingX Futures Stream для ADAUSDT. Соединение стабильно.
-26-02-04 23:34:41 | INFO | Подключились к BingX Futures Stream для ADAUSDT ✅
-26-02-04 23:34:42 | INFO | Первое сообщение получено от BingX Futures Stream для HBARUSDT. Соединение стабильно.
-26-02-04 23:34:42 | INFO | Подключились к BingX Futures Stream для HBARUSDT ✅
-26-02-04 23:34:42 | INFO | Первое сообщение получено от BingX Futures Stream для SANDUSDT. Соединение стабильно.
-26-02-04 23:34:42 | INFO | Подключились к BingX Futures Stream для SANDUSDT ✅
-26-02-04 23:34:42 | INFO | Первое сообщение получено от BingX Futures Stream для CAKEUSDT. Соединение стабильно.
-26-02-04 23:34:42 | INFO | Подключились к BingX Futures Stream для CAKEUSDT ✅
-26-02-04 23:34:42 | INFO | Первое сообщение получено от BingX Futures Stream для ZRXUSDT. Соединение стабильно.
-26-02-04 23:34:42 | INFO | Подключились к BingX Futures Stream для ZRXUSDT ✅
-26-02-04 23:35:11 | ERROR | WebSocket error for HBARUSDT: Connection to remote host was lost.
-26-02-04 23:35:11 | INFO | Отключились от BingX Futures Stream для HBARUSDT ❌
-26-02-04 23:35:11 | INFO | WebSocket for HBARUSDT connection closed. Code: None, Msg: None
-26-02-04 23:35:11 | WARNING | Соединение WebSocket для HBARUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:35:11 | INFO | Проблемы с подключением к BingX Futures Stream для HBARUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:35:11 | ERROR | WebSocket error for SANDUSDT: Connection to remote host was lost.
-26-02-04 23:35:11 | INFO | Отключились от BingX Futures Stream для SANDUSDT ❌
-26-02-04 23:35:11 | INFO | WebSocket for SANDUSDT connection closed. Code: None, Msg: None
-26-02-04 23:35:11 | WARNING | Соединение WebSocket для SANDUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:35:11 | INFO | Проблемы с подключением к BingX Futures Stream для SANDUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:35:11 | ERROR | WebSocket error for ADAUSDT: Connection to remote host was lost.
-26-02-04 23:35:11 | INFO | Отключились от BingX Futures Stream для ADAUSDT ❌
-26-02-04 23:35:11 | INFO | WebSocket for ADAUSDT connection closed. Code: None, Msg: None
-26-02-04 23:35:11 | WARNING | Соединение WebSocket для ADAUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:35:11 | INFO | Проблемы с подключением к BingX Futures Stream для ADAUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:35:11 | ERROR | WebSocket error for SUIUSDT: Connection to remote host was lost.
-26-02-04 23:35:11 | INFO | Отключились от BingX Futures Stream для SUIUSDT ❌
-26-02-04 23:35:11 | INFO | WebSocket for SUIUSDT connection closed. Code: None, Msg: None
-26-02-04 23:35:11 | WARNING | Соединение WebSocket для SUIUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:35:11 | INFO | Проблемы с подключением к BingX Futures Stream для SUIUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:35:11 | ERROR | WebSocket error for ZRXUSDT: Connection to remote host was lost.
-26-02-04 23:35:11 | INFO | Отключились от BingX Futures Stream для ZRXUSDT ❌
-26-02-04 23:35:11 | INFO | WebSocket for ZRXUSDT connection closed. Code: None, Msg: None
-26-02-04 23:35:11 | WARNING | Соединение WebSocket для ZRXUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:35:11 | INFO | Проблемы с подключением к BingX Futures Stream для ZRXUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:35:11 | ERROR | WebSocket error for CAKEUSDT: Connection to remote host was lost.
-26-02-04 23:35:11 | INFO | Отключились от BingX Futures Stream для CAKEUSDT ❌
-26-02-04 23:35:11 | INFO | WebSocket for CAKEUSDT connection closed. Code: None, Msg: None
-26-02-04 23:35:11 | WARNING | Соединение WebSocket для CAKEUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:35:11 | INFO | Проблемы с подключением к BingX Futures Stream для CAKEUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:35:16 | INFO | Запуск WebSocket для HBARUSDT. Задержка сброшена на 5с.
-26-02-04 23:35:16 | INFO | Запуск WebSocket для SANDUSDT. Задержка сброшена на 5с.
-26-02-04 23:35:16 | INFO | Запуск WebSocket для ADAUSDT. Задержка сброшена на 5с.
-26-02-04 23:35:16 | INFO | Запуск WebSocket для SUIUSDT. Задержка сброшена на 5с.
-26-02-04 23:35:16 | INFO | Запуск WebSocket для ZRXUSDT. Задержка сброшена на 5с.
-26-02-04 23:35:16 | INFO | Запуск WebSocket для CAKEUSDT. Задержка сброшена на 5с.
-26-02-04 23:35:17 | INFO | Соединение с BingX Futures Stream для HBARUSDT открыто. Отправка подписки.
-26-02-04 23:35:17 | INFO | Соединение с BingX Futures Stream для ADAUSDT открыто. Отправка подписки.
-26-02-04 23:35:17 | INFO | Соединение с BingX Futures Stream для SUIUSDT открыто. Отправка подписки.
-26-02-04 23:35:17 | INFO | Соединение с BingX Futures Stream для SANDUSDT открыто. Отправка подписки.
-26-02-04 23:35:17 | INFO | Соединение с BingX Futures Stream для ZRXUSDT открыто. Отправка подписки.
-26-02-04 23:35:17 | INFO | Соединение с BingX Futures Stream для CAKEUSDT открыто. Отправка подписки.
-26-02-04 23:35:17 | INFO | Первое сообщение получено от BingX Futures Stream для ADAUSDT. Соединение стабильно.
-26-02-04 23:35:17 | INFO | Подключились к BingX Futures Stream для ADAUSDT ✅
-26-02-04 23:35:18 | INFO | Первое сообщение получено от BingX Futures Stream для ZRXUSDT. Соединение стабильно.
-26-02-04 23:35:18 | INFO | Подключились к BingX Futures Stream для ZRXUSDT ✅
-26-02-04 23:35:18 | INFO | Первое сообщение получено от BingX Futures Stream для SUIUSDT. Соединение стабильно.
-26-02-04 23:35:18 | INFO | Подключились к BingX Futures Stream для SUIUSDT ✅
-26-02-04 23:35:18 | INFO | Первое сообщение получено от BingX Futures Stream для CAKEUSDT. Соединение стабильно.
-26-02-04 23:35:18 | INFO | Подключились к BingX Futures Stream для CAKEUSDT ✅
-26-02-04 23:35:18 | INFO | Первое сообщение получено от BingX Futures Stream для HBARUSDT. Соединение стабильно.
-26-02-04 23:35:18 | INFO | Подключились к BingX Futures Stream для HBARUSDT ✅
-26-02-04 23:35:18 | INFO | Первое сообщение получено от BingX Futures Stream для SANDUSDT. Соединение стабильно.
-26-02-04 23:35:18 | INFO | Подключились к BingX Futures Stream для SANDUSDT ✅
-26-02-04 23:35:47 | ERROR | WebSocket error for HBARUSDT: Connection to remote host was lost.
-26-02-04 23:35:47 | INFO | Отключились от BingX Futures Stream для HBARUSDT ❌
-26-02-04 23:35:47 | INFO | WebSocket for HBARUSDT connection closed. Code: None, Msg: None
-26-02-04 23:35:47 | WARNING | Соединение WebSocket для HBARUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:35:47 | INFO | Проблемы с подключением к BingX Futures Stream для HBARUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:35:47 | ERROR | WebSocket error for ADAUSDT: Connection to remote host was lost.
-26-02-04 23:35:47 | INFO | Отключились от BingX Futures Stream для ADAUSDT ❌
-26-02-04 23:35:47 | INFO | WebSocket for ADAUSDT connection closed. Code: None, Msg: None
-26-02-04 23:35:47 | WARNING | Соединение WebSocket для ADAUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:35:47 | INFO | Проблемы с подключением к BingX Futures Stream для ADAUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:35:47 | ERROR | WebSocket error for SANDUSDT: Connection to remote host was lost.
-26-02-04 23:35:47 | INFO | Отключились от BingX Futures Stream для SANDUSDT ❌
-26-02-04 23:35:47 | INFO | WebSocket for SANDUSDT connection closed. Code: None, Msg: None
-26-02-04 23:35:47 | WARNING | Соединение WebSocket для SANDUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:35:47 | INFO | Проблемы с подключением к BingX Futures Stream для SANDUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:35:47 | ERROR | WebSocket error for SUIUSDT: Connection to remote host was lost.
-26-02-04 23:35:47 | INFO | Отключились от BingX Futures Stream для SUIUSDT ❌
-26-02-04 23:35:47 | INFO | WebSocket for SUIUSDT connection closed. Code: None, Msg: None
-26-02-04 23:35:47 | WARNING | Соединение WebSocket для SUIUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:35:47 | INFO | Проблемы с подключением к BingX Futures Stream для SUIUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:35:47 | ERROR | WebSocket error for ZRXUSDT: Connection to remote host was lost.
-26-02-04 23:35:47 | INFO | Отключились от BingX Futures Stream для ZRXUSDT ❌
-26-02-04 23:35:47 | INFO | WebSocket for ZRXUSDT connection closed. Code: None, Msg: None
-26-02-04 23:35:47 | WARNING | Соединение WebSocket для ZRXUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:35:47 | INFO | Проблемы с подключением к BingX Futures Stream для ZRXUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:35:47 | ERROR | WebSocket error for CAKEUSDT: Connection to remote host was lost.
-26-02-04 23:35:47 | INFO | Отключились от BingX Futures Stream для CAKEUSDT ❌
-26-02-04 23:35:47 | INFO | WebSocket for CAKEUSDT connection closed. Code: None, Msg: None
-26-02-04 23:35:47 | WARNING | Соединение WebSocket для CAKEUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:35:47 | INFO | Проблемы с подключением к BingX Futures Stream для CAKEUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:35:52 | INFO | Запуск WebSocket для HBARUSDT. Задержка сброшена на 5с.
-26-02-04 23:35:52 | INFO | Запуск WebSocket для ADAUSDT. Задержка сброшена на 5с.
-26-02-04 23:35:52 | INFO | Запуск WebSocket для SANDUSDT. Задержка сброшена на 5с.
-26-02-04 23:35:52 | INFO | Запуск WebSocket для SUIUSDT. Задержка сброшена на 5с.
-26-02-04 23:35:52 | INFO | Запуск WebSocket для ZRXUSDT. Задержка сброшена на 5с.
-26-02-04 23:35:52 | INFO | Запуск WebSocket для CAKEUSDT. Задержка сброшена на 5с.
-26-02-04 23:35:52 | INFO | Соединение с BingX Futures Stream для HBARUSDT открыто. Отправка подписки.
-26-02-04 23:35:52 | INFO | Соединение с BingX Futures Stream для ADAUSDT открыто. Отправка подписки.
-26-02-04 23:35:52 | INFO | Соединение с BingX Futures Stream для SANDUSDT открыто. Отправка подписки.
-26-02-04 23:35:52 | INFO | Соединение с BingX Futures Stream для SUIUSDT открыто. Отправка подписки.
-26-02-04 23:35:52 | INFO | Соединение с BingX Futures Stream для ZRXUSDT открыто. Отправка подписки.
-26-02-04 23:35:52 | INFO | Соединение с BingX Futures Stream для CAKEUSDT открыто. Отправка подписки.
-26-02-04 23:35:53 | INFO | Первое сообщение получено от BingX Futures Stream для HBARUSDT. Соединение стабильно.
-26-02-04 23:35:53 | INFO | Подключились к BingX Futures Stream для HBARUSDT ✅
-26-02-04 23:35:53 | INFO | Первое сообщение получено от BingX Futures Stream для ADAUSDT. Соединение стабильно.
-26-02-04 23:35:53 | INFO | Подключились к BingX Futures Stream для ADAUSDT ✅
-26-02-04 23:35:53 | INFO | Первое сообщение получено от BingX Futures Stream для ZRXUSDT. Соединение стабильно.
-26-02-04 23:35:53 | INFO | Подключились к BingX Futures Stream для ZRXUSDT ✅
-26-02-04 23:35:53 | INFO | Первое сообщение получено от BingX Futures Stream для CAKEUSDT. Соединение стабильно.
-26-02-04 23:35:53 | INFO | Подключились к BingX Futures Stream для CAKEUSDT ✅
-26-02-04 23:35:53 | INFO | Первое сообщение получено от BingX Futures Stream для SANDUSDT. Соединение стабильно.
-26-02-04 23:35:53 | INFO | Подключились к BingX Futures Stream для SANDUSDT ✅
-26-02-04 23:35:54 | INFO | Первое сообщение получено от BingX Futures Stream для SUIUSDT. Соединение стабильно.
-26-02-04 23:35:54 | INFO | Подключились к BingX Futures Stream для SUIUSDT ✅
-26-02-04 23:36:22 | ERROR | WebSocket error for HBARUSDT: Connection to remote host was lost.
-26-02-04 23:36:22 | INFO | Отключились от BingX Futures Stream для HBARUSDT ❌
-26-02-04 23:36:22 | INFO | WebSocket for HBARUSDT connection closed. Code: None, Msg: None
-26-02-04 23:36:22 | WARNING | Соединение WebSocket для HBARUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:36:22 | INFO | Проблемы с подключением к BingX Futures Stream для HBARUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:36:22 | ERROR | WebSocket error for SANDUSDT: Connection to remote host was lost.
-26-02-04 23:36:22 | INFO | Отключились от BingX Futures Stream для SANDUSDT ❌
-26-02-04 23:36:22 | INFO | WebSocket for SANDUSDT connection closed. Code: None, Msg: None
-26-02-04 23:36:22 | WARNING | Соединение WebSocket для SANDUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:36:22 | INFO | Проблемы с подключением к BingX Futures Stream для SANDUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:36:22 | ERROR | WebSocket error for ADAUSDT: Connection to remote host was lost.
-26-02-04 23:36:22 | INFO | Отключились от BingX Futures Stream для ADAUSDT ❌
-26-02-04 23:36:22 | INFO | WebSocket for ADAUSDT connection closed. Code: None, Msg: None
-26-02-04 23:36:22 | WARNING | Соединение WebSocket для ADAUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:36:22 | INFO | Проблемы с подключением к BingX Futures Stream для ADAUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:36:22 | ERROR | WebSocket error for SUIUSDT: Connection to remote host was lost.
-26-02-04 23:36:22 | INFO | Отключились от BingX Futures Stream для SUIUSDT ❌
-26-02-04 23:36:22 | INFO | WebSocket for SUIUSDT connection closed. Code: None, Msg: None
-26-02-04 23:36:22 | WARNING | Соединение WebSocket для SUIUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:36:22 | INFO | Проблемы с подключением к BingX Futures Stream для SUIUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:36:22 | ERROR | WebSocket error for ZRXUSDT: Connection to remote host was lost.
-26-02-04 23:36:22 | INFO | Отключились от BingX Futures Stream для ZRXUSDT ❌
-26-02-04 23:36:22 | INFO | WebSocket for ZRXUSDT connection closed. Code: None, Msg: None
-26-02-04 23:36:22 | WARNING | Соединение WebSocket для ZRXUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:36:22 | INFO | Проблемы с подключением к BingX Futures Stream для ZRXUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:36:22 | ERROR | WebSocket error for CAKEUSDT: Connection to remote host was lost.
-26-02-04 23:36:22 | INFO | Отключились от BingX Futures Stream для CAKEUSDT ❌
-26-02-04 23:36:22 | INFO | WebSocket for CAKEUSDT connection closed. Code: None, Msg: None
-26-02-04 23:36:22 | WARNING | Соединение WebSocket для CAKEUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:36:22 | INFO | Проблемы с подключением к BingX Futures Stream для CAKEUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:36:27 | INFO | Запуск WebSocket для HBARUSDT. Задержка сброшена на 5с.
-26-02-04 23:36:27 | INFO | Запуск WebSocket для SANDUSDT. Задержка сброшена на 5с.
-26-02-04 23:36:27 | INFO | Запуск WebSocket для ADAUSDT. Задержка сброшена на 5с.
-26-02-04 23:36:27 | INFO | Запуск WebSocket для SUIUSDT. Задержка сброшена на 5с.
-26-02-04 23:36:28 | INFO | Запуск WebSocket для CAKEUSDT. Задержка сброшена на 5с.
-26-02-04 23:36:28 | INFO | Запуск WebSocket для ZRXUSDT. Задержка сброшена на 5с.
-26-02-04 23:36:28 | INFO | Соединение с BingX Futures Stream для ADAUSDT открыто. Отправка подписки.
-26-02-04 23:36:28 | INFO | Соединение с BingX Futures Stream для HBARUSDT открыто. Отправка подписки.
-26-02-04 23:36:28 | INFO | Соединение с BingX Futures Stream для SANDUSDT открыто. Отправка подписки.
-26-02-04 23:36:28 | INFO | Соединение с BingX Futures Stream для ZRXUSDT открыто. Отправка подписки.
-26-02-04 23:36:28 | INFO | Соединение с BingX Futures Stream для SUIUSDT открыто. Отправка подписки.
-26-02-04 23:36:28 | INFO | Соединение с BingX Futures Stream для CAKEUSDT открыто. Отправка подписки.
-26-02-04 23:36:29 | INFO | Первое сообщение получено от BingX Futures Stream для ZRXUSDT. Соединение стабильно.
-26-02-04 23:36:29 | INFO | Подключились к BingX Futures Stream для ZRXUSDT ✅
-26-02-04 23:36:29 | INFO | Первое сообщение получено от BingX Futures Stream для HBARUSDT. Соединение стабильно.
-26-02-04 23:36:29 | INFO | Подключились к BingX Futures Stream для HBARUSDT ✅
-26-02-04 23:36:29 | INFO | Первое сообщение получено от BingX Futures Stream для SANDUSDT. Соединение стабильно.
-26-02-04 23:36:29 | INFO | Подключились к BingX Futures Stream для SANDUSDT ✅
-26-02-04 23:36:29 | INFO | Первое сообщение получено от BingX Futures Stream для ADAUSDT. Соединение стабильно.
-26-02-04 23:36:29 | INFO | Подключились к BingX Futures Stream для ADAUSDT ✅
-26-02-04 23:36:29 | INFO | Первое сообщение получено от BingX Futures Stream для SUIUSDT. Соединение стабильно.
-26-02-04 23:36:29 | INFO | Подключились к BingX Futures Stream для SUIUSDT ✅
-26-02-04 23:36:29 | INFO | Первое сообщение получено от BingX Futures Stream для CAKEUSDT. Соединение стабильно.
-26-02-04 23:36:29 | INFO | Подключились к BingX Futures Stream для CAKEUSDT ✅
-26-02-04 23:36:58 | ERROR | WebSocket error for ADAUSDT: Connection to remote host was lost.
-26-02-04 23:36:58 | INFO | Отключились от BingX Futures Stream для ADAUSDT ❌
-26-02-04 23:36:58 | INFO | WebSocket for ADAUSDT connection closed. Code: None, Msg: None
-26-02-04 23:36:58 | WARNING | Соединение WebSocket для ADAUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:36:58 | INFO | Проблемы с подключением к BingX Futures Stream для ADAUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:36:58 | ERROR | WebSocket error for HBARUSDT: Connection to remote host was lost.
-26-02-04 23:36:58 | INFO | Отключились от BingX Futures Stream для HBARUSDT ❌
-26-02-04 23:36:58 | INFO | WebSocket for HBARUSDT connection closed. Code: None, Msg: None
-26-02-04 23:36:58 | WARNING | Соединение WebSocket для HBARUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:36:58 | INFO | Проблемы с подключением к BingX Futures Stream для HBARUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:36:58 | ERROR | WebSocket error for SANDUSDT: Connection to remote host was lost.
-26-02-04 23:36:58 | INFO | Отключились от BingX Futures Stream для SANDUSDT ❌
-26-02-04 23:36:58 | INFO | WebSocket for SANDUSDT connection closed. Code: None, Msg: None
-26-02-04 23:36:58 | WARNING | Соединение WebSocket для SANDUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:36:58 | INFO | Проблемы с подключением к BingX Futures Stream для SANDUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:36:58 | ERROR | WebSocket error for SUIUSDT: Connection to remote host was lost.
-26-02-04 23:36:58 | INFO | Отключились от BingX Futures Stream для SUIUSDT ❌
-26-02-04 23:36:58 | INFO | WebSocket for SUIUSDT connection closed. Code: None, Msg: None
-26-02-04 23:36:58 | WARNING | Соединение WebSocket для SUIUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:36:58 | INFO | Проблемы с подключением к BingX Futures Stream для SUIUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:36:58 | ERROR | WebSocket error for ZRXUSDT: Connection to remote host was lost.
-26-02-04 23:36:58 | INFO | Отключились от BingX Futures Stream для ZRXUSDT ❌
-26-02-04 23:36:58 | INFO | WebSocket for ZRXUSDT connection closed. Code: None, Msg: None
-26-02-04 23:36:58 | WARNING | Соединение WebSocket для ZRXUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:36:58 | INFO | Проблемы с подключением к BingX Futures Stream для ZRXUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:36:58 | ERROR | WebSocket error for CAKEUSDT: Connection to remote host was lost.
-26-02-04 23:36:58 | INFO | Отключились от BingX Futures Stream для CAKEUSDT ❌
-26-02-04 23:36:58 | INFO | WebSocket for CAKEUSDT connection closed. Code: None, Msg: None
-26-02-04 23:36:58 | WARNING | Соединение WebSocket для CAKEUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:36:58 | INFO | Проблемы с подключением к BingX Futures Stream для CAKEUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:37:03 | INFO | Запуск WebSocket для ADAUSDT. Задержка сброшена на 5с.
-26-02-04 23:37:03 | INFO | Запуск WebSocket для HBARUSDT. Задержка сброшена на 5с.
-26-02-04 23:37:03 | INFO | Запуск WebSocket для SANDUSDT. Задержка сброшена на 5с.
-26-02-04 23:37:03 | INFO | Запуск WebSocket для SUIUSDT. Задержка сброшена на 5с.
-26-02-04 23:37:03 | INFO | Запуск WebSocket для ZRXUSDT. Задержка сброшена на 5с.
-26-02-04 23:37:03 | INFO | Запуск WebSocket для CAKEUSDT. Задержка сброшена на 5с.
-26-02-04 23:37:04 | INFO | Соединение с BingX Futures Stream для ADAUSDT открыто. Отправка подписки.
-26-02-04 23:37:04 | INFO | Соединение с BingX Futures Stream для HBARUSDT открыто. Отправка подписки.
-26-02-04 23:37:04 | INFO | Соединение с BingX Futures Stream для SANDUSDT открыто. Отправка подписки.
-26-02-04 23:37:04 | INFO | Соединение с BingX Futures Stream для CAKEUSDT открыто. Отправка подписки.
-26-02-04 23:37:04 | INFO | Соединение с BingX Futures Stream для ZRXUSDT открыто. Отправка подписки.
-26-02-04 23:37:04 | INFO | Соединение с BingX Futures Stream для SUIUSDT открыто. Отправка подписки.
-26-02-04 23:37:04 | INFO | Первое сообщение получено от BingX Futures Stream для CAKEUSDT. Соединение стабильно.
-26-02-04 23:37:04 | INFO | Подключились к BingX Futures Stream для CAKEUSDT ✅
-26-02-04 23:37:04 | INFO | Первое сообщение получено от BingX Futures Stream для HBARUSDT. Соединение стабильно.
-26-02-04 23:37:04 | INFO | Подключились к BingX Futures Stream для HBARUSDT ✅
-26-02-04 23:37:04 | INFO | Первое сообщение получено от BingX Futures Stream для ADAUSDT. Соединение стабильно.
-26-02-04 23:37:04 | INFO | Подключились к BingX Futures Stream для ADAUSDT ✅
-26-02-04 23:37:05 | INFO | Первое сообщение получено от BingX Futures Stream для ZRXUSDT. Соединение стабильно.
-26-02-04 23:37:05 | INFO | Подключились к BingX Futures Stream для ZRXUSDT ✅
-26-02-04 23:37:05 | INFO | Первое сообщение получено от BingX Futures Stream для SANDUSDT. Соединение стабильно.
-26-02-04 23:37:05 | INFO | Подключились к BingX Futures Stream для SANDUSDT ✅
-26-02-04 23:37:05 | INFO | Первое сообщение получено от BingX Futures Stream для SUIUSDT. Соединение стабильно.
-26-02-04 23:37:05 | INFO | Подключились к BingX Futures Stream для SUIUSDT ✅
-26-02-04 23:37:34 | ERROR | WebSocket error for ADAUSDT: Connection to remote host was lost.
-26-02-04 23:37:34 | INFO | Отключились от BingX Futures Stream для ADAUSDT ❌
-26-02-04 23:37:34 | INFO | WebSocket for ADAUSDT connection closed. Code: None, Msg: None
-26-02-04 23:37:34 | WARNING | Соединение WebSocket для ADAUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:37:34 | INFO | Проблемы с подключением к BingX Futures Stream для ADAUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:37:34 | ERROR | WebSocket error for HBARUSDT: Connection to remote host was lost.
-26-02-04 23:37:34 | INFO | Отключились от BingX Futures Stream для HBARUSDT ❌
-26-02-04 23:37:34 | INFO | WebSocket for HBARUSDT connection closed. Code: None, Msg: None
-26-02-04 23:37:34 | WARNING | Соединение WebSocket для HBARUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:37:34 | INFO | Проблемы с подключением к BingX Futures Stream для HBARUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:37:34 | ERROR | WebSocket error for SANDUSDT: Connection to remote host was lost.
-26-02-04 23:37:34 | INFO | Отключились от BingX Futures Stream для SANDUSDT ❌
-26-02-04 23:37:34 | INFO | WebSocket for SANDUSDT connection closed. Code: None, Msg: None
-26-02-04 23:37:34 | WARNING | Соединение WebSocket для SANDUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:37:34 | INFO | Проблемы с подключением к BingX Futures Stream для SANDUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:37:34 | ERROR | WebSocket error for CAKEUSDT: Connection to remote host was lost.
-26-02-04 23:37:34 | INFO | Отключились от BingX Futures Stream для CAKEUSDT ❌
-26-02-04 23:37:34 | INFO | WebSocket for CAKEUSDT connection closed. Code: None, Msg: None
-26-02-04 23:37:34 | WARNING | Соединение WebSocket для CAKEUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:37:34 | INFO | Проблемы с подключением к BingX Futures Stream для CAKEUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:37:34 | ERROR | WebSocket error for ZRXUSDT: Connection to remote host was lost.
-26-02-04 23:37:34 | INFO | Отключились от BingX Futures Stream для ZRXUSDT ❌
-26-02-04 23:37:34 | INFO | WebSocket for ZRXUSDT connection closed. Code: None, Msg: None
-26-02-04 23:37:34 | WARNING | Соединение WebSocket для ZRXUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:37:34 | INFO | Проблемы с подключением к BingX Futures Stream для ZRXUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:37:34 | ERROR | WebSocket error for SUIUSDT: Connection to remote host was lost.
-26-02-04 23:37:34 | INFO | Отключились от BingX Futures Stream для SUIUSDT ❌
-26-02-04 23:37:34 | INFO | WebSocket for SUIUSDT connection closed. Code: None, Msg: None
-26-02-04 23:37:34 | WARNING | Соединение WebSocket для SUIUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:37:34 | INFO | Проблемы с подключением к BingX Futures Stream для SUIUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:37:39 | INFO | Запуск WebSocket для ADAUSDT. Задержка сброшена на 5с.
-26-02-04 23:37:39 | INFO | Запуск WebSocket для HBARUSDT. Задержка сброшена на 5с.
-26-02-04 23:37:39 | INFO | Запуск WebSocket для SANDUSDT. Задержка сброшена на 5с.
-26-02-04 23:37:39 | INFO | Запуск WebSocket для CAKEUSDT. Задержка сброшена на 5с.
-26-02-04 23:37:39 | INFO | Запуск WebSocket для SUIUSDT. Задержка сброшена на 5с.
-26-02-04 23:37:39 | INFO | Запуск WebSocket для ZRXUSDT. Задержка сброшена на 5с.
-26-02-04 23:37:39 | INFO | Соединение с BingX Futures Stream для ADAUSDT открыто. Отправка подписки.
-26-02-04 23:37:40 | INFO | Соединение с BingX Futures Stream для HBARUSDT открыто. Отправка подписки.
-26-02-04 23:37:40 | INFO | Соединение с BingX Futures Stream для SANDUSDT открыто. Отправка подписки.
-26-02-04 23:37:40 | INFO | Соединение с BingX Futures Stream для CAKEUSDT открыто. Отправка подписки.
-26-02-04 23:37:40 | INFO | Соединение с BingX Futures Stream для ZRXUSDT открыто. Отправка подписки.
-26-02-04 23:37:40 | INFO | Соединение с BingX Futures Stream для SUIUSDT открыто. Отправка подписки.
-26-02-04 23:37:40 | INFO | Первое сообщение получено от BingX Futures Stream для ZRXUSDT. Соединение стабильно.
-26-02-04 23:37:40 | INFO | Подключились к BingX Futures Stream для ZRXUSDT ✅
-26-02-04 23:37:40 | INFO | Первое сообщение получено от BingX Futures Stream для CAKEUSDT. Соединение стабильно.
-26-02-04 23:37:40 | INFO | Подключились к BingX Futures Stream для CAKEUSDT ✅
-26-02-04 23:37:40 | INFO | Первое сообщение получено от BingX Futures Stream для SANDUSDT. Соединение стабильно.
-26-02-04 23:37:40 | INFO | Подключились к BingX Futures Stream для SANDUSDT ✅
-26-02-04 23:37:41 | INFO | Первое сообщение получено от BingX Futures Stream для SUIUSDT. Соединение стабильно.
-26-02-04 23:37:41 | INFO | Подключились к BingX Futures Stream для SUIUSDT ✅
-26-02-04 23:37:41 | INFO | Первое сообщение получено от BingX Futures Stream для HBARUSDT. Соединение стабильно.
-26-02-04 23:37:41 | INFO | Подключились к BingX Futures Stream для HBARUSDT ✅
-26-02-04 23:37:41 | INFO | Первое сообщение получено от BingX Futures Stream для ADAUSDT. Соединение стабильно.
-26-02-04 23:37:41 | INFO | Подключились к BingX Futures Stream для ADAUSDT ✅
-26-02-04 23:38:09 | ERROR | WebSocket error for ADAUSDT: Connection to remote host was lost.
-26-02-04 23:38:09 | INFO | Отключились от BingX Futures Stream для ADAUSDT ❌
-26-02-04 23:38:09 | INFO | WebSocket for ADAUSDT connection closed. Code: None, Msg: None
-26-02-04 23:38:09 | WARNING | Соединение WebSocket для ADAUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:38:09 | INFO | Проблемы с подключением к BingX Futures Stream для ADAUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:38:10 | ERROR | WebSocket error for HBARUSDT: Connection to remote host was lost.
-26-02-04 23:38:10 | INFO | Отключились от BingX Futures Stream для HBARUSDT ❌
-26-02-04 23:38:10 | INFO | WebSocket for HBARUSDT connection closed. Code: None, Msg: None
-26-02-04 23:38:10 | WARNING | Соединение WebSocket для HBARUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:38:10 | INFO | Проблемы с подключением к BingX Futures Stream для HBARUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:38:10 | ERROR | WebSocket error for SANDUSDT: Connection to remote host was lost.
-26-02-04 23:38:10 | INFO | Отключились от BingX Futures Stream для SANDUSDT ❌
-26-02-04 23:38:10 | INFO | WebSocket for SANDUSDT connection closed. Code: None, Msg: None
-26-02-04 23:38:10 | WARNING | Соединение WebSocket для SANDUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:38:10 | INFO | Проблемы с подключением к BingX Futures Stream для SANDUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:38:10 | ERROR | WebSocket error for CAKEUSDT: Connection to remote host was lost.
-26-02-04 23:38:10 | INFO | Отключились от BingX Futures Stream для CAKEUSDT ❌
-26-02-04 23:38:10 | INFO | WebSocket for CAKEUSDT connection closed. Code: None, Msg: None
-26-02-04 23:38:10 | WARNING | Соединение WebSocket для CAKEUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:38:10 | INFO | Проблемы с подключением к BingX Futures Stream для CAKEUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:38:10 | ERROR | WebSocket error for ZRXUSDT: Connection to remote host was lost.
-26-02-04 23:38:10 | INFO | Отключились от BingX Futures Stream для ZRXUSDT ❌
-26-02-04 23:38:10 | INFO | WebSocket for ZRXUSDT connection closed. Code: None, Msg: None
-26-02-04 23:38:10 | WARNING | Соединение WebSocket для ZRXUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:38:10 | INFO | Проблемы с подключением к BingX Futures Stream для ZRXUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:38:10 | ERROR | WebSocket error for SUIUSDT: Connection to remote host was lost.
-26-02-04 23:38:10 | INFO | Отключились от BingX Futures Stream для SUIUSDT ❌
-26-02-04 23:38:10 | INFO | WebSocket for SUIUSDT connection closed. Code: None, Msg: None
-26-02-04 23:38:10 | WARNING | Соединение WebSocket для SUIUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:38:10 | INFO | Проблемы с подключением к BingX Futures Stream для SUIUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:38:14 | INFO | Запуск WebSocket для ADAUSDT. Задержка сброшена на 5с.
-26-02-04 23:38:15 | INFO | Запуск WebSocket для HBARUSDT. Задержка сброшена на 5с.
-26-02-04 23:38:15 | INFO | Запуск WebSocket для CAKEUSDT. Задержка сброшена на 5с.
-26-02-04 23:38:15 | INFO | Запуск WebSocket для SANDUSDT. Задержка сброшена на 5с.
-26-02-04 23:38:15 | INFO | Запуск WebSocket для ZRXUSDT. Задержка сброшена на 5с.
-26-02-04 23:38:15 | INFO | Запуск WebSocket для SUIUSDT. Задержка сброшена на 5с.
-26-02-04 23:38:15 | INFO | Соединение с BingX Futures Stream для ADAUSDT открыто. Отправка подписки.
-26-02-04 23:38:15 | INFO | Соединение с BingX Futures Stream для HBARUSDT открыто. Отправка подписки.
-26-02-04 23:38:15 | INFO | Соединение с BingX Futures Stream для CAKEUSDT открыто. Отправка подписки.
-26-02-04 23:38:15 | INFO | Соединение с BingX Futures Stream для SANDUSDT открыто. Отправка подписки.
-26-02-04 23:38:15 | INFO | Соединение с BingX Futures Stream для SUIUSDT открыто. Отправка подписки.
-26-02-04 23:38:15 | INFO | Соединение с BingX Futures Stream для ZRXUSDT открыто. Отправка подписки.
-26-02-04 23:38:15 | INFO | Первое сообщение получено от BingX Futures Stream для HBARUSDT. Соединение стабильно.
-26-02-04 23:38:15 | INFO | Подключились к BingX Futures Stream для HBARUSDT ✅
-26-02-04 23:38:15 | INFO | Первое сообщение получено от BingX Futures Stream для CAKEUSDT. Соединение стабильно.
-26-02-04 23:38:15 | INFO | Подключились к BingX Futures Stream для CAKEUSDT ✅
-26-02-04 23:38:16 | INFO | Первое сообщение получено от BingX Futures Stream для ADAUSDT. Соединение стабильно.
-26-02-04 23:38:16 | INFO | Подключились к BingX Futures Stream для ADAUSDT ✅
-26-02-04 23:38:16 | INFO | Первое сообщение получено от BingX Futures Stream для SUIUSDT. Соединение стабильно.
-26-02-04 23:38:16 | INFO | Подключились к BingX Futures Stream для SUIUSDT ✅
-26-02-04 23:38:16 | INFO | Первое сообщение получено от BingX Futures Stream для SANDUSDT. Соединение стабильно.
-26-02-04 23:38:16 | INFO | Подключились к BingX Futures Stream для SANDUSDT ✅
-26-02-04 23:38:16 | INFO | Первое сообщение получено от BingX Futures Stream для ZRXUSDT. Соединение стабильно.
-26-02-04 23:38:16 | INFO | Подключились к BingX Futures Stream для ZRXUSDT ✅
-26-02-04 23:38:45 | ERROR | WebSocket error for ADAUSDT: Connection to remote host was lost.
-26-02-04 23:38:45 | INFO | Отключились от BingX Futures Stream для ADAUSDT ❌
-26-02-04 23:38:45 | INFO | WebSocket for ADAUSDT connection closed. Code: None, Msg: None
-26-02-04 23:38:45 | WARNING | Соединение WebSocket для ADAUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:38:45 | INFO | Проблемы с подключением к BingX Futures Stream для ADAUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:38:45 | ERROR | WebSocket error for HBARUSDT: Connection to remote host was lost.
-26-02-04 23:38:45 | INFO | Отключились от BingX Futures Stream для HBARUSDT ❌
-26-02-04 23:38:45 | INFO | WebSocket for HBARUSDT connection closed. Code: None, Msg: None
-26-02-04 23:38:45 | WARNING | Соединение WebSocket для HBARUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:38:45 | INFO | Проблемы с подключением к BingX Futures Stream для HBARUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:38:45 | ERROR | WebSocket error for CAKEUSDT: Connection to remote host was lost.
-26-02-04 23:38:45 | INFO | Отключились от BingX Futures Stream для CAKEUSDT ❌
-26-02-04 23:38:45 | INFO | WebSocket for CAKEUSDT connection closed. Code: None, Msg: None
-26-02-04 23:38:45 | WARNING | Соединение WebSocket для CAKEUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:38:45 | INFO | Проблемы с подключением к BingX Futures Stream для CAKEUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:38:45 | ERROR | WebSocket error for SUIUSDT: Connection to remote host was lost.
-26-02-04 23:38:45 | INFO | Отключились от BingX Futures Stream для SUIUSDT ❌
-26-02-04 23:38:45 | INFO | WebSocket for SUIUSDT connection closed. Code: None, Msg: None
-26-02-04 23:38:45 | WARNING | Соединение WebSocket для SUIUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:38:45 | INFO | Проблемы с подключением к BingX Futures Stream для SUIUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:38:45 | ERROR | WebSocket error for ZRXUSDT: Connection to remote host was lost.
-26-02-04 23:38:45 | INFO | Отключились от BingX Futures Stream для ZRXUSDT ❌
-26-02-04 23:38:45 | INFO | WebSocket for ZRXUSDT connection closed. Code: None, Msg: None
-26-02-04 23:38:45 | WARNING | Соединение WebSocket для ZRXUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:38:45 | INFO | Проблемы с подключением к BingX Futures Stream для ZRXUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:38:45 | ERROR | WebSocket error for SANDUSDT: Connection to remote host was lost.
-26-02-04 23:38:45 | INFO | Отключились от BingX Futures Stream для SANDUSDT ❌
-26-02-04 23:38:45 | INFO | WebSocket for SANDUSDT connection closed. Code: None, Msg: None
-26-02-04 23:38:45 | WARNING | Соединение WebSocket для SANDUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:38:45 | INFO | Проблемы с подключением к BingX Futures Stream для SANDUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:38:50 | INFO | Запуск WebSocket для ADAUSDT. Задержка сброшена на 5с.
-26-02-04 23:38:50 | INFO | Запуск WebSocket для HBARUSDT. Задержка сброшена на 5с.
-26-02-04 23:38:50 | INFO | Запуск WebSocket для CAKEUSDT. Задержка сброшена на 5с.
-26-02-04 23:38:50 | INFO | Запуск WebSocket для SUIUSDT. Задержка сброшена на 5с.
-26-02-04 23:38:50 | INFO | Запуск WebSocket для ZRXUSDT. Задержка сброшена на 5с.
-26-02-04 23:38:50 | INFO | Запуск WebSocket для SANDUSDT. Задержка сброшена на 5с.
-26-02-04 23:38:51 | INFO | Соединение с BingX Futures Stream для ADAUSDT открыто. Отправка подписки.
-26-02-04 23:38:51 | INFO | Соединение с BingX Futures Stream для HBARUSDT открыто. Отправка подписки.
-26-02-04 23:38:51 | INFO | Соединение с BingX Futures Stream для CAKEUSDT открыто. Отправка подписки.
-26-02-04 23:38:51 | INFO | Соединение с BingX Futures Stream для SANDUSDT открыто. Отправка подписки.
-26-02-04 23:38:51 | INFO | Соединение с BingX Futures Stream для ZRXUSDT открыто. Отправка подписки.
-26-02-04 23:38:51 | INFO | Соединение с BingX Futures Stream для SUIUSDT открыто. Отправка подписки.
-26-02-04 23:38:51 | INFO | Первое сообщение получено от BingX Futures Stream для SUIUSDT. Соединение стабильно.
-26-02-04 23:38:51 | INFO | Подключились к BingX Futures Stream для SUIUSDT ✅
-26-02-04 23:38:51 | INFO | Первое сообщение получено от BingX Futures Stream для CAKEUSDT. Соединение стабильно.
-26-02-04 23:38:51 | INFO | Подключились к BingX Futures Stream для CAKEUSDT ✅
-26-02-04 23:38:51 | INFO | Первое сообщение получено от BingX Futures Stream для ADAUSDT. Соединение стабильно.
-26-02-04 23:38:51 | INFO | Подключились к BingX Futures Stream для ADAUSDT ✅
-26-02-04 23:38:51 | INFO | Первое сообщение получено от BingX Futures Stream для ZRXUSDT. Соединение стабильно.
-26-02-04 23:38:51 | INFO | Подключились к BingX Futures Stream для ZRXUSDT ✅
-26-02-04 23:38:51 | INFO | Первое сообщение получено от BingX Futures Stream для HBARUSDT. Соединение стабильно.
-26-02-04 23:38:51 | INFO | Подключились к BingX Futures Stream для HBARUSDT ✅
-26-02-04 23:38:52 | INFO | Первое сообщение получено от BingX Futures Stream для SANDUSDT. Соединение стабильно.
-26-02-04 23:38:52 | INFO | Подключились к BingX Futures Stream для SANDUSDT ✅
-26-02-04 23:39:21 | ERROR | WebSocket error for ADAUSDT: Connection to remote host was lost.
-26-02-04 23:39:21 | INFO | Отключились от BingX Futures Stream для ADAUSDT ❌
-26-02-04 23:39:21 | INFO | WebSocket for ADAUSDT connection closed. Code: None, Msg: None
-26-02-04 23:39:21 | WARNING | Соединение WebSocket для ADAUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:39:21 | INFO | Проблемы с подключением к BingX Futures Stream для ADAUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:39:21 | ERROR | WebSocket error for HBARUSDT: Connection to remote host was lost.
-26-02-04 23:39:21 | INFO | Отключились от BingX Futures Stream для HBARUSDT ❌
-26-02-04 23:39:21 | INFO | WebSocket for HBARUSDT connection closed. Code: None, Msg: None
-26-02-04 23:39:21 | WARNING | Соединение WebSocket для HBARUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:39:21 | INFO | Проблемы с подключением к BingX Futures Stream для HBARUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:39:21 | ERROR | WebSocket error for CAKEUSDT: Connection to remote host was lost.
-26-02-04 23:39:21 | INFO | Отключились от BingX Futures Stream для CAKEUSDT ❌
-26-02-04 23:39:21 | INFO | WebSocket for CAKEUSDT connection closed. Code: None, Msg: None
-26-02-04 23:39:21 | WARNING | Соединение WebSocket для CAKEUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:39:21 | INFO | Проблемы с подключением к BingX Futures Stream для CAKEUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:39:21 | ERROR | WebSocket error for SANDUSDT: Connection to remote host was lost.
-26-02-04 23:39:21 | INFO | Отключились от BingX Futures Stream для SANDUSDT ❌
-26-02-04 23:39:21 | INFO | WebSocket for SANDUSDT connection closed. Code: None, Msg: None
-26-02-04 23:39:21 | WARNING | Соединение WebSocket для SANDUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:39:21 | INFO | Проблемы с подключением к BingX Futures Stream для SANDUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:39:21 | ERROR | WebSocket error for ZRXUSDT: Connection to remote host was lost.
-26-02-04 23:39:21 | INFO | Отключились от BingX Futures Stream для ZRXUSDT ❌
-26-02-04 23:39:21 | INFO | WebSocket for ZRXUSDT connection closed. Code: None, Msg: None
-26-02-04 23:39:21 | WARNING | Соединение WebSocket для ZRXUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:39:21 | INFO | Проблемы с подключением к BingX Futures Stream для ZRXUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:39:21 | ERROR | WebSocket error for SUIUSDT: Connection to remote host was lost.
-26-02-04 23:39:21 | INFO | Отключились от BingX Futures Stream для SUIUSDT ❌
-26-02-04 23:39:21 | INFO | WebSocket for SUIUSDT connection closed. Code: None, Msg: None
-26-02-04 23:39:21 | WARNING | Соединение WebSocket для SUIUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:39:21 | INFO | Проблемы с подключением к BingX Futures Stream для SUIUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:39:26 | INFO | Запуск WebSocket для ADAUSDT. Задержка сброшена на 5с.
-26-02-04 23:39:26 | INFO | Запуск WebSocket для HBARUSDT. Задержка сброшена на 5с.
-26-02-04 23:39:26 | INFO | Запуск WebSocket для CAKEUSDT. Задержка сброшена на 5с.
-26-02-04 23:39:26 | INFO | Запуск WebSocket для SANDUSDT. Задержка сброшена на 5с.
-26-02-04 23:39:26 | INFO | Запуск WebSocket для ZRXUSDT. Задержка сброшена на 5с.
-26-02-04 23:39:26 | INFO | Запуск WebSocket для SUIUSDT. Задержка сброшена на 5с.
-26-02-04 23:39:26 | INFO | Соединение с BingX Futures Stream для ADAUSDT открыто. Отправка подписки.
-26-02-04 23:39:26 | INFO | Соединение с BingX Futures Stream для HBARUSDT открыто. Отправка подписки.
-26-02-04 23:39:27 | INFO | Соединение с BingX Futures Stream для CAKEUSDT открыто. Отправка подписки.
-26-02-04 23:39:27 | INFO | Соединение с BingX Futures Stream для SANDUSDT открыто. Отправка подписки.
-26-02-04 23:39:27 | INFO | Соединение с BingX Futures Stream для SUIUSDT открыто. Отправка подписки.
-26-02-04 23:39:27 | INFO | Соединение с BingX Futures Stream для ZRXUSDT открыто. Отправка подписки.
-26-02-04 23:39:27 | INFO | Первое сообщение получено от BingX Futures Stream для SANDUSDT. Соединение стабильно.
-26-02-04 23:39:27 | INFO | Подключились к BingX Futures Stream для SANDUSDT ✅
-26-02-04 23:39:27 | INFO | Первое сообщение получено от BingX Futures Stream для SUIUSDT. Соединение стабильно.
-26-02-04 23:39:27 | INFO | Подключились к BingX Futures Stream для SUIUSDT ✅
-26-02-04 23:39:27 | INFO | Первое сообщение получено от BingX Futures Stream для ZRXUSDT. Соединение стабильно.
-26-02-04 23:39:27 | INFO | Подключились к BingX Futures Stream для ZRXUSDT ✅
-26-02-04 23:39:28 | INFO | Первое сообщение получено от BingX Futures Stream для ADAUSDT. Соединение стабильно.
-26-02-04 23:39:28 | INFO | Подключились к BingX Futures Stream для ADAUSDT ✅
-26-02-04 23:39:28 | INFO | Первое сообщение получено от BingX Futures Stream для CAKEUSDT. Соединение стабильно.
-26-02-04 23:39:28 | INFO | Подключились к BingX Futures Stream для CAKEUSDT ✅
-26-02-04 23:39:28 | INFO | Первое сообщение получено от BingX Futures Stream для HBARUSDT. Соединение стабильно.
-26-02-04 23:39:28 | INFO | Подключились к BingX Futures Stream для HBARUSDT ✅
-26-02-04 23:39:56 | ERROR | WebSocket error for ADAUSDT: Connection to remote host was lost.
-26-02-04 23:39:56 | INFO | Отключились от BingX Futures Stream для ADAUSDT ❌
-26-02-04 23:39:56 | INFO | WebSocket for ADAUSDT connection closed. Code: None, Msg: None
-26-02-04 23:39:56 | WARNING | Соединение WebSocket для ADAUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:39:56 | INFO | Проблемы с подключением к BingX Futures Stream для ADAUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:39:56 | ERROR | WebSocket error for HBARUSDT: Connection to remote host was lost.
-26-02-04 23:39:56 | INFO | Отключились от BingX Futures Stream для HBARUSDT ❌
-26-02-04 23:39:56 | INFO | WebSocket for HBARUSDT connection closed. Code: None, Msg: None
-26-02-04 23:39:56 | WARNING | Соединение WebSocket для HBARUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:39:56 | INFO | Проблемы с подключением к BingX Futures Stream для HBARUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:39:57 | ERROR | WebSocket error for CAKEUSDT: Connection to remote host was lost.
-26-02-04 23:39:57 | INFO | Отключились от BingX Futures Stream для CAKEUSDT ❌
-26-02-04 23:39:57 | INFO | WebSocket for CAKEUSDT connection closed. Code: None, Msg: None
-26-02-04 23:39:57 | WARNING | Соединение WebSocket для CAKEUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:39:57 | INFO | Проблемы с подключением к BingX Futures Stream для CAKEUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:39:57 | ERROR | WebSocket error for SANDUSDT: Connection to remote host was lost.
-26-02-04 23:39:57 | INFO | Отключились от BingX Futures Stream для SANDUSDT ❌
-26-02-04 23:39:57 | INFO | WebSocket for SANDUSDT connection closed. Code: None, Msg: None
-26-02-04 23:39:57 | WARNING | Соединение WebSocket для SANDUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:39:57 | INFO | Проблемы с подключением к BingX Futures Stream для SANDUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:39:57 | ERROR | WebSocket error for SUIUSDT: Connection to remote host was lost.
-26-02-04 23:39:57 | INFO | Отключились от BingX Futures Stream для SUIUSDT ❌
-26-02-04 23:39:57 | INFO | WebSocket for SUIUSDT connection closed. Code: None, Msg: None
-26-02-04 23:39:57 | WARNING | Соединение WebSocket для SUIUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:39:57 | INFO | Проблемы с подключением к BingX Futures Stream для SUIUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:39:57 | ERROR | WebSocket error for ZRXUSDT: Connection to remote host was lost.
-26-02-04 23:39:57 | INFO | Отключились от BingX Futures Stream для ZRXUSDT ❌
-26-02-04 23:39:57 | INFO | WebSocket for ZRXUSDT connection closed. Code: None, Msg: None
-26-02-04 23:39:57 | WARNING | Соединение WebSocket для ZRXUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:39:57 | INFO | Проблемы с подключением к BingX Futures Stream для ZRXUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:40:01 | INFO | Запуск WebSocket для ADAUSDT. Задержка сброшена на 5с.
-26-02-04 23:40:01 | INFO | Запуск WebSocket для HBARUSDT. Задержка сброшена на 5с.
-26-02-04 23:40:02 | INFO | Запуск WebSocket для CAKEUSDT. Задержка сброшена на 5с.
-26-02-04 23:40:02 | INFO | Запуск WebSocket для SANDUSDT. Задержка сброшена на 5с.
-26-02-04 23:40:02 | INFO | Запуск WebSocket для SUIUSDT. Задержка сброшена на 5с.
-26-02-04 23:40:02 | INFO | Запуск WebSocket для ZRXUSDT. Задержка сброшена на 5с.
-26-02-04 23:40:02 | INFO | Соединение с BingX Futures Stream для HBARUSDT открыто. Отправка подписки.
-26-02-04 23:40:02 | INFO | Соединение с BingX Futures Stream для ADAUSDT открыто. Отправка подписки.
-26-02-04 23:40:02 | INFO | Соединение с BingX Futures Stream для CAKEUSDT открыто. Отправка подписки.
-26-02-04 23:40:02 | INFO | Соединение с BingX Futures Stream для SANDUSDT открыто. Отправка подписки.
-26-02-04 23:40:02 | INFO | Соединение с BingX Futures Stream для ZRXUSDT открыто. Отправка подписки.
-26-02-04 23:40:02 | INFO | Соединение с BingX Futures Stream для SUIUSDT открыто. Отправка подписки.
-26-02-04 23:40:02 | INFO | Первое сообщение получено от BingX Futures Stream для ADAUSDT. Соединение стабильно.
-26-02-04 23:40:02 | INFO | Подключились к BingX Futures Stream для ADAUSDT ✅
-26-02-04 23:40:03 | INFO | Первое сообщение получено от BingX Futures Stream для ZRXUSDT. Соединение стабильно.
-26-02-04 23:40:03 | INFO | Подключились к BingX Futures Stream для ZRXUSDT ✅
-26-02-04 23:40:03 | INFO | Первое сообщение получено от BingX Futures Stream для HBARUSDT. Соединение стабильно.
-26-02-04 23:40:03 | INFO | Подключились к BingX Futures Stream для HBARUSDT ✅
-26-02-04 23:40:03 | INFO | Первое сообщение получено от BingX Futures Stream для SUIUSDT. Соединение стабильно.
-26-02-04 23:40:03 | INFO | Подключились к BingX Futures Stream для SUIUSDT ✅
-26-02-04 23:40:03 | INFO | Первое сообщение получено от BingX Futures Stream для SANDUSDT. Соединение стабильно.
-26-02-04 23:40:03 | INFO | Подключились к BingX Futures Stream для SANDUSDT ✅
-26-02-04 23:40:03 | INFO | Первое сообщение получено от BingX Futures Stream для CAKEUSDT. Соединение стабильно.
-26-02-04 23:40:03 | INFO | Подключились к BingX Futures Stream для CAKEUSDT ✅
-26-02-04 23:40:32 | ERROR | WebSocket error for HBARUSDT: Connection to remote host was lost.
-26-02-04 23:40:32 | INFO | Отключились от BingX Futures Stream для HBARUSDT ❌
-26-02-04 23:40:32 | INFO | WebSocket for HBARUSDT connection closed. Code: None, Msg: None
-26-02-04 23:40:32 | WARNING | Соединение WebSocket для HBARUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:40:32 | INFO | Проблемы с подключением к BingX Futures Stream для HBARUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:40:32 | ERROR | WebSocket error for ADAUSDT: Connection to remote host was lost.
-26-02-04 23:40:32 | INFO | Отключились от BingX Futures Stream для ADAUSDT ❌
-26-02-04 23:40:32 | INFO | WebSocket for ADAUSDT connection closed. Code: None, Msg: None
-26-02-04 23:40:32 | WARNING | Соединение WebSocket для ADAUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:40:32 | INFO | Проблемы с подключением к BingX Futures Stream для ADAUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:40:32 | ERROR | WebSocket error for CAKEUSDT: Connection to remote host was lost.
-26-02-04 23:40:32 | INFO | Отключились от BingX Futures Stream для CAKEUSDT ❌
-26-02-04 23:40:32 | INFO | WebSocket for CAKEUSDT connection closed. Code: None, Msg: None
-26-02-04 23:40:32 | WARNING | Соединение WebSocket для CAKEUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:40:32 | INFO | Проблемы с подключением к BingX Futures Stream для CAKEUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:40:32 | ERROR | WebSocket error for SANDUSDT: Connection to remote host was lost.
-26-02-04 23:40:32 | INFO | Отключились от BingX Futures Stream для SANDUSDT ❌
-26-02-04 23:40:32 | INFO | WebSocket for SANDUSDT connection closed. Code: None, Msg: None
-26-02-04 23:40:32 | WARNING | Соединение WebSocket для SANDUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:40:32 | INFO | Проблемы с подключением к BingX Futures Stream для SANDUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:40:32 | ERROR | WebSocket error for ZRXUSDT: Connection to remote host was lost.
-26-02-04 23:40:32 | INFO | Отключились от BingX Futures Stream для ZRXUSDT ❌
-26-02-04 23:40:32 | INFO | WebSocket for ZRXUSDT connection closed. Code: None, Msg: None
-26-02-04 23:40:32 | WARNING | Соединение WebSocket для ZRXUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:40:32 | INFO | Проблемы с подключением к BingX Futures Stream для ZRXUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:40:32 | ERROR | WebSocket error for SUIUSDT: Connection to remote host was lost.
-26-02-04 23:40:32 | INFO | Отключились от BingX Futures Stream для SUIUSDT ❌
-26-02-04 23:40:32 | INFO | WebSocket for SUIUSDT connection closed. Code: None, Msg: None
-26-02-04 23:40:32 | WARNING | Соединение WebSocket для SUIUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:40:32 | INFO | Проблемы с подключением к BingX Futures Stream для SUIUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:40:37 | INFO | Запуск WebSocket для HBARUSDT. Задержка сброшена на 5с.
-26-02-04 23:40:37 | INFO | Запуск WebSocket для ADAUSDT. Задержка сброшена на 5с.
-26-02-04 23:40:37 | INFO | Запуск WebSocket для CAKEUSDT. Задержка сброшена на 5с.
-26-02-04 23:40:37 | INFO | Запуск WebSocket для SANDUSDT. Задержка сброшена на 5с.
-26-02-04 23:40:37 | INFO | Запуск WebSocket для ZRXUSDT. Задержка сброшена на 5с.
-26-02-04 23:40:37 | INFO | Запуск WebSocket для SUIUSDT. Задержка сброшена на 5с.
-26-02-04 23:40:38 | INFO | Соединение с BingX Futures Stream для HBARUSDT открыто. Отправка подписки.
-26-02-04 23:40:38 | INFO | Соединение с BingX Futures Stream для ADAUSDT открыто. Отправка подписки.
-26-02-04 23:40:38 | INFO | Соединение с BingX Futures Stream для CAKEUSDT открыто. Отправка подписки.
-26-02-04 23:40:38 | INFO | Соединение с BingX Futures Stream для SANDUSDT открыто. Отправка подписки.
-26-02-04 23:40:38 | INFO | Соединение с BingX Futures Stream для ZRXUSDT открыто. Отправка подписки.
-26-02-04 23:40:38 | INFO | Соединение с BingX Futures Stream для SUIUSDT открыто. Отправка подписки.
-26-02-04 23:40:38 | INFO | Первое сообщение получено от BingX Futures Stream для ADAUSDT. Соединение стабильно.
-26-02-04 23:40:38 | INFO | Подключились к BingX Futures Stream для ADAUSDT ✅
-26-02-04 23:40:38 | INFO | Первое сообщение получено от BingX Futures Stream для SUIUSDT. Соединение стабильно.
-26-02-04 23:40:38 | INFO | Подключились к BingX Futures Stream для SUIUSDT ✅
-26-02-04 23:40:39 | INFO | Первое сообщение получено от BingX Futures Stream для ZRXUSDT. Соединение стабильно.
-26-02-04 23:40:39 | INFO | Подключились к BingX Futures Stream для ZRXUSDT ✅
-26-02-04 23:40:39 | INFO | Первое сообщение получено от BingX Futures Stream для SANDUSDT. Соединение стабильно.
-26-02-04 23:40:39 | INFO | Подключились к BingX Futures Stream для SANDUSDT ✅
-26-02-04 23:40:39 | INFO | Первое сообщение получено от BingX Futures Stream для CAKEUSDT. Соединение стабильно.
-26-02-04 23:40:39 | INFO | Подключились к BingX Futures Stream для CAKEUSDT ✅
-26-02-04 23:40:39 | INFO | Первое сообщение получено от BingX Futures Stream для HBARUSDT. Соединение стабильно.
-26-02-04 23:40:39 | INFO | Подключились к BingX Futures Stream для HBARUSDT ✅
-26-02-04 23:41:08 | ERROR | WebSocket error for HBARUSDT: Connection to remote host was lost.
-26-02-04 23:41:08 | INFO | Отключились от BingX Futures Stream для HBARUSDT ❌
-26-02-04 23:41:08 | INFO | WebSocket for HBARUSDT connection closed. Code: None, Msg: None
-26-02-04 23:41:08 | WARNING | Соединение WebSocket для HBARUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:41:08 | INFO | Проблемы с подключением к BingX Futures Stream для HBARUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:41:08 | ERROR | WebSocket error for ADAUSDT: Connection to remote host was lost.
-26-02-04 23:41:08 | INFO | Отключились от BingX Futures Stream для ADAUSDT ❌
-26-02-04 23:41:08 | INFO | WebSocket for ADAUSDT connection closed. Code: None, Msg: None
-26-02-04 23:41:08 | WARNING | Соединение WebSocket для ADAUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:41:08 | INFO | Проблемы с подключением к BingX Futures Stream для ADAUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:41:08 | ERROR | WebSocket error for CAKEUSDT: Connection to remote host was lost.
-26-02-04 23:41:08 | INFO | Отключились от BingX Futures Stream для CAKEUSDT ❌
-26-02-04 23:41:08 | INFO | WebSocket for CAKEUSDT connection closed. Code: None, Msg: None
-26-02-04 23:41:08 | WARNING | Соединение WebSocket для CAKEUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:41:08 | INFO | Проблемы с подключением к BingX Futures Stream для CAKEUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:41:08 | ERROR | WebSocket error for SANDUSDT: Connection to remote host was lost.
-26-02-04 23:41:08 | INFO | Отключились от BingX Futures Stream для SANDUSDT ❌
-26-02-04 23:41:08 | INFO | WebSocket for SANDUSDT connection closed. Code: None, Msg: None
-26-02-04 23:41:08 | WARNING | Соединение WebSocket для SANDUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:41:08 | INFO | Проблемы с подключением к BingX Futures Stream для SANDUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:41:08 | ERROR | WebSocket error for ZRXUSDT: Connection to remote host was lost.
-26-02-04 23:41:08 | INFO | Отключились от BingX Futures Stream для ZRXUSDT ❌
-26-02-04 23:41:08 | INFO | WebSocket for ZRXUSDT connection closed. Code: None, Msg: None
-26-02-04 23:41:08 | WARNING | Соединение WebSocket для ZRXUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:41:08 | INFO | Проблемы с подключением к BingX Futures Stream для ZRXUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:41:08 | ERROR | WebSocket error for SUIUSDT: Connection to remote host was lost.
-26-02-04 23:41:08 | INFO | Отключились от BingX Futures Stream для SUIUSDT ❌
-26-02-04 23:41:08 | INFO | WebSocket for SUIUSDT connection closed. Code: None, Msg: None
-26-02-04 23:41:08 | WARNING | Соединение WebSocket для SUIUSDT закрыто/не удалось. Повторная попытка через 5 секунд.
-26-02-04 23:41:08 | INFO | Проблемы с подключением к BingX Futures Stream для SUIUSDT. Повторная попытка через 5с. ⏳
-26-02-04 23:41:13 | INFO | Запуск WebSocket для HBARUSDT. Задержка сброшена на 5с.
-26-02-04 23:41:13 | INFO | Запуск WebSocket для ADAUSDT. Задержка сброшена на 5с.
-26-02-04 23:41:13 | INFO | Запуск WebSocket для CAKEUSDT. Задержка сброшена на 5с.
-26-02-04 23:41:13 | INFO | Запуск WebSocket для SANDUSDT. Задержка сброшена на 5с.
-26-02-04 23:41:13 | INFO | Запуск WebSocket для ZRXUSDT. Задержка сброшена на 5с.
-26-02-04 23:41:13 | INFO | Запуск WebSocket для SUIUSDT. Задержка сброшена на 5с.
-26-02-04 23:41:13 | INFO | Соединение с BingX Futures Stream для HBARUSDT открыто. Отправка подписки.
-26-02-04 23:41:13 | INFO | Соединение с BingX Futures Stream для ADAUSDT открыто. Отправка подписки.
-26-02-04 23:41:13 | INFO | Соединение с BingX Futures Stream для CAKEUSDT открыто. Отправка подписки.
-26-02-04 23:41:13 | INFO | Соединение с BingX Futures Stream для SANDUSDT открыто. Отправка подписки.
-26-02-04 23:41:14 | INFO | Соединение с BingX Futures Stream для SUIUSDT открыто. Отправка подписки.
-26-02-04 23:41:14 | INFO | Соединение с BingX Futures Stream для ZRXUSDT открыто. Отправка подписки.
-26-02-04 23:41:14 | INFO | Первое сообщение получено от BingX Futures Stream для HBARUSDT. Соединение стабильно.
-26-02-04 23:41:14 | INFO | Подключились к BingX Futures Stream для HBARUSDT ✅
-26-02-04 23:41:14 | INFO | Первое сообщение получено от BingX Futures Stream для SANDUSDT. Соединение стабильно.
-26-02-04 23:41:14 | INFO | Подключились к BingX Futures Stream для SANDUSDT ✅
-26-02-04 23:41:14 | INFO | Первое сообщение получено от BingX Futures Stream для ADAUSDT. Соединение стабильно.
-26-02-04 23:41:14 | INFO | Подключились к BingX Futures Stream для ADAUSDT ✅
-26-02-04 23:41:14 | INFO | Первое сообщение получено от BingX Futures Stream для SUIUSDT. Соединение стабильно.
-26-02-04 23:41:14 | INFO | Подключились к BingX Futures Stream для SUIUSDT ✅
-26-02-04 23:41:14 | INFO | Первое сообщение получено от BingX Futures Stream для CAKEUSDT. Соединение стабильно.
-26-02-04 23:41:14 | INFO | Подключились к BingX Futures Stream для CAKEUSDT ✅
-26-02-04 23:41:15 | INFO | Первое сообщение получено от BingX Futures Stream для ZRXUSDT. Соединение стабильно.
-26-02-04 23:41:15 | INFO | Подключились к BingX Futures Stream для ZRXUSDT ✅
+
+26-02-16 20:54:50 | INFO | ====================
+26-02-16 20:54:50 | INFO | Попытка подключения к Google Sheets API...
+26-02-16 20:54:52 | INFO | Успешное подключение к Google Sheets API.
+26-02-16 20:54:52 | INFO | Подключились к Google API ✅
+26-02-16 20:54:58 | INFO | Bot started
+26-02-16 20:54:58 | INFO | Загрузка незавершенных ордеров из таблицы...
+26-02-16 20:54:59 | INFO | Найдено 10 незавершенных ордеров.
+26-02-16 20:55:00 | INFO | Подключились к Telegram API ✅
+26-02-16 20:55:00 | INFO | Загрузка ордера из таблицы: ['4', 'CAKEUSDT', 'LONG', '25.11, 13:44', '2,367', '2,372294', '2,40487', '2,449511', '2,556482', '2,687148', '3', '1,56638592', '➕', '', '0', '', '➕', 5]
+26-02-16 20:55:00 | INFO | Создание нового WebSocket-потока для CAKEUSDT на bingx.
+26-02-16 20:55:00 | INFO | Загрузка ордера из таблицы: ['5', 'ZRXUSDT', 'LONG', '25.11, 13:47', '0,1591', '0,161441', '0,163721', '0,166914', '0,174321', '0,182856', '3', '0,10528602', '➕', '', '0', '', '➕', 6]
+26-02-16 20:55:00 | INFO | Создание нового WebSocket-потока для ZRXUSDT на bingx.
+26-02-16 20:55:00 | INFO | Загрузка ордера из таблицы: ['6', 'ZRXUSDT', 'LONG', '25.11, 14:00', '0,1595', '0,161441', '0,163721', '0,166914', '0,174321', '0,182856', '3', '0,10555072', '➕', '', '0', '', '➕', 7]
+26-02-16 20:55:00 | INFO | Загрузка ордера из таблицы: ['8', 'ZRXUSDT', 'LONG', '25.11, 13:58', '0,1596', '0,161441', '0,163721', '0,166914', '0,174321', '0,182856', '3', '0,1056169', '➕', '', '0', '', '➕', 9]
+26-02-16 20:55:00 | INFO | Загрузка ордера из таблицы: ['9', 'CAKEUSDT', 'LONG', '25.11, 13:53', '2,367', '2,372294', '2,40487', '2,449511', '2,556482', '2,687148', '3', '1,56638592', '➕', '', '0', '', '➕', 10]
+26-02-16 20:55:00 | INFO | Загрузка ордера из таблицы: ['10', 'ADAUSDT', 'LONG', '25.11, 13:54', '0,4162', '0,807819', '0,819471', '0,834497', '0,870116', '0,912663', '2', '0,3129824', '➕', '', '0', '', '➕', 11]
+26-02-16 20:55:00 | INFO | Создание нового WebSocket-потока для ADAUSDT на bingx.
+26-02-16 20:55:00 | INFO | Загрузка ордера из таблицы: ['11', 'SUIUSDT', 'LONG', '25.11, 14:13', '1,5413', '1,554892', '1,575457', '1,604706', '1,673548', '1,758934', '3', '1,01997069', '➕', '', '0', '', '➕', 12]
+26-02-16 20:55:00 | INFO | Создание нового WebSocket-потока для SUIUSDT на bingx.
+26-02-16 20:55:00 | INFO | Загрузка ордера из таблицы: ['17', 'HBARUSDT', 'SHORT', '31.01, 16:37', '0,09391', '0,094486', '0,092936', '0,091326', '0,086858', '0,081501', '0', '', '➕', '', '4', '', '➕', 18]
+26-02-16 20:55:00 | INFO | Создание нового WebSocket-потока для HBARUSDT на bingx.
+26-02-16 20:55:00 | INFO | Загрузка ордера из таблицы: ['18', 'HBARUSDT', 'SHORT', '01.02, 00:22', '0,09017', '0,094486', '0,092936', '0,091326', '0,086858', '0,081501', '0', '', '➕', '', '4', '', '➕', 19]
+26-02-16 20:55:00 | INFO | Загрузка ордера из таблицы: ['19', 'HBARUSDT', 'SHORT', '01.02, 00:31', '0,0908', '0,094486', '0,092936', '0,091326', '0,086858', '0,081501', '0', '', '➕', '', '4', '', '➕', 20]
+26-02-16 20:55:01 | INFO | Соединение с BingX Futures Stream открыто.
+26-02-16 20:55:01 | INFO | Отправлена подписка на ZRXUSDT
+26-02-16 20:55:01 | INFO | Отправлена подписка на CAKEUSDT
+26-02-16 20:55:01 | INFO | Отправлена подписка на ADAUSDT
+26-02-16 20:55:01 | INFO | Отправлена подписка на SUIUSDT
+26-02-16 20:55:01 | INFO | Отправлена подписка на HBARUSDT
+26-02-16 20:55:01 | INFO | Первое сообщение получено от BingX для ADAUSDT. Соединение стабильно.
+26-02-16 20:55:01 | INFO | Подключились к BingX Futures Stream для ADAUSDT ✅
+26-02-16 20:55:02 | INFO | Первое сообщение получено от BingX для SUIUSDT. Соединение стабильно.
+26-02-16 20:55:02 | INFO | Подключились к BingX Futures Stream для SUIUSDT ✅
+26-02-16 20:55:02 | INFO | Первое сообщение получено от BingX для HBARUSDT. Соединение стабильно.
+26-02-16 20:55:02 | INFO | Подключились к BingX Futures Stream для HBARUSDT ✅
+26-02-16 20:55:02 | INFO | Первое сообщение получено от BingX для ZRXUSDT. Соединение стабильно.
+26-02-16 20:55:02 | INFO | Подключились к BingX Futures Stream для ZRXUSDT ✅
+26-02-16 20:55:02 | INFO | Первое сообщение получено от BingX для CAKEUSDT. Соединение стабильно.
+26-02-16 20:55:02 | INFO | Подключились к BingX Futures Stream для CAKEUSDT ✅
+26-02-16 20:57:41 | INFO | Новый сигнал из ТГ: {'exchange': 'bingx', 'side': 'SHORT', 'coin': 'ADA/USDT', 'sl': 0.391844, 'tp1': 0.348028, 'tp2': 0.342883, 'tp3': 0.336168, 'tp4': 0.320927, 'tp5': 0.301871}
+26-02-16 20:57:50 | INFO | Новый сигнал из ТГ: {'exchange': 'bingx', 'side': 'SHORT', 'coin': 'SAND/USDT', 'sl': 0.120683, 'tp1': 0.107616, 'tp2': 0.106247, 'tp3': 0.103923, 'tp4': 0.099109, 'tp5': 0.09327}
+26-02-16 20:57:50 | INFO | Создание нового WebSocket-потока для SANDUSDT на bingx.
+26-02-16 20:57:50 | INFO | Отправлена подписка на SANDUSDT
+26-02-16 20:57:51 | INFO | Первое сообщение получено от BingX для SANDUSDT. Соединение стабильно.
+26-02-16 20:57:51 | INFO | Подключились к BingX Futures Stream для SANDUSDT ✅
+26-02-16 20:57:51 | INFO | Запись новой сделки в строку 26: [25, 'SANDUSDT', 'SHORT', '16.02, 20:57', 0.08666, 0.107616, 0.106247, 0.103923, 0.099109, 0.09327, '0', '', '➕', '', '0', '', '➖']
+26-02-16 20:57:52 | INFO | Успешно записали новую сделку в таблицу.
+26-02-16 20:57:54 | INFO | Отправил уведомление в телеграм
+26-02-16 20:57:54 | INFO | ✅ Взяли 1 цель 🔥
+💰 <b>#SAND/USDT [SHORT]</b>(⏰ 16.02, 20:57 msk).
+Цена: 0.107616
+🐋 Ecosystem x10: @valcapital
+Текущая цена: 0.08664 (Max batch: 0.08664, Min batch: 0.08664)
+26-02-16 20:57:54 | INFO | Обновление TP=1 для строки 26
+26-02-16 20:57:55 | INFO | Успешно обновили TP в таблице для строки 26.
+26-02-16 20:57:57 | INFO | Отправил уведомление в телеграм
+26-02-16 20:57:57 | INFO | ✅ Взяли 2 цель 🔥
+💰 <b>#SAND/USDT [SHORT]</b>(⏰ 16.02, 20:57 msk).
+Цена: 0.106247
+🐋 Ecosystem x10: @valcapital
+Текущая цена: 0.08666 (Max batch: 0.08666, Min batch: 0.08664)
+26-02-16 20:57:57 | INFO | Обновление TP=2 для строки 26
+26-02-16 20:57:59 | INFO | Успешно обновили TP в таблице для строки 26.
+26-02-16 20:58:00 | INFO | Отправил уведомление в телеграм
+26-02-16 20:58:00 | INFO | ✅ Взяли 3 цель 🔥
+💰 <b>#SAND/USDT [SHORT]</b>(⏰ 16.02, 20:57 msk).
+Цена: 0.103923
+🐋 Ecosystem x10: @valcapital
+Текущая цена: 0.08666 (Max batch: 0.08666, Min batch: 0.08666)
+26-02-16 20:58:00 | INFO | Обновление TP=3 для строки 26
+26-02-16 20:58:01 | INFO | Успешно обновили TP в таблице для строки 26.
+26-02-16 20:58:04 | INFO | Отправил уведомление в телеграм
+26-02-16 20:58:04 | INFO | ✅ Взяли 4 цель 🔥
+💰 <b>#SAND/USDT [SHORT]</b>(⏰ 16.02, 20:57 msk).
+Цена: 0.099109
+🐋 Ecosystem x10: @valcapital
+Текущая цена: 0.08666 (Max batch: 0.08666, Min batch: 0.08664)
+26-02-16 20:58:04 | INFO | Обновление TP=4 для строки 26
+26-02-16 20:58:06 | INFO | Успешно обновили TP в таблице для строки 26.
+26-02-16 20:58:08 | INFO | Отправил уведомление в телеграм
+26-02-16 20:58:08 | INFO | ✅ Взяли 5 цель 🔥
+💰 <b>#SAND/USDT [SHORT]</b>(⏰ 16.02, 20:57 msk).
+Цена: 0.09327
+🐋 Ecosystem x10: @valcapital
+Текущая цена: 0.08664 (Max batch: 0.08666, Min batch: 0.08664)
+26-02-16 20:58:08 | INFO | Финальное обновление TP=5 и закрытие сделки для строки 26
+26-02-16 20:58:09 | INFO | Успешно закрыли сделку по TP в таблице для строки 26.
+26-02-16 20:58:55 | INFO | Новый сигнал из ТГ: {'exchange': 'bingx', 'side': 'SHORT', 'coin': 'ADA/USDT', 'sl': 0.391844, 'tp1': 0.348028, 'tp2': 0.342883, 'tp3': 0.336168, 'tp4': 0.320927, 'tp5': 0.301871}
+26-02-16 21:00:17 | INFO | Завершение скрипта пользователем.
+26-02-16 21:00:20 | INFO | ====================
+26-02-16 21:00:20 | INFO | Попытка подключения к Google Sheets API...
+26-02-16 21:00:22 | INFO | Успешное подключение к Google Sheets API.
+26-02-16 21:00:22 | INFO | Подключились к Google API ✅
+26-02-16 21:00:28 | INFO | Bot started
+26-02-16 21:00:28 | INFO | Загрузка незавершенных ордеров из таблицы...
+26-02-16 21:00:29 | INFO | Найдено 3 незавершенных ордеров.
+26-02-16 21:00:30 | INFO | Загрузка ордера из таблицы: ['4', 'CAKEUSDT', 'LONG', '25.11, 13:44', '2,367', '2,372294', '2,40487', '2,449511', '2,556482', '2,687148', '3', '1,56638592', '➕', '', '0', '', '➕', 5]
+26-02-16 21:00:30 | INFO | Создание нового WebSocket-потока для CAKEUSDT на bingx.
+26-02-16 21:00:30 | INFO | Загрузка ордера из таблицы: ['5', 'ZRXUSDT', 'LONG', '25.11, 13:47', '0,1591', '0,161441', '0,163721', '0,166914', '0,174321', '0,182856', '3', '0,10528602', '➕', '', '0', '', '➕', 6]
+26-02-16 21:00:30 | INFO | Создание нового WebSocket-потока для ZRXUSDT на bingx.
+26-02-16 21:00:30 | INFO | Загрузка ордера из таблицы: ['6', 'ZRXUSDT', 'LONG', '25.11, 14:00', '0,1595', '0,161441', '0,163721', '0,166914', '0,174321', '0,182856', '3', '0,10555072', '➕', '', '0', '', '➕', 7]
+26-02-16 21:00:30 | INFO | Создание нового WebSocket-потока для ZRXUSDT на bingx.
+26-02-16 21:00:30 | INFO | Соединение с BingX Futures Stream открыто.
+26-02-16 21:00:30 | INFO | Отправлена подписка на CAKEUSDT
+26-02-16 21:00:30 | INFO | Отправлена подписка на ZRXUSDT
+26-02-16 21:00:31 | INFO | Первое сообщение получено от BingX для ZRXUSDT. Соединение стабильно.
+26-02-16 21:00:31 | INFO | Подключились к BingX Futures Stream для ZRXUSDT ✅
+26-02-16 21:00:31 | INFO | Первое сообщение получено от BingX для CAKEUSDT. Соединение стабильно.
+26-02-16 21:00:31 | INFO | Подключились к BingX Futures Stream для CAKEUSDT ✅
+26-02-16 21:00:33 | INFO | Подключились к Telegram API ✅
+26-02-16 21:00:39 | INFO | Новый сигнал из ТГ: {'exchange': 'bingx', 'side': 'SHORT', 'coin': 'ADA/USDT', 'sl': 0.391844, 'tp1': 0.348028, 'tp2': 0.342883, 'tp3': 0.336168, 'tp4': 0.320927, 'tp5': 0.301871}
+26-02-16 21:00:39 | INFO | Создание нового WebSocket-потока для ADAUSDT на bingx.
+26-02-16 21:00:39 | INFO | Отправлена подписка на ADAUSDT
+26-02-16 21:00:39 | INFO | Первое сообщение получено от BingX для ADAUSDT. Соединение стабильно.
+26-02-16 21:00:39 | INFO | Подключились к BingX Futures Stream для ADAUSDT ✅
+26-02-16 21:00:40 | INFO | Запись новой сделки в строку 8: [7, 'ADAUSDT', 'SHORT', '16.02, 21:00', 0.28197, 0.348028, 0.342883, 0.336168, 0.320927, 0.301871, '0', '', '➕', '', '0', '', '➖']
+26-02-16 21:00:41 | INFO | Успешно записали новую сделку в таблицу.
+26-02-16 21:00:42 | INFO | Отправил уведомление в телеграм
+26-02-16 21:00:42 | INFO | ✅ Взяли 1 цель 🔥
+💰 <b>#ADA/USDT [SHORT]</b>(⏰ 16.02, 21:00 msk).
+Цена: 0.348028
+🐋 Ecosystem x10: @valcapital
+Текущая цена: 0.28197 (Max batch: 0.28197, Min batch: 0.28197)
+26-02-16 21:00:42 | INFO | Обновление TP=1 для строки 8
+26-02-16 21:00:43 | INFO | Успешно обновили TP в таблице для строки 8.
+26-02-16 21:00:44 | INFO | Отправил уведомление в телеграм
+26-02-16 21:00:44 | INFO | ✅ Взяли 2 цель 🔥
+💰 <b>#ADA/USDT [SHORT]</b>(⏰ 16.02, 21:00 msk).
+Цена: 0.342883
+🐋 Ecosystem x10: @valcapital
+Текущая цена: 0.28197 (Max batch: 0.28205, Min batch: 0.28197)
+26-02-16 21:00:44 | INFO | Обновление TP=2 для строки 8
+26-02-16 21:00:45 | INFO | Успешно обновили TP в таблице для строки 8.
+26-02-16 21:00:46 | INFO | Отправил уведомление в телеграм
+26-02-16 21:00:46 | INFO | ✅ Взяли 3 цель 🔥
+💰 <b>#ADA/USDT [SHORT]</b>(⏰ 16.02, 21:00 msk).
+Цена: 0.336168
+🐋 Ecosystem x10: @valcapital
+Текущая цена: 0.28207 (Max batch: 0.28215, Min batch: 0.28207)
+26-02-16 21:00:46 | INFO | Обновление TP=3 для строки 8
+26-02-16 21:00:47 | INFO | Успешно обновили TP в таблице для строки 8.
+26-02-16 21:00:48 | INFO | Отправил уведомление в телеграм
+26-02-16 21:00:48 | INFO | ✅ Взяли 4 цель 🔥
+💰 <b>#ADA/USDT [SHORT]</b>(⏰ 16.02, 21:00 msk).
+Цена: 0.320927
+🐋 Ecosystem x10: @valcapital
+Текущая цена: 0.28215 (Max batch: 0.28215, Min batch: 0.28215)
+26-02-16 21:00:48 | INFO | Обновление TP=4 для строки 8
+26-02-16 21:00:50 | INFO | Успешно обновили TP в таблице для строки 8.
+26-02-16 21:00:51 | INFO | Отправил уведомление в телеграм
+26-02-16 21:00:51 | INFO | ✅ Взяли 5 цель 🔥
+💰 <b>#ADA/USDT [SHORT]</b>(⏰ 16.02, 21:00 msk).
+Цена: 0.301871
+🐋 Ecosystem x10: @valcapital
+Текущая цена: 0.28215 (Max batch: 0.28215, Min batch: 0.28207)
+26-02-16 21:00:51 | INFO | Финальное обновление TP=5 и закрытие сделки для строки 8
+26-02-16 21:00:51 | INFO | Успешно закрыли сделку по TP в таблице для строки 8.
+26-02-16 21:02:01 | ERROR | Не смог получить данные от телеграма: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response')), пробую еще раз..
+26-02-16 21:02:01 | INFO | Не смог получить данные от Telegram API ❌
+26-02-16 21:02:13 | INFO | Подключились к Telegram API ✅
+26-02-16 21:16:13 | INFO | Новый сигнал из ТГ: {'exchange': 'bingx', 'side': 'LONG', 'coin': 'BTC/USDT', 'sl': 57691.591554, 'tp1': 65576.545465, 'tp2': 66506.670634, 'tp3': 67824.834574, 'tp4': 70812.57542, 'tp5': 74218.563114}
+26-02-16 21:16:13 | INFO | Создание нового WebSocket-потока для BTCUSDT на bingx.
+26-02-16 21:16:13 | INFO | Отправлена подписка на BTCUSDT
+26-02-16 21:16:14 | INFO | Первое сообщение получено от BingX для BTCUSDT. Соединение стабильно.
+26-02-16 21:16:14 | INFO | Подключились к BingX Futures Stream для BTCUSDT ✅
+26-02-16 21:16:15 | INFO | Запись новой сделки в строку 9: [8, 'BTCUSDT', 'LONG', '16.02, 21:16', 68067.3, 65576.545465, 66506.670634, 67824.834574, 70812.57542, 74218.563114, '0', '', '➕', '', '0', '', '➖']
+26-02-16 21:16:16 | INFO | Успешно записали новую сделку в таблицу.
+26-02-16 21:16:18 | INFO | Отправил уведомление в телеграм
+26-02-16 21:16:18 | INFO | ✅ Взяли 1 цель 🔥
+💰 <b>#BTC/USDT [LONG]</b>(⏰ 16.02, 21:16 msk).
+Цена: 65576.545465
+🐋 Ecosystem x10: @valcapital
+Текущая цена: 68067.3 (Max batch: 68067.3, Min batch: 68067.1)
+26-02-16 21:16:18 | INFO | Обновление TP=1 для строки 9
+26-02-16 21:16:20 | INFO | Успешно обновили TP в таблице для строки 9.
+26-02-16 21:16:21 | INFO | Отправил уведомление в телеграм
+26-02-16 21:16:21 | INFO | ✅ Взяли 2 цель 🔥
+💰 <b>#BTC/USDT [LONG]</b>(⏰ 16.02, 21:16 msk).
+Цена: 66506.670634
+🐋 Ecosystem x10: @valcapital
+Текущая цена: 68069.1 (Max batch: 68069.2, Min batch: 68069.1)
+26-02-16 21:16:21 | INFO | Обновление TP=2 для строки 9
+26-02-16 21:16:23 | INFO | Успешно обновили TP в таблице для строки 9.
+26-02-16 21:16:24 | INFO | Отправил уведомление в телеграм
+26-02-16 21:16:24 | INFO | ✅ Взяли 3 цель 🔥
+💰 <b>#BTC/USDT [LONG]</b>(⏰ 16.02, 21:16 msk).
+Цена: 67824.834574
+🐋 Ecosystem x10: @valcapital
+Текущая цена: 68073.6 (Max batch: 68073.6, Min batch: 68070.5)
+26-02-16 21:16:24 | INFO | Обновление TP=3 для строки 9
+26-02-16 21:16:25 | INFO | Успешно обновили TP в таблице для строки 9.
+26-02-16 21:25:10 | INFO | Завершение скрипта пользователем.
+26-02-25 23:31:40 | INFO | ====================
+26-02-25 23:31:40 | INFO | Попытка подключения к Google Sheets API...
+26-02-25 23:31:42 | INFO | Успешное подключение к Google Sheets API.
+26-02-25 23:31:42 | INFO | Подключились к Google API ✅
+26-02-25 23:31:48 | INFO | Bot started
+26-02-25 23:31:48 | INFO | Загрузка незавершенных ордеров из таблицы...
+26-02-25 23:31:49 | INFO | Найдено 5 незавершенных ордеров.
+26-02-25 23:31:50 | INFO | Загрузка ордера из таблицы: ['4', 'CAKEUSDT', 'LONG', '25.11, 13:44', '2,367', '2,372294', '2,40487', '2,449511', '2,556482', '2,687148', '3', '1,56638592', '➕', '', '0', '', '➕', 5]
+26-02-25 23:31:50 | INFO | Создание нового WebSocket-потока для CAKEUSDT на bingx.
+26-02-25 23:31:50 | INFO | Загрузка ордера из таблицы: ['5', 'ZRXUSDT', 'LONG', '25.11, 13:47', '0,1591', '0,161441', '0,163721', '0,166914', '0,174321', '0,182856', '3', '0,10528602', '➕', '', '0', '', '➕', 6]
+26-02-25 23:31:50 | INFO | Создание нового WebSocket-потока для ZRXUSDT на bingx.
+26-02-25 23:31:50 | INFO | Загрузка ордера из таблицы: ['8', 'BTCUSDT', 'LONG', '16.02, 21:16', '68067,3', '65576,54547', '66506,67063', '67824,83457', '70812,57542', '74218,56311', '0', '', '➕', '', '3', '', '➖', 9]
+26-02-25 23:31:50 | INFO | Создание нового WebSocket-потока для BTCUSDT на bingx.
+26-02-25 23:31:50 | INFO | Загрузка ордера из таблицы: ['9', 'NEARUSDT', 'LONG', '05.12, 16:34', '1,744', '1,754938', '1,78309', '1,81799', '1,895703', '1,989672', '3', '1,15410944', '➕', '', '3', '', '➕', 10]
+26-02-25 23:31:50 | INFO | Загрузка ордера из таблицы: ['6', 'ZRXUSDT', 'LONG', '25.11, 14:00', '0,1595', '0,161441', '0,163721', '0,166914', '0,174321', '0,182856', '3', '0,10555072', '➕', '', '0', '', '➕', 7]
+26-02-25 23:31:50 | INFO | Создание нового WebSocket-потока для NEARUSDT на bingx.
+26-02-25 23:31:50 | INFO | Подключились к Telegram API ✅
+26-02-25 23:31:51 | INFO | Соединение с BingX Futures Stream открыто.
+26-02-25 23:31:51 | INFO | Отправлена подписка на CAKEUSDT
+26-02-25 23:31:51 | INFO | Отправлена подписка на ZRXUSDT
+26-02-25 23:31:51 | INFO | Отправлена подписка на BTCUSDT
+26-02-25 23:31:51 | INFO | Отправлена подписка на NEARUSDT
+26-02-25 23:31:52 | INFO | Первое сообщение получено от BingX для NEARUSDT. Соединение стабильно.
+26-02-25 23:31:52 | INFO | Подключились к BingX Futures Stream для NEARUSDT ✅
+26-02-25 23:31:52 | INFO | Первое сообщение получено от BingX для ZRXUSDT. Соединение стабильно.
+26-02-25 23:31:52 | INFO | Подключились к BingX Futures Stream для ZRXUSDT ✅
+26-02-25 23:31:52 | INFO | Первое сообщение получено от BingX для BTCUSDT. Соединение стабильно.
+26-02-25 23:31:52 | INFO | Подключились к BingX Futures Stream для BTCUSDT ✅
+26-02-25 23:31:52 | INFO | Первое сообщение получено от BingX для CAKEUSDT. Соединение стабильно.
+26-02-25 23:31:52 | INFO | Подключились к BingX Futures Stream для CAKEUSDT ✅
+26-02-25 23:39:45 | INFO | Новый сигнал из ТГ: {'exchange': 'bingx', 'side': 'LONG', 'coin': 'NEAR/USDT', 'sl': 0.911921, 'tp1': 1.039456, 'tp2': 1.055564, 'tp3': 1.073931, 'tp4': 1.118955, 'tp5': 1.175983}
+26-02-25 23:42:28 | INFO | Завершение скрипта пользователем.

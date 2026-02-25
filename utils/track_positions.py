@@ -4,8 +4,8 @@ import time
 from .tg_signal import send_alert, send_av_alert
 from .logger_setup import logger
 import threading
-from .get_bybit_data import websocket_bybit
-from .get_bingx_data import websocket_bingx
+from .get_bybit_data import websocket_bybit, bybit_manager
+from .get_bingx_data import websocket_bingx, bingx_manager
 from queue import Queue
 
 # --- Управление потоками WebSocket ---
@@ -129,6 +129,13 @@ def manage_websocket_connection(coin, exchange='bybit'):
     if key in active_ws_threads and active_ws_threads[key]['thread'].is_alive():
         logger.debug(f"Используется существующий WebSocket-поток для {coin} на {exchange}.")
         active_ws_threads[key]['subscribers'].append(new_queue)
+        
+        # Добавляем нового подписчика в менеджер
+        if exchange.lower() == 'bingx':
+            bingx_manager.add_subscriber(coin, new_queue)
+        else:
+            bybit_manager.add_subscriber(coin, new_queue)
+            
         return new_queue
 
     # Если потока нет или он "мертв", создаем новый
@@ -199,10 +206,20 @@ def track_position(worksheet, is_old_order, signal, empty_row=None, order_number
 
             # Запуск WebSocket для получения цены
             queue_bybit = manage_websocket_connection(coin, exchange)
+            
+            # Ожидание цены с таймаутом (20 секунд)
+            start_wait = time.time()
             while current_price is None or current_price == 0.0:
+                if time.time() - start_wait > 20:
+                    logger.error(f"Таймаут ожидания цены через WebSocket для {coin} ({exchange}).")
+                    break
                 time.sleep(1)
                 while not queue_bybit.empty():
                     current_price = float(queue_bybit.get())
+
+            if current_price is None or current_price == 0.0:
+                logger.error(f"Не удалось получить начальную цену для {coin}. Запись в таблицу невозможна.")
+                return # Прекращаем обработку, если нет цены
 
             entry_price = current_price
             avg_price = current_price
@@ -242,7 +259,15 @@ def track_position(worksheet, is_old_order, signal, empty_row=None, order_number
 
             # Запуск WebSocket
             queue_bybit = manage_websocket_connection(coin, exchange)
+            
+            # Ожидание цены с таймаутом (20 секунд)
+            start_wait = time.time()
             while current_price is None or current_price == 0.0:
+                if time.time() - start_wait > 20:
+                    logger.warning(f"Таймаут ожидания цены через WebSocket для старого ордера {coin} ({exchange}).")
+                    # Для старого ордера мы можем продолжить, так как entry_price уже есть
+                    current_price = entry_price 
+                    break
                 time.sleep(1)
                 while not queue_bybit.empty():
                     current_price = float(queue_bybit.get())
