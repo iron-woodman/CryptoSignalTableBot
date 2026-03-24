@@ -204,22 +204,29 @@ def track_position(worksheet, is_old_order, signal, empty_row=None, order_number
             targets = [signal[f'tp{i}'] for i in range(1, 6)]
             id_targets = targets.copy()
 
-            # Запуск WebSocket для получения цены
-            queue_bybit = manage_websocket_connection(coin, exchange)
-            
-            # Ожидание цены с таймаутом (20 секунд)
-            start_wait = time.time()
-            while current_price is None or current_price == 0.0:
-                if time.time() - start_wait > 20:
-                    logger.error(f"Таймаут ожидания цены через WebSocket для {coin} ({exchange}).")
+            # Запуск WebSocket для получения цены.
+            # При разрыве соединения делаем повторную попытку (до 3-х раз),
+            # чтобы не терять сигнал из-за временного отключения BingX WebSocket.
+            MAX_PRICE_ATTEMPTS = 3
+            for attempt in range(1, MAX_PRICE_ATTEMPTS + 1):
+                queue_bybit = manage_websocket_connection(coin, exchange)
+                start_wait = time.time()
+                while current_price is None or current_price == 0.0:
+                    if time.time() - start_wait > 20:
+                        logger.warning(f"Таймаут ожидания цены через WebSocket для {coin} ({exchange}), попытка {attempt}/{MAX_PRICE_ATTEMPTS}.")
+                        break
+                    time.sleep(1)
+                    while not queue_bybit.empty():
+                        current_price = float(queue_bybit.get())
+                if current_price is not None and current_price != 0.0:
                     break
-                time.sleep(1)
-                while not queue_bybit.empty():
-                    current_price = float(queue_bybit.get())
+                if attempt < MAX_PRICE_ATTEMPTS:
+                    logger.info(f"Повторная подписка на WebSocket для {coin} через 5с...")
+                    time.sleep(5)
 
             if current_price is None or current_price == 0.0:
-                logger.error(f"Не удалось получить начальную цену для {coin}. Запись в таблицу невозможна.")
-                return # Прекращаем обработку, если нет цены
+                logger.error(f"Не удалось получить начальную цену для {coin} после {MAX_PRICE_ATTEMPTS} попыток. Запись в таблицу невозможна.")
+                return  # Прекращаем обработку, если нет цены
 
             entry_price = current_price
             avg_price = current_price
