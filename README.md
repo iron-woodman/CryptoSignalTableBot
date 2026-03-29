@@ -1,174 +1,238 @@
-# Crypto Signal Table Bot
+# CryptoSignalTableBot
 
-## Описание проекта
+Асинхронный сервис для обработки крипто-сигналов и отправки сообщений в Telegram через очередь Redis.
 
-**Crypto Signal Table Bot** — это Telegram-бот, предназначенный для автоматического отслеживания торговых сигналов по криптовалютам. Бот получает сигналы из указанного Telegram-канала, отслеживает текущую цену актива через WebSocket с бирж Bybit или BingX и записывает все данные о сделках в Google-таблицу.
+## Новая архитектура
 
-### Основной функционал:
-- **Получение сигналов:** Бот мониторит Telegram-канал на предмет новых торговых сигналов.
-- **Отслеживание цены:** Подключается к WebSocket API Bybit или BingX для получения цен в реальном времени.
-- **Ведение журнала сделок:** Вся информация по каждой сделке (цена входа, тейк-профиты, усреднения) записывается и обновляется в Google-таблице.
-- **Уведомления:** Бот отправляет уведомления в Telegram о ключевых событиях:
-    - Взятие тейк-профита.
-    - Срабатывание ордера на усреднение.
-    - Достижение точки безубытка.
-    - Отклонение цены на 5% от точки входа (сигнал для ручного вмешательства).
-- **Восстановление состояния:** После перезапуска бот может продолжать отслеживать незавершенные сделки, загружая их из Google-таблицы.
+`WebSocket/входящий сигнал -> core.signal_processor -> Redis очередь -> async worker -> Telegram Bot API (webhook)`
 
-## Технологии
-- **Язык:** Python 3.10+
-- **Библиотеки:**
-    - `python-telegram-bot` (или `requests` для прямого взаимодействия с API)
-    - `gspread` (для работы с Google Sheets)
-    - `websocket-client` (для подключения к Bybit и BingX)
-    - `python-dotenv` (для управления конфигурацией)
-- **База данных:** Google Sheets
-- **Источники данных:** Bybit WebSocket API, BingX WebSocket API
+Это убирает прямую отправку в Telegram из торговой логики, снижает риск потерь сообщений и повышает устойчивость при сетевых сбоях.
 
-## Инструкция по развертыванию на VPS (Ubuntu 22.04)
+## Структура
 
-### 1. Подготовка сервера
-1.  **Арендуйте VPS:** Выберите хостинг-провайдера и арендуйте сервер с Ubuntu 22.04 или новее.
-2.  **Подключитесь к серверу по SSH:**
-    ```bash
-    ssh ваш_пользователь@ip_адрес_сервера
-    ```
-3.  **Обновите пакеты:**
-    ```bash
-    sudo apt update && sudo apt upgrade -y
-    ```
-4.  **Установите Python и необходимые утилиты:**
-    ```bash
-    sudo apt install python3 python3-pip python3-venv git -y
-    ```
+```text
+bot/
+  main.py
+  config.py
 
-### 2. Клонирование проекта
-1.  **Перейдите в домашнюю директорию:**
-    ```bash
-    cd ~
-    ```
-2.  **Клонируйте репозиторий с ботом:**
-    ```bash
-    git clone <URL_вашего_репозитория> CryptoSignalTableBot
-    ```
-3.  **Перейдите в директорию проекта:**
-    ```bash
-    cd CryptoSignalTableBot
-    ```
+core/
+  signal_processor.py
 
-### 3. Настройка окружения
-1.  **Создайте виртуальное окружение:**
-    ```bash
-    python3 -m venv .venv
-    ```
-2.  **Активируйте виртуальное окружение:**
-    ```bash
-    source .venv/bin/activate
-    ```
-3.  **Установите зависимости:**
-    ```bash
-    pip install -r requirements.txt
-    ```
+services/
+  telegram/
+    bot.py
+    sender.py
 
-### 4. Конфигурация
-1.  **Настройте Google Sheets API:**
-    - Следуйте [официальной инструкции gspread](https://docs.gspread.org/en/latest/oauth2.html) для создания сервис-аккаунта.
-    - Скачайте JSON-файл с ключами.
-    - Переименуйте его в `service_account.json` и поместите в корневую директорию проекта.
-    - Не забудьте предоставить доступ сервис-аккаунту (email из JSON-файла) к вашей Google-таблице, выдав ему права редактора.
-2.  **Создайте файл `.env`:**
-    - Скопируйте файл-пример:
-      ```bash
-      cp .env.example .env
-      ```
-    - Откройте `.env` для редактирования:
-      ```bash
-      nano .env
-      ```
-    - Заполните все необходимые переменные:
-      ```ini
-      # Токен вашего Telegram-бота
-      TOKEN="123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11"
-      # ID канала для сигналов (можно получить у @userinfobot)
-      CHANNEL_NAME="-1001234567890"
-      # ID технического канала для отладки
-      TECH_CHANNEL_NAME="-1001234567891"
-      # ID канала для уведомлений об усреднениях
-      AV_CHANNEL_NAME="-1001234567892"
-      # Имя файла с ключом Google API
-      GS_JS_FILE="service_account.json"
-      # URL вашей Google таблицы
-      GS_SHEET_FILE="https://docs.google.com/spreadsheets/d/1aBcDeFgHiJkLmNoPqRsTuVwXyZ.../edit#gid=0"
-      # Номер листа в таблице (0 - первый)
-      G_LIST="0"
+app_queue/
+  redis_queue.py
 
-      # Настройки для BingX (опционально)
-      BINGX_API_KEY="ваш_api_ключ"
-      BINGX_API_SECRET="ваш_api_секрет"
-      ```
+workers/
+  telegram_worker.py
 
-### 5. Запуск и проверка
-1.  **Запустите бота вручную для проверки:**
-    ```bash
-    python3 main.py
-    ```
-2.  **Проверьте, что бот запустился без ошибок.** В вашем техническом канале должны появиться сообщения о подключении к API.
-3.  **Остановите бота, нажав `Ctrl+C`.**
+integrations/
+  bingx_ws.py
 
-### 6. Создание службы systemd
-Чтобы бот работал в фоновом режиме и автоматически перезапускался, создадим для него службу `systemd`.
+utils/
+  retry.py
+```
 
-1.  **Создайте файл службы:**
-    ```bash
-    sudo nano /etc/systemd/system/crypto_bot.service
-    ```
-2.  **Вставьте в файл следующую конфигурацию:**
-    - **Важно:** Замените `ваш_пользователь` на имя вашего пользователя на VPS.
-    ```ini
-    [Unit]
-    Description=Crypto Signal Table Bot
-    After=network.target
+## Быстрый старт
 
-    [Service]
-    User=ваш_пользователь
-    Group=ваш_пользователь
-    WorkingDirectory=/home/ваш_пользователь/CryptoSignalTableBot
-    ExecStart=/home/ваш_пользователь/CryptoSignalTableBot/.venv/bin/python3 /home/ваш_пользователь/CryptoSignalTableBot/main.py
-    Restart=always
-    RestartSec=10
+1. Установите зависимости:
 
-    [Install]
-    WantedBy=multi-user.target
-    ```
-3.  **Сохраните файл и закройте редактор (`Ctrl+X`, `Y`, `Enter`).**
+```bash
+pip install -r requirements.txt
+```
 
-### 7. Управление службой
-1.  **Перезагрузите конфигурацию `systemd`:**
-    ```bash
-    sudo systemctl daemon-reload
-    ```
-2.  **Включите автозапуск службы:**
-    ```bash
-    sudo systemctl enable crypto_bot.service
-    ```
-3.  **Запустите службу:**
-    ```bash
-    sudo systemctl start crypto_bot.service
-    ```
-4.  **Проверьте статус службы:**
-    ```bash
-    sudo systemctl status crypto_bot.service
-    ```
-    - Вы должны увидеть `active (running)`.
-    - Если есть ошибки, просмотрите логи с помощью `journalctl -u crypto_bot -f`.
+2. Настройте переменные окружения:
 
-5.  **Чтобы остановить службу:**
-    ```bash
-    sudo systemctl stop crypto_bot.service
-    ```
-6.  **Чтобы перезапустить службу (например, после обновления кода):**
-    ```bash
-    sudo systemctl restart crypto_bot.service
-    ```
+```bash
+cp .env.example .env
+```
 
-Теперь ваш бот работает как служба, и будет автоматически запускаться после перезагрузки сервера.
+Минимально обязательные:
+- `BOT_TOKEN`
+- `CHAT_ID`
+- `WEBHOOK_HOST`
+
+3. Поднимите Redis:
+
+```bash
+redis-server
+```
+
+4. Запустите бота:
+
+```bash
+python main.py
+```
+
+5. Для локального webhook используйте ngrok:
+
+```bash
+ngrok http 8000
+```
+
+и вставьте URL в `WEBHOOK_HOST`.
+
+## Тесты
+
+Добавлены автотесты основных функций:
+- парсинг входящих сигналов;
+- формирование и постановка сообщений в очередь;
+- retry-механизм;
+- работа Redis-очереди и fallback в память.
+
+Запуск:
+
+```bash
+pytest -q
+```
+
+## Установка на VPS (Nginx + Redis + Webhook)
+
+Ниже пример для Ubuntu 22.04/24.04.
+
+1. Подготовка сервера:
+
+```bash
+sudo apt update && sudo apt upgrade -y
+sudo apt install -y python3 python3-venv python3-pip git nginx redis-server certbot python3-certbot-nginx
+```
+
+2. Клонирование и установка проекта:
+
+```bash
+cd /opt
+sudo git clone <YOUR_REPO_URL> CryptoSignalTableBot
+sudo chown -R $USER:$USER /opt/CryptoSignalTableBot
+cd /opt/CryptoSignalTableBot
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+3. Настройка `.env`:
+
+```bash
+cp .env.example .env
+nano .env
+```
+
+Минимально заполнить:
+- `BOT_TOKEN`
+- `CHAT_ID`
+- `WEBHOOK_HOST=https://bot.your-domain.com`
+- `WEBHOOK_PATH=/webhook`
+- `WEBHOOK_PORT=8000`
+- `REDIS_URL=redis://localhost:6379/0`
+
+4. Включить и проверить Redis:
+
+```bash
+sudo systemctl enable redis-server
+sudo systemctl restart redis-server
+sudo systemctl status redis-server
+redis-cli ping
+```
+
+Ожидаемый ответ: `PONG`.
+
+5. Настройка Nginx (reverse proxy на бота):
+
+Создайте файл `/etc/nginx/sites-available/cryptobot`:
+
+```nginx
+server {
+    listen 80;
+    server_name bot.your-domain.com;
+
+    location /webhook {
+        proxy_pass http://127.0.0.1:8000;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+```
+
+Активируйте конфиг:
+
+```bash
+sudo ln -s /etc/nginx/sites-available/cryptobot /etc/nginx/sites-enabled/cryptobot
+sudo nginx -t
+sudo systemctl reload nginx
+```
+
+6. Выпустить SSL-сертификат (Let's Encrypt):
+
+```bash
+sudo certbot --nginx -d bot.your-domain.com
+```
+
+После этого `WEBHOOK_HOST` должен быть именно на `https://...`.
+
+7. Запуск бота как systemd-сервиса:
+
+Создайте `/etc/systemd/system/cryptobot.service`:
+
+```ini
+[Unit]
+Description=CryptoSignalTableBot
+After=network.target redis-server.service
+
+[Service]
+Type=simple
+User=<YOUR_USER>
+WorkingDirectory=/opt/CryptoSignalTableBot
+EnvironmentFile=/opt/CryptoSignalTableBot/.env
+ExecStart=/opt/CryptoSignalTableBot/.venv/bin/python /opt/CryptoSignalTableBot/main.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Запуск:
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable cryptobot
+sudo systemctl start cryptobot
+sudo systemctl status cryptobot
+```
+
+Логи:
+
+```bash
+sudo journalctl -u cryptobot -f
+```
+
+8. Проверка webhook:
+
+```bash
+curl -s "https://api.telegram.org/bot<YOUR_BOT_TOKEN>/getWebhookInfo"
+```
+
+В `url` должен быть ваш домен и путь, например: `https://bot.your-domain.com/webhook`.
+
+9. Рекомендуемая базовая безопасность:
+
+```bash
+sudo ufw allow OpenSSH
+sudo ufw allow 'Nginx Full'
+sudo ufw enable
+```
+
+Не открывайте порт `8000` наружу: он должен быть доступен только локально через Nginx.
+
+## Что изменено
+
+- Убрана старая polling-модель Telegram (`getUpdates`) из рабочего контура.
+- Убраны прямые синхронные `requests`-вызовы Telegram из отправки уведомлений.
+- Добавлен retry-механизм для асинхронной отправки.
+- Добавлен worker с rate-limit (`0.3s`) между сообщениями.
+- Добавлена совместимость со старыми env-переменными (`TOKEN`, `CHANNEL_NAME` и др.).

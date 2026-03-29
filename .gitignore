@@ -1,10 +1,30 @@
+# Environment
 .env
+.env.bak
+
+# Python
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+
+# Virtual environments
+.venv/
 venv/
 
+# IDE
+.idea/
+.vscode/
+
+# Secrets and local credentials
 service_account.json
+
+# Logs
+*.log
 bot.log
-.env.bak
-.dea/
+bot_remote.log
+
+# Local notes/assets
 ссылки.txt
+схема .bmp

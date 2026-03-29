@@ -1,36 +1,6 @@
-import os
-from dotenv import load_dotenv
-
-# Загрузка переменных окружения из файла .env
-load_dotenv()
-
-# --- Настройки для Telegram ---
-# Токен вашего Telegram-бота. Получается у @BotFather.
-TOKEN = os.getenv('TOKEN', '')
-# ID основного канала, куда бот будет отправлять сигналы о взятии TP.
-CHANNEL_NAME = os.getenv('CHANNEL_NAME', '')
-# ID технического канала для получения отладочной информации и сообщений об ошибках.
-TECH_CHANNEL_NAME = os.getenv('TECH_CHANNEL_NAME', '')
-# ID канала для уведомлений об усреднениях и достижении безубытка.
-AV_CHANNEL_NAME = os.getenv('AV_CHANNEL_NAME', '')
-
-# --- Настройки для Google Sheets ---
-# Имя файла с ключом сервис-аккаунта Google API в формате JSON.
-GS_JS_FILE = os.getenv('GS_JS_FILE', 'service_account.json')
-# URL вашей Google таблицы, в которой бот будет хранить данные о сделках.
-GS_SHEET_FILE = os.getenv('GS_SHEET_FILE', '')
-# Номер листа в Google таблице, с которым будет работать бот (нумерация с 0).
-G_LIST = os.getenv('G_LIST', '0')
-
-# --- Настройки логирования ---
-# Включает/выключает логирование сообщений 'Pong получен от Bybit Stream'. По умолчанию выключено.
-LOG_PONG_MESSAGES = os.getenv('LOG_PONG_MESSAGES', 'False').lower() == 'true'
-
-# --- Настройки биржи ---
-# Биржа по умолчанию для отслеживания цен ('bybit' или 'bingx')
-EXCHANGE = os.getenv('EXCHANGE', 'bybit').lower()
-
-# --- Настройки для BingX API (если потребуется) ---
-# Эти параметры могут понадобиться в будущем для аутентификации или других функций
-BINGX_API_KEY = os.getenv('BINGX_API_KEY', '')
-BINGX_API_SECRET = os.getenv('BINGX_API_SECRET', '')
+from bot.config import AV_CHAT_ID as AV_CHANNEL_NAME
+from bot.config import BINGX_API_KEY, BINGX_API_SECRET
+from bot.config import BOT_TOKEN as TOKEN
+from bot.config import CHAT_ID as CHANNEL_NAME
+from bot.config import EXCHANGE, G_LIST, GS_JS_FILE, GS_SHEET_FILE, LOG_PONG_MESSAGES
+from bot.config import TECH_CHAT_ID as TECH_CHANNEL_NAME
