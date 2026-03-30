@@ -105,7 +105,7 @@ sudo apt install -y python3 python3-venv python3-pip git nginx redis-server cert
 ```bash
 cd /opt
 sudo git clone <YOUR_REPO_URL> CryptoSignalTableBot
-sudo chown -R $USER:$USER /opt/CryptoSignalTableBot
+sudo chown -R root:root /opt/CryptoSignalTableBot
 cd /opt/CryptoSignalTableBot
 python3 -m venv .venv
 source .venv/bin/activate
@@ -122,7 +122,7 @@ nano .env
 Минимально заполнить:
 - `BOT_TOKEN`
 - `CHAT_ID`
-- `WEBHOOK_HOST=https://bot.your-domain.com`
+- `WEBHOOK_HOST=https://cryptotable.skobarev.ru`
 - `WEBHOOK_PATH=/webhook`
 - `WEBHOOK_PORT=8000`
 - `REDIS_URL=redis://localhost:6379/0`
@@ -145,7 +145,7 @@ redis-cli ping
 ```nginx
 server {
     listen 80;
-    server_name bot.your-domain.com;
+    server_name cryptotable.skobarev.ru;
 
     location /webhook {
         proxy_pass http://127.0.0.1:8000;
@@ -169,7 +169,7 @@ sudo systemctl reload nginx
 6. Выпустить SSL-сертификат (Let's Encrypt):
 
 ```bash
-sudo certbot --nginx -d bot.your-domain.com
+sudo certbot --nginx -d cryptotable.skobarev.ru
 ```
 
 После этого `WEBHOOK_HOST` должен быть именно на `https://...`.
@@ -185,7 +185,7 @@ After=network.target redis-server.service
 
 [Service]
 Type=simple
-User=<YOUR_USER>
+User=root
 WorkingDirectory=/opt/CryptoSignalTableBot
 EnvironmentFile=/opt/CryptoSignalTableBot/.env
 ExecStart=/opt/CryptoSignalTableBot/.venv/bin/python /opt/CryptoSignalTableBot/main.py
@@ -217,7 +217,7 @@ sudo journalctl -u cryptobot -f
 curl -s "https://api.telegram.org/bot<YOUR_BOT_TOKEN>/getWebhookInfo"
 ```
 
-В `url` должен быть ваш домен и путь, например: `https://bot.your-domain.com/webhook`.
+В `url` должен быть ваш домен и путь, например: `https://cryptotable.skobarev.ru/webhook`.
 
 9. Рекомендуемая базовая безопасность:
 
