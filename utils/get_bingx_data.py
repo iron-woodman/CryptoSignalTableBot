@@ -160,20 +160,25 @@ class BingXWSManager:
 # Глобальный экземпляр менеджера
 bingx_manager = BingXWSManager()
 bingx_thread = None
+_bingx_init_lock = threading.Lock()
+
 
 def websocket_bingx(coin, subscribers):
     """
     Совместимая обертка для старого кода.
+    Использует один глобальный WebSocket для всех монет.
     """
     global bingx_thread
-    if bingx_thread is None or not bingx_thread.is_alive():
-        bingx_thread = threading.Thread(target=bingx_manager.run, daemon=True)
-        bingx_thread.start()
-    
+
+    with _bingx_init_lock:
+        if bingx_thread is None or not bingx_thread.is_alive():
+            bingx_thread = threading.Thread(target=bingx_manager.run, daemon=True)
+            bingx_thread.start()
+
     # subscribers здесь - это список из одной очереди, переданный из track_positions
     for q in subscribers:
         bingx_manager.add_subscriber(coin, q)
-    
+
     # Чтобы не завершать поток (старый код ожидал, что эта функция блокирующая)
     while True:
         time.sleep(10)

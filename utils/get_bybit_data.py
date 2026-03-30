@@ -110,18 +110,23 @@ class BybitWSManager:
 # Глобальный экземпляр менеджера
 bybit_manager = BybitWSManager()
 bybit_thread = None
+_bybit_init_lock = threading.Lock()
+
 
 def websocket_bybit(coin, subscribers):
     """
     Совместимая обертка для старого кода.
+    Использует один глобальный WebSocket для всех монет.
     """
     global bybit_thread
-    if bybit_thread is None or not bybit_thread.is_alive():
-        bybit_thread = threading.Thread(target=bybit_manager.run, daemon=True)
-        bybit_thread.start()
-    
+
+    with _bybit_init_lock:
+        if bybit_thread is None or not bybit_thread.is_alive():
+            bybit_thread = threading.Thread(target=bybit_manager.run, daemon=True)
+            bybit_thread.start()
+
     for q in subscribers:
         bybit_manager.add_subscriber(coin, q)
-    
+
     while True:
         time.sleep(10)
