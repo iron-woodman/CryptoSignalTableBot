@@ -106,11 +106,14 @@ def get_breakeven(side, price):
     return round(breakeven, 8)
 
 
+# Глобальный флаг для отслеживания первого запуска WebSocket
+_ws_initialized = {}
+
+
 def manage_websocket_connection(coin, exchange='bybit'):
     """
-    Проверяет и управляет WebSocket-соединением для указанной монеты.
-    Запускает новый поток, только если для этой монеты нет активного.
-    Создает отдельную очередь для каждого вызывающего (подписчика).
+    Управляет WebSocket-соединением для указанной монеты.
+    Использует ОДНО глобальное соединение для всех монет (bingx или bybit).
 
     Args:
         coin (str): Название монеты.
@@ -119,39 +122,22 @@ def manage_websocket_connection(coin, exchange='bybit'):
     Returns:
         Queue: Очередь для получения цен от WebSocket.
     """
-    # Создаем новую очередь для текущего подписчика
     new_queue = Queue()
+    exchange = exchange.lower()
 
-    # Генерируем уникальный ключ для отслеживания соединений по бирже и монете
-    key = f"{exchange}:{coin}"
-    
-    # Проверяем, есть ли уже поток для этой монеты и жив ли он
-    if key in active_ws_threads and active_ws_threads[key]['thread'].is_alive():
-        logger.debug(f"Используется существующий WebSocket-поток для {coin} на {exchange}.")
-        active_ws_threads[key]['subscribers'].append(new_queue)
-        
-        # Добавляем нового подписчика в менеджер
-        if exchange.lower() == 'bingx':
-            bingx_manager.add_subscriber(coin, new_queue)
-        else:
-            bybit_manager.add_subscriber(coin, new_queue)
-            
-        return new_queue
+    # Проверяем, инициализирован ли уже WebSocket для этой биржи
+    if exchange in _ws_initialized and _ws_initialized[exchange]:
+        logger.debug(f"Добавлена подписка {coin} на существующий WebSocket {exchange}")
+    else:
+        logger.info(f"Инициализация WebSocket для {exchange}")
+        _ws_initialized[exchange] = True
 
-    # Если потока нет или он "мертв", создаем новый
-    logger.info(f"Создание нового WebSocket-потока для {coin} на {exchange}.")
-    subscribers = [new_queue]
-    
-    # Выбираем соответствующую функцию WebSocket в зависимости от биржи
-    if exchange.lower() == 'bingx':
-        ws_thread = threading.Thread(target=websocket_bingx, args=(coin, subscribers), daemon=True)
-    else:  # по умолчанию bybit
-        ws_thread = threading.Thread(target=websocket_bybit, args=(coin, subscribers), daemon=True)
-    
-    ws_thread.start()
+    # Добавляем подписчика в соответствующий менеджер
+    if exchange == 'bingx':
+        bingx_manager.add_subscriber(coin, new_queue)
+    else:
+        bybit_manager.add_subscriber(coin, new_queue)
 
-    # Сохраняем новый поток и список подписчиков
-    active_ws_threads[key] = {'thread': ws_thread, 'subscribers': subscribers}
     return new_queue
 
 
