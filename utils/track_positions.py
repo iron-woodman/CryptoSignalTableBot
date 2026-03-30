@@ -108,6 +108,7 @@ def get_breakeven(side, price):
 
 # Глобальный флаг для отслеживания первого запуска WebSocket
 _ws_initialized = {}
+_ws_thread_started = {}
 
 
 def manage_websocket_connection(coin, exchange='bybit'):
@@ -122,21 +123,25 @@ def manage_websocket_connection(coin, exchange='bybit'):
     Returns:
         Queue: Очередь для получения цен от WebSocket.
     """
+    import threading
     new_queue = Queue()
     exchange = exchange.lower()
 
-    # Проверяем, инициализирован ли уже WebSocket для этой биржи
-    if exchange in _ws_initialized and _ws_initialized[exchange]:
-        logger.debug(f"Добавлена подписка {coin} на существующий WebSocket {exchange}")
-    else:
+    # Запускаем WebSocket поток при первом вызове
+    if not _ws_thread_started.get(exchange, False):
         logger.info(f"Инициализация WebSocket для {exchange}")
-        _ws_initialized[exchange] = True
-
-    # Добавляем подписчика в соответствующий менеджер
-    if exchange == 'bingx':
-        bingx_manager.add_subscriber(coin, new_queue)
+        if exchange == 'bingx':
+            threading.Thread(target=websocket_bingx, args=(coin, [new_queue]), daemon=True).start()
+        else:
+            threading.Thread(target=websocket_bybit, args=(coin, [new_queue]), daemon=True).start()
+        _ws_thread_started[exchange] = True
     else:
-        bybit_manager.add_subscriber(coin, new_queue)
+        logger.debug(f"Добавлена подписка {coin} на существующий WebSocket {exchange}")
+        # Добавляем подписчика в соответствующий менеджер
+        if exchange == 'bingx':
+            bingx_manager.add_subscriber(coin, new_queue)
+        else:
+            bybit_manager.add_subscriber(coin, new_queue)
 
     return new_queue
 
