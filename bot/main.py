@@ -6,7 +6,6 @@ from aiohttp import web
 from aiogram import Dispatcher, Router, types
 
 from bot.config import CHAT_ID, EXCHANGE, WEBHOOK_PATH, WEBHOOK_PORT, WEBHOOK_URL
-from core.signal_processor import process_signal
 from services.telegram.bot import bot
 from utils.tg_signal2 import parse_signal_data2
 from utils.google_sheet import init_gspread_client, get_old_orders, get_empty_row, get_order_number
@@ -29,7 +28,8 @@ async def on_channel_post(message: types.Message) -> None:
 
     parsed_signal = parse_signal_data2(message.text)
     if parsed_signal:
-        process_signal(parsed_signal, chat_id=CHAT_ID)
+        # Не отправляем начальное сообщение Signal: ... в канал
+        # process_signal(parsed_signal, chat_id=CHAT_ID)
 
         if worksheet is not None:
             try:
